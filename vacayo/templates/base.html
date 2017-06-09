@@ -1,0 +1,24 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  {% include 'material/includes/material_css.html' %}
+  <script src="{% static 'material/js/jquery.js' %}"></script>
+  {% include 'material/includes/material_js.html' %}
+</head>
+<body>
+    <div class="page-header" style="text-align: center">
+        <h1><a href="/">Vacayo</a></h1>
+    </div>
+    <div class="content container">
+        <div class="row">
+            <div class="col-md-8">
+            {% block content %}
+            {% endblock %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
