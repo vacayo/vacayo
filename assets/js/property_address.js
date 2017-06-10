@@ -1,5 +1,6 @@
 import React from 'react';
 import AutoComplete from 'material-ui/AutoComplete';
+import { Button, Card, Row, Col, Input } from 'react-materialize';
 
 class AddressSearch extends React.Component {
   constructor(props) {
@@ -43,7 +44,7 @@ class AddressSearch extends React.Component {
 
   render() {
     return (
-      <div>
+      <Card>
         <AutoComplete
           hintText="Address"
           searchText={this.state.searchText}
@@ -51,8 +52,9 @@ class AddressSearch extends React.Component {
           onNewRequest={this.onNewRequest}
           dataSource={this.state.dataSource}
           filter={(searchText, key) => true}
+          fullWidth={true}
         />
-      </div>
+      </Card>
     );
   }
 }

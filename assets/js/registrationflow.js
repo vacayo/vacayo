@@ -1,7 +1,9 @@
 import React from 'react';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import AddressSearch from './addresssearch.js'
+import AddressSearch from './property_address.js'
+import PropertyDetails from './property_details.js'
+import PropertyContact from './property_contact.js'
 import {
   Step,
   Stepper,
@@ -22,7 +24,7 @@ class RegistrationFlow extends React.Component {
     const {stepIndex} = this.state;
     this.setState({
       stepIndex: stepIndex + 1,
-      finished: stepIndex >= 2,
+      finished: stepIndex >= 3
     });
   };
 
@@ -36,14 +38,16 @@ class RegistrationFlow extends React.Component {
   renderStepActions(stepIndex) {
     return (
       <div>
+        {stepIndex <= 3 && (
         <RaisedButton
-          label={stepIndex === 2 ? 'Finish' : 'Next'}
+          label={stepIndex === 3 ? 'Finish' : 'Next'}
           disableTouchRipple={true}
           disableFocusRipple={true}
           primary={true}
           onTouchTap={this.handleNext}
           style={{marginRight: 12}}
         />
+        )}
         {stepIndex > 0 && (
           <FlatButton
             label="Back"
@@ -62,11 +66,13 @@ class RegistrationFlow extends React.Component {
       case 0:
         return (<AddressSearch />);
       case 1:
-        return 'What is an ad group anyways?';
+        return (<PropertyDetails />);
       case 2:
-        return 'This is the bit I really care about!';
+        return 'This is the bit I really care about! $$$';
+      case 3:
+        return (<PropertyContact />);
       default:
-        return 'You\'re a long way from home sonny jim!';
+        return 'Done!';
     }
   }
 
