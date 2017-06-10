@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load material_form %}
+{% load render_bundle from webpack_loader %}
+
+{% block js %}
+{% endblock %}
+
+{% block content %}
+  <div id="container"></div>
+  {% render_bundle 'main' %}
+{% endblock %}

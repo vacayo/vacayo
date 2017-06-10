@@ -4,9 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <title></title>
-  {% include 'material/includes/material_css.html' %}
-  <script src="{% static 'material/js/jquery.js' %}"></script>
-  {% include 'material/includes/material_js.html' %}
+  {% block css %}{% endblock %}
+
+  {% block js %}{% endblock %}
 </head>
 <body>
     <div class="page-header" style="text-align: center">

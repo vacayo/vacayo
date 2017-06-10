@@ -100,4 +100,9 @@ ENV/
 # mypy
 .mypy_cache/
 
+db.sqlite3
+webpack-stats.json
+
 static
+node_modules
+assets/bundles
