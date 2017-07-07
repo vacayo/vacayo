@@ -2,10 +2,12 @@
 {% load material_form %}
 {% load render_bundle from webpack_loader %}
 
+{% block css %}
+{% endblock %}
+
 {% block js %}
 {% endblock %}
 
 {% block content %}
-  <div id="container"></div>
-  {% render_bundle 'main' %}
+  {% render_bundle 'vueApp' %}
 {% endblock %}

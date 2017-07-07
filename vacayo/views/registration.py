@@ -1,23 +1,39 @@
 from django.views.generic.edit import View
 from django.http import JsonResponse
-import googlemaps
+from ..services.property import PropertyService
 
-gmaps = googlemaps.Client(key='AIzaSyA2Oc07uU1kr_vkiJ_lWQ6xF7nT6pS9RNg')
+property_service = PropertyService()
+
 
 class AddressView(View):
-    template_name = 'address.html'
 
     def get(self, request):
         address = request.GET.get('query')
-        geocode_result = gmaps.geocode(address)
 
         if not address:
             raise Exception('No address provided')
 
-        # print(geocode_result)
-        results = [result['formatted_address'] for result in geocode_result if 'formatted_address' in result]
+        addresses = property_service.geocode(address)
+
+        print(len(addresses))
 
         return JsonResponse({
             'status': 'ok',
-            'results': results
+            'results': [{'value': v} for v in addresses]
+        })
+
+
+class PropertyView(View):
+
+    def get(self, request):
+        address = request.GET.get('address')
+
+        if not address:
+            raise Exception('No address provided')
+
+        prop = property_service.lookup(address)
+
+        return JsonResponse({
+            'status': 'ok',
+            'results': prop
         })

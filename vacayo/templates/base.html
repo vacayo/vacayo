@@ -1,32 +1,28 @@
 {% load static %}
+{% load render_bundle from webpack_loader %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title></title>
   <!-- Import Google Icon Font -->
 	<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
   <!-- Import materialize.css -->
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css" rel="stylesheet">
+{#	<link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css" rel="stylesheet">#}
   {% block css %}{% endblock %}
 
   <!-- Import jQuery before materialize.js -->
-	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+{#	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>#}
+{#	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>#}
   {% block js %}{% endblock %}
 </head>
-<body>
-    <div class="page-header" style="text-align: center">
-        <h1><a href="/">Vacayo</a></h1>
+<body style="background: #FFFFFF; margin: 0">
+    <div id="app">
+        <component :is='currentView'></component>
     </div>
-    <div class="content container">
-        <div class="row">
-            <div class="col-md-8">
-            {% block content %}
-            {% endblock %}
-            </div>
-        </div>
-    </div>
+    {% block content %}{% endblock %}
+    {% render_bundle 'vueApp' %}
 </body>
 </html>
