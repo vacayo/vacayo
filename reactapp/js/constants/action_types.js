@@ -1,0 +1,4 @@
+export const SET_ADDRESS = 'SET_ADDRESS';
+export const SET_PROPERTY = 'SET_PROPERTY';
+export const FETCH_PROPERTY = 'FETCH_PROPERTY';
+export const SET_CONTACT = 'SET_CONTACT';
