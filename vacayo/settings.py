@@ -25,7 +25,7 @@ SECRET_KEY = '!igdn1qqp3%7-%rn_f^(w!h2glg8f1_5492sjz2md+5-6d^5zc'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -125,9 +125,10 @@ USE_TZ = True
 STATIC_ROOT = 'static'
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
-    #This lets Django's collectstatic store our bundles
-    os.path.join(BASE_DIR, 'assets'),
+    # This lets Django's collectstatic store our bundles
+    os.path.join(BASE_DIR, 'build'),
 )
+
 
 WEBPACK_LOADER = {
     'DEFAULT': {
