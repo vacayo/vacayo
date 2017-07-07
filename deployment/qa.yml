@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: vacayo
+  labels:
+    run: vacayo
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: vacayo
+    spec:
+      containers:
+        - image: gcr.io/vacayo-qa/vacayo:latest
+          name: vacayo
+          imagePullPolicy: Always
+          env:
+            - name: deployment_trigger
+              value: DEPLOY_TRIGGER
+          ports:
+            - containerPort: 80
+              name: vacayo

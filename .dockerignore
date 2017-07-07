@@ -1,0 +1,35 @@
+### Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+
+### C extensions
+*.so
+
+
+### OS X
+.DS_Store
+
+
+### IDE configuration files
+.idea
+
+
+### Environment Configuration
+.env
+.envrc
+.python-version
+
+
+### Logs
+*.log
+
+
+### Build Files
+/build/
+/cache/
+/output/
+/tmp/
+/bower_components/
+/node_modules/
+/static/
