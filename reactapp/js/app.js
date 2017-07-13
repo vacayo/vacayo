@@ -6,7 +6,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { createLogger } from 'redux-logger'
 import { Provider } from 'react-redux'
-import * as registrationApp from '../../assets/js/reducers/registration.js'
+import * as registrationApp from './reducers/registration.js'
 import RegistrationFlow from './components/registrationflow.js'
 import VacayoHeader from './components/header.js'
 
