@@ -6,8 +6,18 @@ class ZillowAPI(object):
     def __init__(self):
         self.zillow = ZillowWrapper('X1-ZWz1fuwo60hszv_6msnx')
 
-    def lookup(self, address, zipcode):
-        return self.ZillowPropertyResults(self.zillow.get_deep_search_results(address, zipcode))
+    def lookup(self, address, citystatezip):
+        return self.ZillowPropertyResults(
+            self.zillow.get_data(
+                'http://www.zillow.com/webservice/GetDeepSearchResults.htm',
+                {
+                    'address': address,
+                    'citystatezip': citystatezip,
+                    'zws-id': self.zillow.api_key,
+                    'rentzestimate': True
+                }
+            )
+        )
 
     class ZillowPropertyResults(ZillowResults):
         attribute_mapping = {
@@ -54,9 +64,10 @@ class ZillowAPI(object):
             """
             Creates instance of GeocoderResult from the provided XML data array
             """
+
+            # print(minidom.parseString(ElementTree.tostring(data, encoding='utf8', method='xml')).toprettyxml())
+
             self.data = data.findall('response/results')[0]
-            # print(etree.tostring(root, pretty_print=True))
-            # print(minidom.parseString(ElementTree.tostring(self.data, encoding='utf8', method='xml')).toprettyxml())
             for attr in self.attribute_mapping.__iter__():
                 try:
                     self.__setattr__(attr, self.get_attr(attr))

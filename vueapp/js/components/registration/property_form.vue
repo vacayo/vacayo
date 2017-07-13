@@ -144,6 +144,7 @@ export default {
       set (value) {this.$store.commit('setDateAvailable', value)}
     },
     quote: {
+      get () {return this.$store.state.quote},
       set (value) {this.$store.commit('setQuote', value)}
     }
   },
