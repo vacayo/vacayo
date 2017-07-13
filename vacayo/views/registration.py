@@ -1,4 +1,7 @@
+import json
 from django.views.generic.edit import View
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from ..services.property import PropertyService
 
@@ -36,4 +39,14 @@ class PropertyView(View):
         return JsonResponse({
             'status': 'ok',
             'results': prop
+        })
+
+@method_decorator(csrf_exempt, name='dispatch')
+class RegistrationView(View):
+
+    def post(self, request):
+        data = json.loads(request.body)
+
+        return JsonResponse({
+            'status': 'ok'
         })
