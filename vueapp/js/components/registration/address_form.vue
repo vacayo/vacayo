@@ -2,6 +2,7 @@
   <el-form>
 
     <el-autocomplete
+      size="large"
       class="inline-input"
       placeholder="Address"
       v-model="address"
@@ -9,7 +10,7 @@
       :trigger-on-focus="false"
       @select="handleSelect"
     >
-      <el-button slot="append" type="primary" icon="search" @click="next"></el-button>
+      <el-button slot="append" type="primary" icon="search" @click="next">Search</el-button>
     </el-autocomplete>
 
   </el-form>
@@ -35,18 +36,20 @@ export default {
     next() {
       this.$emit('next');
     },
-    search(searchText, cb) {
-      let url  = '/api/address?query=' + searchText;
-      if(searchText !== '') {
-        fetch(url)
-          .then(
-            response => response.json(),
-            error => console.log('An error occurred while looking up address:', error)
-          )
-          .then(
-            json => cb(json.results)
-          )
+    search(address, cb) {
+      if (address == '') {
+        return
       }
+
+      let url  = '/api/address?query=' + address;
+      fetch(url)
+        .then(
+          response => response.json(),
+          error => console.log('An error occurred while looking up address:', error)
+        )
+        .then(
+          json => cb(json.results)
+        )
     },
     handleSelect(item) {
       //console.log(item);
@@ -58,5 +61,17 @@ export default {
 <style>
 .el-autocomplete {
   width: 100%;
+}
+
+.el-form-item__label, .el-checkbox__label {
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.el-input-group__append {
+  color: #fff !important;
+  border-color: #337ab7 !important;
+  background-color: #337ab7 !important;
 }
 </style>

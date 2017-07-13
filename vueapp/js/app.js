@@ -16,7 +16,12 @@ const store = new Vuex.Store({
     home_type: '',
     home_size: '',
     last_rent: '',
-    date_available: ''
+    date_available: '',
+    first_name: '',
+    last_name: '',
+    phone: '',
+    email: '',
+    quote: 'PENDING'
   },
   mutations: {
     setAddress (state, address) {
@@ -39,7 +44,22 @@ const store = new Vuex.Store({
     },
     setDateAvailable (state, date_available) {
       state.date_available = date_available
-    }
+    },
+    setFirstName (state, first_name) {
+      state.first_name = first_name
+    },
+    setLastName (state, last_name) {
+      state.last_name = last_name
+    },
+    setPhone (state, phone) {
+      state.phone = phone
+    },
+    setEmail (state, email) {
+      state.email = email
+    },
+    setQuote (state, quote) {
+      state.quote = quote
+    },
   }
 });
 

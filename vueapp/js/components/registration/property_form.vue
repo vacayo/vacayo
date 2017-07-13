@@ -1,14 +1,14 @@
 <template>
   <el-form label-width="100px" label-position="top">
-    <el-row type="flex" justify="space-between" align="middle">
-      <el-col :span="11">
+    <el-row :gutter="50">
+      <el-col :sm="24" :md="12">
         <el-form-item label="Bedrooms">
-          <el-input-number v-model="bedrooms" :step="1"></el-input-number>
+          <el-input-number v-model="bedrooms" :step="1" size="large"></el-input-number>
         </el-form-item>
       </el-col>
-      <el-col :span="11">
+      <el-col :sm="24" :md="12">
         <el-form-item label="Bathrooms">
-          <el-input-number v-model="bathrooms" :step="0.5"></el-input-number>
+          <el-input-number v-model="bathrooms" :step="0.5" size="large"></el-input-number>
         </el-form-item>
       </el-col>
     </el-row>
@@ -30,10 +30,10 @@
       </el-option>
     </el-select>
     -->
-    <el-row type="flex" justify="space-between" align="middle">
-      <el-col :span="11">
+    <el-row :gutter="50">
+      <el-col :sm="24" :md="12">
         <el-form-item label="Home Type">
-          <el-select v-model="home_type" placeholder="Select">
+          <el-select v-model="home_type" placeholder="Select" size="large">
             <el-option
               v-for="item in home_type_options"
               :key="item.value"
@@ -43,25 +43,29 @@
           </el-select>
         </el-form-item>
       </el-col>
-      <el-col :span="11">
+      <el-col :sm="24" :md="12">
         <el-form-item label="Size (sq. ft.)">
-          <el-input-number v-model="home_size" :step="10"></el-input-number>
+          <el-input-number v-model="home_size" :step="10" size="large"></el-input-number>
         </el-form-item>
       </el-col>
     </el-row>
-    <el-form-item label="Available Starting">
-      <el-date-picker v-model="date_available" type="date" placeholder="Pick a day">
-      </el-date-picker>
-    </el-form-item>
-    <el-row type="flex" justify="space-between" align="middle">
-      <el-col :span="11">
-        <el-form-item label="">
-          <el-checkbox v-model="has_rented" label="Has this property been rented before?"></el-checkbox>
+    <el-row :gutter="50">
+      <el-col :sm="24" :md="12">
+        <el-form-item label="Has this property been rented before?">
+          <el-switch v-model="has_rented" on-text="Yes" on-color="#13ce66" off-text="No" off-color="#bfcbd9" size="large"></el-switch>
         </el-form-item>
       </el-col>
-      <el-col :span="11">
+      <el-col :sm="24" :md="12">
         <el-form-item v-if="has_rented" label="Last Rent Amount (USD)?">
-          <el-input-number v-model="last_rent" :step="10"></el-input-number>
+          <el-input-number v-model="last_rent" :step="10" size="large"></el-input-number>
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-row :gutter="50">
+      <el-col :sm="24" :md="12">
+        <el-form-item label="Available Starting">
+          <el-date-picker v-model="date_available" type="date" placeholder="Pick a day" size="large">
+          </el-date-picker>
         </el-form-item>
       </el-col>
     </el-row>
@@ -73,6 +77,8 @@
 </template>
 
 <script type="text/babel">
+import fetch from 'isomorphic-fetch';
+
 export default {
   data() {
     return {
@@ -136,9 +142,10 @@ export default {
     date_available: {
       get () {return this.$store.state.date_available},
       set (value) {this.$store.commit('setDateAvailable', value)}
+    },
+    quote: {
+      set (value) {this.$store.commit('setQuote', value)}
     }
-  },
-  components: {
   },
   methods: {
     next() {
@@ -147,10 +154,12 @@ export default {
     prev() {
       this.$emit('prev');
     },
-  },
-  created: function() {
-    let url  = '/api/property?address=' + this.address;
-    if(this.address !== '') {
+    search(address) {
+      if (address == '') {
+        return
+      }
+
+      let url  = '/api/property?address=' + address;
       fetch(url)
         .then(
           response => response.json(),
@@ -163,9 +172,20 @@ export default {
             this.bathrooms = props.bathrooms;
             this.home_type = props.home_type;
             this.home_size = props.home_size;
+
+            // Create our number formatter.
+            var formatter = new Intl.NumberFormat('en-US', {
+              style: 'currency',
+              currency: 'USD',
+              minimumFractionDigits: 2,
+            });
+            this.quote = formatter.format(props.rentzestimate_amount);
           }
         )
     }
+  },
+  created: function() {
+    this.search(this.address)
   }
 }
 </script>
@@ -173,6 +193,22 @@ export default {
 <style>
 .el-input-number, .el-select {
   width: 100%;
+}
+
+.el-row {
+  min-height: 88px;
+}
+
+.el-form-item__label, .el-checkbox__label {
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.el-button--primary {
+  color: #fff !important;
+  border-color: #337ab7 !important;
+  background-color: #337ab7 !important;
 }
 
 .actions {
