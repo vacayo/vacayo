@@ -64,7 +64,7 @@
     <el-row :gutter="50">
       <el-col :sm="24" :md="12">
         <el-form-item label="Available Starting">
-          <el-date-picker v-model="date_available" type="date" placeholder="Pick a day" size="large">
+          <el-date-picker v-model="available_date" type="date" placeholder="Pick a day" size="large">
           </el-date-picker>
         </el-form-item>
       </el-col>
@@ -139,9 +139,9 @@ export default {
       get () {return this.$store.state.last_rent},
       set (value) {this.$store.commit('setLastRent', value)}
     },
-    date_available: {
-      get () {return this.$store.state.date_available},
-      set (value) {this.$store.commit('setDateAvailable', value)}
+    available_date: {
+      get () {return this.$store.state.available_date},
+      set (value) {this.$store.commit('setAvailableDate', value)}
     },
     quote: {
       get () {return this.$store.state.quote},

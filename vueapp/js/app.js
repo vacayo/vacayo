@@ -31,7 +31,7 @@ const store = new Vuex.Store({
     home_type: '',
     home_size: '',
     last_rent: '',
-    date_available: '',
+    available_date: '',
     first_name: '',
     last_name: '',
     phone: '',
@@ -57,8 +57,8 @@ const store = new Vuex.Store({
     setLastRent (state, last_rent) {
       state.last_rent = last_rent
     },
-    setDateAvailable (state, date_available) {
-      state.date_available = date_available
+    setAvailableDate (state, available_date) {
+      state.available_date = available_date
     },
     setFirstName (state, first_name) {
       state.first_name = first_name

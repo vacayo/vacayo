@@ -1,5 +1,5 @@
 from pyzillow.pyzillow import ZillowWrapper, ZillowResults
-
+from pyzillow.pyzillowerrors import ZillowError, ZillowFail, ZillowNoResults
 
 class ZillowAPI(object):
 
@@ -7,17 +7,20 @@ class ZillowAPI(object):
         self.zillow = ZillowWrapper('X1-ZWz1fuwo60hszv_6msnx')
 
     def lookup(self, address, citystatezip):
-        return self.ZillowPropertyResults(
-            self.zillow.get_data(
-                'http://www.zillow.com/webservice/GetDeepSearchResults.htm',
-                {
-                    'address': address,
-                    'citystatezip': citystatezip,
-                    'zws-id': self.zillow.api_key,
-                    'rentzestimate': True
-                }
+        try:
+            return self.ZillowPropertyResults(
+                self.zillow.get_data(
+                    'http://www.zillow.com/webservice/GetDeepSearchResults.htm',
+                    {
+                        'address': address,
+                        'citystatezip': citystatezip,
+                        'zws-id': self.zillow.api_key,
+                        'rentzestimate': True
+                    }
+                )
             )
-        )
+        except (ZillowError, ZillowFail, ZillowNoResults), e:
+            return []
 
     class ZillowPropertyResults(ZillowResults):
         attribute_mapping = {
@@ -65,6 +68,8 @@ class ZillowAPI(object):
             Creates instance of GeocoderResult from the provided XML data array
             """
 
+            # from xml.etree import ElementTree
+            # from xml.dom import minidom
             # print(minidom.parseString(ElementTree.tostring(data, encoding='utf8', method='xml')).toprettyxml())
 
             self.data = data.findall('response/results')[0]

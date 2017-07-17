@@ -136,7 +136,7 @@ export default {
             this.$store.commit('setBathrooms', props.bathrooms);
             this.$store.commit('setHomeType', props.home_type);
             this.$store.commit('setHomeSize', props.home_size);
-            this.$store.commit('setQuote', this.formatter.format(props.rentzestimate_amount));
+            this.$store.commit('setQuote', this.formatter.format(props.rent_estimate));
           }
         )
     },
