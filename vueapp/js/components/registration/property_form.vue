@@ -57,7 +57,7 @@
       </el-col>
       <el-col :sm="24" :md="12">
         <el-form-item v-if="has_rented" label="Last Rent Amount (USD)?">
-          <el-input-number v-model="last_rent" :step="10" size="large"></el-input-number>
+          <el-input-number v-model="last_rent" :step="10" size="large" v-mask="'$####.00'"></el-input-number>
         </el-form-item>
       </el-col>
     </el-row>
@@ -155,64 +155,32 @@ export default {
     prev() {
       this.$emit('prev');
     },
-    search(address) {
-      if (address == '') {
-        return
-      }
-
-      let url  = '/api/property?address=' + address;
-      fetch(url)
-        .then(
-          response => response.json(),
-          error => console.log('An error occurred while fetching property:', error)
-        )
-        .then(
-          json => {
-            let props = json.results;
-            this.bedrooms = props.bedrooms;
-            this.bathrooms = props.bathrooms;
-            this.home_type = props.home_type;
-            this.home_size = props.home_size;
-
-            // Create our number formatter.
-            var formatter = new Intl.NumberFormat('en-US', {
-              style: 'currency',
-              currency: 'USD',
-              minimumFractionDigits: 2,
-            });
-            this.quote = formatter.format(props.rentzestimate_amount);
-          }
-        )
-    }
-  },
-  created: function() {
-    this.search(this.address)
   }
 }
 </script>
 
 <style>
-.el-input-number, .el-select {
+.el-form .el-input-number, .el-form .el-select {
   width: 100%;
 }
 
-.el-row {
+.el-form .el-row {
   min-height: 88px;
 }
 
-.el-form-item__label, .el-checkbox__label {
+.el-form .el-form-item__label, .el-form .el-checkbox__label {
   font-size: 12px;
   font-weight: bold;
   text-transform: uppercase;
 }
 
-.el-button--primary {
+.el-form .el-button--primary {
   color: #fff !important;
   border-color: #337ab7 !important;
   background-color: #337ab7 !important;
 }
 
-.actions {
+.el-form .actions {
   margin-top: 12px;
 }
 </style>

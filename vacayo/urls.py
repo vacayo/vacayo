@@ -19,7 +19,8 @@ from django.views.generic import TemplateView
 from vacayo.views.registration import AddressView, PropertyView, RegistrationView
 
 urlpatterns = [
-    url(r'^$', TemplateView.as_view(template_name='base.html')),
+    url(r'^$', TemplateView.as_view(template_name='wp.html')),
+    url(r'^register', TemplateView.as_view(template_name='base.html')),
 
     url(r'api/address', AddressView.as_view()),
     url(r'api/property', PropertyView.as_view()),

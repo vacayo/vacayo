@@ -11,7 +11,7 @@ module.exports = {
   //your current directory. You don't have to specify the extension  now,
   //because you will specify extensions later in the `resolve` section
   entry: {
-    reactApp: './reactapp/js/app',
+    //reactApp: './reactapp/js/app',
     vueApp: './vueapp/js/app',
   },
 

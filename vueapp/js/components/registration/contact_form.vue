@@ -15,7 +15,7 @@
     <el-row :gutter="50">
       <el-col :sm="24" :md="12">
         <el-form-item label="Phone">
-          <el-input v-model="phone"></el-input>
+          <el-input v-model="phone" v-mask="'+1(###)-###-####'"></el-input>
         </el-form-item>
       </el-col>
       <el-col :sm="24" :md="12">
@@ -69,23 +69,23 @@ export default {
 </script>
 
 <style>
-.el-input, .el-select {
+.el-form .el-input, .el-form .el-select {
   width: 100%;
 }
 
-.el-form-item__label, .el-checkbox__label {
+.el-form .el-form-item__label, .el-form .el-checkbox__label {
   font-size: 12px;
   font-weight: bold;
   text-transform: uppercase;
 }
 
-.el-button--primary {
+.el-form .el-button--primary {
   color: #fff !important;
   border-color: #337ab7 !important;
   background-color: #337ab7 !important;
 }
 
-.actions {
+.el-form .actions {
   margin-top: 12px;
 }
 </style>

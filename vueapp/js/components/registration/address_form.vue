@@ -10,7 +10,7 @@
       :trigger-on-focus="false"
       @select="handleSelect"
     >
-      <el-button slot="append" type="primary" icon="search" @click="next">Search</el-button>
+      <el-button slot="append" type="primary" @click="next">Get Your Instant Quote</el-button>
     </el-autocomplete>
 
   </el-form>
@@ -59,17 +59,21 @@ export default {
 </script>
 
 <style>
-.el-autocomplete {
+.el-form .el-autocomplete {
   width: 100%;
 }
 
-.el-form-item__label, .el-checkbox__label {
+.el-form .el-row {
+  min-height: 88px;
+}
+
+.el-form .el-form-item__label, .el-form .el-checkbox__label {
   font-size: 12px;
   font-weight: bold;
   text-transform: uppercase;
 }
 
-.el-input-group__append {
+.el-form .el-input-group__append {
   color: #fff !important;
   border-color: #337ab7 !important;
   background-color: #337ab7 !important;
