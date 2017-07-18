@@ -27,14 +27,14 @@ const store = new Vuex.Store({
   strict: true,
   state: {
     property: {
-      address: '',
+      address: null,
       bedrooms: 1,
       bathrooms: 1,
-      home_type: '',
-      home_size: '',
-      last_rent: '',
+      home_type: null,
+      home_size: null,
+      last_rent: null,
       has_rented: false,
-      date_available: '',
+      available_date: null,
     },
     owner: {
       first_name: '',

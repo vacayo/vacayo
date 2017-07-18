@@ -50,27 +50,25 @@ class RegistrationView(View):
 
     def post(self, request):
         data = json.loads(request.body)
+        owner_data = data.get('owner')
+        property_data = data.get('property')
         
-        owner, _ = Owner.objects.get_or_create(
-            first_name=data.get('first_name'), 
-            last_name=data.get('last_name'), 
-            email=data.get('email'),
-            phone=data.get('phone')
-        )
+        owner, _ = Owner.objects.get_or_create(**owner_data)
 
-        address = property_service.parse(data.get('address'))
+        address = property_service.parse(property_data.get('address'))
+        property_data['available_date'] = parse_datetime(property_data.get('available_date')).date()
         property, _ = Property.objects.get_or_create(
             address1=address.get('address1'),
             address2=address.get('address2'),
             city=address.get('city'),
             state=address.get('state'),
             zip_code=address.get('zip_code'),
-            bedrooms=data.get('bedrooms'),
-            bathrooms=data.get('bathrooms'),
-            home_type=data.get('home_type'),
-            home_size=data.get('home_size'),
-            available_date=parse_datetime(data.get('available_date')).date(),
-            last_rent=data.get('last_rent'),
+            bedrooms=property_data.get('bedrooms'),
+            bathrooms=property_data.get('bathrooms'),
+            home_type=property_data.get('home_type'),
+            home_size=property_data.get('home_size'),
+            available_date=property_data.get('available_date'),
+            last_rent=property_data.get('last_rent'),
         )
 
         owner.properties.add(property)
