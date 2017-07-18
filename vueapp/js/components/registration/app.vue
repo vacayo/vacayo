@@ -4,23 +4,18 @@
       <div class="quote_text">Estimated Quote</div>
       <div class="quote_value">{{ quote }}</div>
     </div>
-    <media :query="{minWidth: 768}">
-      <div v-sticky="{zIndex: 9999, stickyTop:0}">
-        <app-header></app-header>
-        <div class="stepper">
-          <el-steps :space="150" :center="true" :align-center="true" :active="currentStep" finish-status="success">
-            <el-step title="Step 1" description="Property Address"></el-step>
-            <el-step title="Step 2" description="Property Details"></el-step>
-            <el-step title="Step 3" description="Contact Info"></el-step>
-          </el-steps>
-        </div>
+    <div v-sticky="{zIndex: 9999, stickyTop:0}">
+      <app-header></app-header>
+      <media :query="{minHeight: 600}">
+      <div class="stepper">
+        <el-steps :space="150" :center="true" :align-center="true" :active="currentStep" finish-status="success">
+          <el-step title="Step 1" description="Property Address"></el-step>
+          <el-step title="Step 2" description="Property Details"></el-step>
+          <el-step title="Step 3" description="Contact Info"></el-step>
+        </el-steps>
       </div>
-    </media>
-    <media :query="{maxWidth: 768}">
-      <div v-sticky="{zIndex: 9999, stickyTop:0}">
-        <app-header></app-header>
-      </div>
-    </media>
+      </media>
+    </div>
     <el-row type="flex" justify="space-around">
       <el-col :xs="0" :sm="3"></el-col>
       <el-col :xs="24" :sm="18">
