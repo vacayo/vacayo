@@ -21,8 +21,6 @@ class AddressView(View):
 
         addresses = property_service.geocode(address)
 
-        print(len(addresses))
-
         return JsonResponse({
             'status': 'ok',
             'results': [{'value': v} for v in addresses]

@@ -1,5 +1,7 @@
 from pyzillow.pyzillow import ZillowWrapper, ZillowResults
 from pyzillow.pyzillowerrors import ZillowError, ZillowFail, ZillowNoResults
+from vacayo.utils.struct import Struct
+
 
 class ZillowAPI(object):
 
@@ -20,7 +22,7 @@ class ZillowAPI(object):
                 )
             )
         except (ZillowError, ZillowFail, ZillowNoResults), e:
-            return []
+            return Struct(dict.fromkeys(self.ZillowPropertyResults.attribute_mapping.keys()))
 
     class ZillowPropertyResults(ZillowResults):
         attribute_mapping = {
