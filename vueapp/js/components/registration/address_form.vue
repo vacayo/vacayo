@@ -1,14 +1,14 @@
 <template>
-  <el-form>
+  <el-form :model="property" ref="property">
 
     <el-autocomplete
       size="large"
       class="inline-input"
       placeholder="Address"
-      v-model="address"
       :fetch-suggestions="search"
       :trigger-on-focus="false"
-      @select="handleSelect"
+      :value="property.address"
+      @input="updateProperty('address', $event)"
     >
       <el-button slot="append" type="primary" @click="next">Get Your Instant Quote</el-button>
     </el-autocomplete>
@@ -22,17 +22,13 @@ import fetch from 'isomorphic-fetch';
 export default {
   data() {
     return {
+      property: this.$store.state.property,
     }
-  },
-  computed: {
-    address: {
-      get () {return this.$store.state.address},
-      set (value) {this.$store.commit('setAddress', value)}
-    }
-  },
-  components: {
   },
   methods: {
+    updateProperty(field, value) {
+      this.$store.commit('updateProperty', {[field]: value});
+    },
     next() {
       this.$emit('next');
     },
@@ -51,10 +47,7 @@ export default {
           json => cb(json.results)
         )
     },
-    handleSelect(item) {
-      //console.log(item);
-    }
-  }
+  },
 }
 </script>
 

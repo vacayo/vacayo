@@ -21,58 +21,37 @@ Vue.use(VueMultianalytics, {
   }
 });
 
-Vue.directive('sticky', VueSticky)
+Vue.directive('sticky', VueSticky);
 
 const store = new Vuex.Store({
+  strict: true,
   state: {
-    address: '',
-    bedrooms: 1,
-    bathrooms: 1,
-    home_type: '',
-    home_size: '',
-    last_rent: '',
-    available_date: '',
-    first_name: '',
-    last_name: '',
-    phone: '',
-    email: '',
+    property: {
+      address: '',
+      bedrooms: 1,
+      bathrooms: 1,
+      home_type: '',
+      home_size: '',
+      last_rent: '',
+      has_rented: false,
+      date_available: '',
+    },
+    owner: {
+      first_name: '',
+      last_name: '',
+      phone: '',
+      email: '',
+    },
     quote: 'PENDING'
   },
   mutations: {
-    setAddress (state, address) {
-      state.address = address
+    updateProperty: function (state, property) {
+      Object.assign(state.property, property);
     },
-    setBedrooms (state, bedrooms) {
-      state.bedrooms = bedrooms
+    updateOwner: function (state, owner) {
+      Object.assign(state.owner, owner);
     },
-    setBathrooms (state, bathrooms) {
-      state.bathrooms = bathrooms
-    },
-    setHomeType (state, home_type) {
-      state.home_type = home_type
-    },
-    setHomeSize (state, home_size) {
-      state.home_size = home_size
-    },
-    setLastRent (state, last_rent) {
-      state.last_rent = last_rent
-    },
-    setAvailableDate (state, available_date) {
-      state.available_date = available_date
-    },
-    setFirstName (state, first_name) {
-      state.first_name = first_name
-    },
-    setLastName (state, last_name) {
-      state.last_name = last_name
-    },
-    setPhone (state, phone) {
-      state.phone = phone
-    },
-    setEmail (state, email) {
-      state.email = email
-    },
-    setQuote (state, quote) {
+    updateQuote (state, quote) {
       state.quote = quote
     },
   }

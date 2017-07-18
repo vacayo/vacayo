@@ -55,14 +55,19 @@ export default {
       loading_text: 'Loading...'
     }
   },
+  components: {
+    Media,
+    Headroom,
+    AppHeader,
+    AddressForm,
+    PropertyForm,
+    ContactForm,
+    Confirmation
+  },
   computed: {
-    address: {
-      get () {return this.$store.state.address},
-      set (value) {this.$store.commit('setAddress', value)}
-    },
     quote: {
       get () {return this.$store.state.quote},
-      set (value) {this.$store.commit('setQuote', value)}
+      set (value) {this.$store.commit('updateQuote', value)}
     },
     currentForm() {
       return FORMS[this.currentStep]
@@ -75,22 +80,13 @@ export default {
       });
     }
   },
-  components: {
-    Media,
-    Headroom,
-    AppHeader,
-    AddressForm,
-    PropertyForm,
-    ContactForm,
-    Confirmation
-  },
   methods: {
     next() {
       // search & pre-load property details
       if (this.currentStep == 0) {
         this.loading_text = 'Searching ...';
         this.loading = true;
-        this.search(this.address).then(() => {
+        this.search().then(() => {
           this.loading = false;
           this.currentStep = 1;
           document.body.scrollTop = document.documentElement.scrollTop = 0;
@@ -118,7 +114,8 @@ export default {
       if (--this.currentStep < 0) this.currentStep = 0;
       document.body.scrollTop = document.documentElement.scrollTop = 0;
     },
-    search(address) {
+    search() {
+      let address = this.$store.state.property.address;
       if (address == '') {
         return
       }
@@ -132,11 +129,8 @@ export default {
         .then(
           json => {
             let props = json.results;
-            this.$store.commit('setBedrooms', props.bedrooms);
-            this.$store.commit('setBathrooms', props.bathrooms);
-            this.$store.commit('setHomeType', props.home_type);
-            this.$store.commit('setHomeSize', props.home_size);
-            this.$store.commit('setQuote', this.formatter.format(props.rent_estimate));
+            this.$store.commit('updateProperty', props);
+            this.$store.commit('updateQuote', this.formatter.format(props.rent_estimate));
           }
         )
     },
@@ -161,7 +155,7 @@ export default {
   created() {
     let address = this.$route.query.address;
     if (address) {
-      this.address = address;
+      this.$store.commit('updateProperty', {address});
       this.next()
     }
   }

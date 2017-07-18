@@ -1,19 +1,19 @@
 <template>
-  <el-form label-width="100px" label-position="top">
+  <el-form :model="property" :rules="rules" ref="property" label-width="100px" label-position="top">
     <el-row :gutter="50">
       <el-col :sm="24" :md="12">
-        <el-form-item label="Bedrooms">
-          <el-input-number v-model="bedrooms" :step="1" size="large"></el-input-number>
+        <el-form-item label="Bedrooms" prop="bedrooms">
+          <el-input-number :value="property.bedrooms" @input="updateProperty('bedrooms', $event)" :step="1" size="large"></el-input-number>
         </el-form-item>
       </el-col>
       <el-col :sm="24" :md="12">
-        <el-form-item label="Bathrooms">
-          <el-input-number v-model="bathrooms" :step="0.5" size="large"></el-input-number>
+        <el-form-item label="Bathrooms" prop="bathrooms">
+          <el-input-number :value="property.bathrooms" @input="updateProperty('bathrooms', $event)" :step="0.5" size="large"></el-input-number>
         </el-form-item>
       </el-col>
     </el-row>
     <!--
-    <el-select v-model="bedrooms" placeholder="Select">
+    <el-select :value="property.bedrooms" @input="updateProperty('bedrooms', $event)" placeholder="Select">
       <el-option
         v-for="item in bedroom_options"
         :key="item.value"
@@ -21,7 +21,7 @@
         :value="item.value">
       </el-option>
     </el-select>
-    <el-select v-model="bathrooms" placeholder="Select">
+    <el-select :value="property.bathrooms" @input="updateProperty('bathrooms', $event)" placeholder="Select">
       <el-option
         v-for="item in bathroom_options"
         :key="item.value"
@@ -32,8 +32,8 @@
     -->
     <el-row :gutter="50">
       <el-col :sm="24" :md="12">
-        <el-form-item label="Home Type">
-          <el-select v-model="home_type" placeholder="Select" size="large">
+        <el-form-item label="Home Type" prop="home_type">
+          <el-select :value="property.home_type" @input="updateProperty('home_type', $event)" placeholder="Select" size="large">
             <el-option
               v-for="item in home_type_options"
               :key="item.value"
@@ -44,27 +44,27 @@
         </el-form-item>
       </el-col>
       <el-col :sm="24" :md="12">
-        <el-form-item label="Size (sq. ft.)">
-          <el-input-number v-model="home_size" :step="10" size="large"></el-input-number>
+        <el-form-item label="Size (sq. ft.)" prop="home_size">
+          <el-input-number :value="property.home_size" @input="updateProperty('home_size', $event)" :step="10" size="large"></el-input-number>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="50">
       <el-col :sm="24" :md="12">
         <el-form-item label="Has this property been rented before?">
-          <el-switch v-model="has_rented" on-text="Yes" on-color="#13ce66" off-text="No" off-color="#bfcbd9" size="large"></el-switch>
+          <el-switch :value="property.has_rented" @input="updateProperty('has_rented', $event)" on-text="Yes" on-color="#13ce66" off-text="No" off-color="#bfcbd9" size="large"></el-switch>
         </el-form-item>
       </el-col>
       <el-col :sm="24" :md="12">
-        <el-form-item v-if="has_rented" label="Last Rent Amount (USD)?">
-          <el-input-number v-model="last_rent" :step="10" size="large" v-mask="'$####.00'"></el-input-number>
+        <el-form-item v-if="property.has_rented" label="Last Rent Amount (USD)?" prop="last_rent">
+          <el-input-number :value="property.last_rent" @input="updateProperty('last_rent', $event)" :step="10" size="large" v-mask="'$####.00'"></el-input-number>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="50">
       <el-col :sm="24" :md="12">
-        <el-form-item label="Available Starting">
-          <el-date-picker v-model="available_date" type="date" placeholder="Pick a day" size="large">
+        <el-form-item label="Available Starting" prop="available_date">
+          <el-date-picker :value="property.available_date" @input="updateProperty('available_date', $event)" type="date" placeholder="Pick a day" size="large">
           </el-date-picker>
         </el-form-item>
       </el-col>
@@ -82,6 +82,7 @@ import fetch from 'isomorphic-fetch';
 export default {
   data() {
     return {
+      property: this.$store.state.property,
       bedroom_options: [
         {value: 0, label: 'Studio'},
         {value: 1, label: '1 Bedroom'},
@@ -112,50 +113,44 @@ export default {
         {value: 'Apartment', label: 'Apartment'},
         {value: 'Timeshare', label: 'Timeshare'},
       ],
-      has_rented: false,
-    }
-  },
-  computed: {
-    address: {
-      get () {return this.$store.state.address}
-    },
-    bedrooms: {
-      get () {return this.$store.state.bedrooms},
-      set (value) {this.$store.commit('setBedrooms', value)}
-    },
-    bathrooms: {
-      get () {return this.$store.state.bathrooms},
-      set (value) {this.$store.commit('setBathrooms', value)}
-    },
-    home_type: {
-      get () {return this.$store.state.home_type},
-      set (value) {this.$store.commit('setHomeType', value)}
-    },
-    home_size: {
-      get () {return this.$store.state.home_size},
-      set (value) {this.$store.commit('setHomeSize', value)}
-    },
-    last_rent: {
-      get () {return this.$store.state.last_rent},
-      set (value) {this.$store.commit('setLastRent', value)}
-    },
-    available_date: {
-      get () {return this.$store.state.available_date},
-      set (value) {this.$store.commit('setAvailableDate', value)}
-    },
-    quote: {
-      get () {return this.$store.state.quote},
-      set (value) {this.$store.commit('setQuote', value)}
+      rules: {
+        bedrooms: [
+          { required: true, type: 'number', message: 'Please enter the number of bedrooms in the property', trigger: 'blur' },
+        ],
+        bathrooms: [
+          { required: true, type: 'number', message: 'Please enter the number of bathrooms in the property', trigger: 'blur' },
+        ],
+        home_type: [
+          { required: true, type: 'string', message: 'Please select a home type', trigger: 'change' }
+        ],
+        home_size: [
+          { required: true, type: 'number', message: 'Please enter the home size in square feet of the property', trigger: 'blur' },
+        ],
+        last_rent: [
+          { required: false, type: 'number', message: 'Please enter a number'}
+        ],
+        available_date: [
+          { required: true, type: 'date', message: 'Please pick a date', trigger: 'change' }
+        ]
+      },
     }
   },
   methods: {
+    updateProperty(field, value) {
+      this.$store.commit('updateProperty', {[field]: value});
+    },
     next() {
-      this.$emit('next');
+      this.$refs['property'].validate((valid) => {
+        if (!valid) {
+          return false;
+        }
+        this.$emit('next');
+      });
     },
     prev() {
       this.$emit('prev');
     },
-  }
+  },
 }
 </script>
 
