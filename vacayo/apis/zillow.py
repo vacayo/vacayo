@@ -47,16 +47,16 @@ class ZillowAPI(object):
             'zestimate_amount': 'result/zestimate/amount',
             'zestimate_last_updated': 'result/zestimate/last-updated',
             'zestimate_value_change': 'result/zestimate/valueChange',
-            'zestimate_valuation_range_high': 'result/zestimate/valuationRange/high',
-            'zestimate_valuationRange_low': 'result/zestimate/valuationRange/low',
+            'zestimate_range_high': 'result/zestimate/valuationRange/high',
+            'zestimate_range_low': 'result/zestimate/valuationRange/low',
             'zestimate_percentile': 'result/zestimate/percentile',
 
             # Rent Zestimate
             'rentzestimate_amount': 'result/rentzestimate/amount',
             'rentzestimate_last_updated': 'result/rentzestimate/last-updated',
             'rentzestimate_value_change': 'result/rentzestimate/valueChange',
-            'rentzestimate_valuation_range_high': 'result/rentzestimate/valuationRange/high',
-            'rentzestimate_valuationRange_low': 'result/rentzestimate/valuationRange/low',
+            'rentzestimate_range_high': 'result/rentzestimate/valuationRange/high',
+            'rentzestimate_range_low': 'result/rentzestimate/valuationRange/low',
 
             # Address
             'street': 'result/address/street',

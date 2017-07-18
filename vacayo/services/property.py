@@ -63,6 +63,10 @@ class PropertyService(object):
 
         result = self.zillow.lookup(address1, citystatezip)
 
+        # print "Address:", result.street, result.city, result.state, result.zipcode
+        # print "Low:", result.rentzestimate_range_low
+        # print "Hight:", result.rentzestimate_range_high
+
         return {
             'home_type': result.home_type,
             'year_built': result.year_built,
@@ -72,5 +76,6 @@ class PropertyService(object):
             'bedrooms': int(result.bedrooms or 1),
             'value_estimate': result.zestimate_amount,
             'rent_estimate': result.rentzestimate_amount,
-            'home_detail_link': result.home_detail_link
+            'rent_estimate_low': result.rentzestimate_range_low,
+            'rent_estimate_high': result.rentzestimate_range_high,
         }

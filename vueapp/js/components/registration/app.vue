@@ -2,7 +2,7 @@
   <div>
     <div class="quote">
       <div class="quote_text">Estimated Quote</div>
-      <div class="quote_value">{{ quote }}</div>
+      <div class="quote_value">{{ _quote }}</div>
     </div>
     <div v-sticky="{zIndex: 9999, stickyTop:0}">
       <app-header></app-header>
@@ -45,6 +45,7 @@ let PINS = [true, false, false, true];
 export default {
   data() {
     return {
+      property: this.$store.state.property,
       currentStep: 0,
       loading: false,
       loading_text: 'Loading...'
@@ -60,20 +61,27 @@ export default {
     Confirmation
   },
   computed: {
-    quote: {
-      get () {return this.$store.state.quote},
-      set (value) {this.$store.commit('updateQuote', value)}
-    },
-    currentForm() {
-      return FORMS[this.currentStep]
-    },
-    formatter() {
-      return new Intl.NumberFormat('en-US', {
+    _quote() {
+      let markup = 1.05; // 5%
+      let last_rent = this.round(this.property.last_rent * markup, -1);
+      let rent_estimate = this.round(this.property.rent_estimate * markup, -1);
+      let rent_estimate_low = this.round(this.property.rent_estimate_low, -1);
+      let rent_estimate_high = this.round(this.property.rent_estimate_high, -1);
+      let value = last_rent || rent_estimate;
+
+      if (value > rent_estimate_high) value = rent_estimate_high;
+      if (value < rent_estimate_low) value = rent_estimate_low;
+
+      let formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
         minimumFractionDigits: 2,
       });
-    }
+      return formatter.format(value)
+    },
+    currentForm() {
+      return FORMS[this.currentStep]
+    },
   },
   methods: {
     next() {
@@ -125,9 +133,14 @@ export default {
           json => {
             let props = json.results;
             this.$store.commit('updateProperty', props);
-            this.$store.commit('updateQuote', this.formatter.format(props.rent_estimate));
           }
         )
+    },
+    round(number, precision) {
+      var factor = Math.pow(10, precision);
+      var tempNumber = number * factor;
+      var roundedTempNumber = Math.round(tempNumber);
+      return roundedTempNumber / factor;
     },
     save() {
       let data = this.$store.state;

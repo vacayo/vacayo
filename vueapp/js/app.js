@@ -35,6 +35,9 @@ const store = new Vuex.Store({
       last_rent: null,
       has_rented: false,
       available_date: null,
+      rent_estimate: null,
+      rent_estimate_low: null,
+      rent_estimate_high: null,
     },
     owner: {
       first_name: '',
@@ -42,7 +45,6 @@ const store = new Vuex.Store({
       phone: '',
       email: '',
     },
-    quote: 'PENDING'
   },
   mutations: {
     updateProperty: function (state, property) {
@@ -50,9 +52,6 @@ const store = new Vuex.Store({
     },
     updateOwner: function (state, owner) {
       Object.assign(state.owner, owner);
-    },
-    updateQuote (state, quote) {
-      state.quote = quote
     },
   }
 });
