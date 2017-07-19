@@ -100,8 +100,11 @@ ENV/
 # mypy
 .mypy_cache/
 
+.DS_STORE
+.idea
 db.sqlite3
 webpack-stats.json
+settings_prod.py
 
 static
 node_modules

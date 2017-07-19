@@ -5,10 +5,12 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from ..services.property import PropertyService
+from ..services.email import EmailService
 from ..models.owner import Owner
 from ..models.property import Property
 
 property_service = PropertyService()
+email_service = EmailService()
 
 
 class AddressView(View):
@@ -70,6 +72,16 @@ class RegistrationView(View):
         )
 
         owner.properties.add(property)
+
+        try:
+            email_service.send_registration_confirmation_email(
+                to_email=owner.email,
+                to_name=owner.first_name,
+                address=address.get('address1'),
+                quote=property_data.get('quote')
+            )
+        except Exception, e:
+            pass
 
         return JsonResponse({
             'status': 'ok'

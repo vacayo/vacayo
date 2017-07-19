@@ -1,13 +1,14 @@
-from ..apis.zillow import ZillowAPI
 import usaddress
 import googlemaps
+from ..apis.zillow import ZillowAPI
+from django.conf import settings
 
 
 class PropertyService(object):
 
     def __init__(self):
         self.zillow = ZillowAPI()
-        self.gmaps = googlemaps.Client('AIzaSyA2Oc07uU1kr_vkiJ_lWQ6xF7nT6pS9RNg')
+        self.gmaps = googlemaps.Client(settings.ZILLOW_API_KEY)
 
     def geocode(self, address):
         result = self.gmaps.geocode(address)
