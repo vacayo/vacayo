@@ -1,18 +1,24 @@
 <template>
   <el-form :model="property" ref="property">
-
-    <el-autocomplete
-      size="large"
-      class="inline-input"
-      placeholder="Address"
-      :fetch-suggestions="search"
-      :trigger-on-focus="false"
-      :value="property.address"
-      @input="updateProperty('address', $event)"
-    >
-      <el-button slot="append" type="primary" @click="next">Get Your Instant Quote</el-button>
-    </el-autocomplete>
-
+    <div class="title">Property Address</div>
+    <div class="subtitle"></div>
+    <el-row :gutter="50">
+      <el-col :sm="24" :md="24">
+        <el-form-item label="First Name" prop="first_name">
+          <el-autocomplete
+            size="large"
+            class="inline-input"
+            placeholder="Address"
+            :fetch-suggestions="search"
+            :trigger-on-focus="false"
+            :value="property.address"
+            @input="updateProperty('address', $event)"
+          >
+            <el-button slot="append" type="primary" @click="next">Get Your Instant Quote</el-button>
+          </el-autocomplete>
+        </el-form-item>
+      </el-col>
+    </el-row>
   </el-form>
 </template>
 
@@ -52,23 +58,4 @@ export default {
 </script>
 
 <style>
-.el-form .el-autocomplete {
-  width: 100%;
-}
-
-.el-form .el-row {
-  min-height: 88px;
-}
-
-.el-form .el-form-item__label, .el-form .el-checkbox__label {
-  font-size: 12px;
-  font-weight: bold;
-  text-transform: uppercase;
-}
-
-.el-form .el-input-group__append {
-  color: #fff !important;
-  border-color: #337ab7 !important;
-  background-color: #337ab7 !important;
-}
 </style>

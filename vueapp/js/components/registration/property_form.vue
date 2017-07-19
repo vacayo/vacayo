@@ -1,5 +1,7 @@
 <template>
   <el-form :model="property" :rules="rules" ref="property" label-width="100px" label-position="top">
+    <div class="title">Property Details</div>
+    <div class="subtitle">Please describe your property.</div>
     <el-row :gutter="50">
       <el-col :sm="24" :md="12">
         <el-form-item label="Bedrooms" prop="bedrooms">
@@ -56,7 +58,7 @@
         </el-form-item>
       </el-col>
       <el-col :sm="24" :md="12">
-        <el-form-item v-if="property.has_rented" label="Last Rent Amount (USD)?" prop="last_rent">
+        <el-form-item v-if="property.has_rented" label="Last Monthly Rent?" prop="last_rent">
           <el-input-number :value="property.last_rent" @input="updateProperty('last_rent', $event)" :step="10" size="large" v-mask="'$####.00'"></el-input-number>
         </el-form-item>
       </el-col>
@@ -155,27 +157,4 @@ export default {
 </script>
 
 <style>
-.el-form .el-input-number, .el-form .el-select {
-  width: 100%;
-}
-
-.el-form .el-row {
-  min-height: 88px;
-}
-
-.el-form .el-form-item__label, .el-form .el-checkbox__label {
-  font-size: 12px;
-  font-weight: bold;
-  text-transform: uppercase;
-}
-
-.el-form .el-button--primary {
-  color: #fff !important;
-  border-color: #337ab7 !important;
-  background-color: #337ab7 !important;
-}
-
-.el-form .actions {
-  margin-top: 12px;
-}
 </style>

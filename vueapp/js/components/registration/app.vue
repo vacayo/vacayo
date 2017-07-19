@@ -2,13 +2,13 @@
   <div>
     <div class="quote">
       <div class="quote_text">Estimated Quote</div>
-      <div class="quote_value">{{ _quote }}</div>
+      <div class="quote_value">{{ _quote }} / mo.</div>
     </div>
     <div v-sticky="{zIndex: 9999, stickyTop:0}">
       <app-header></app-header>
-      <media :query="{minHeight: 600}">
+      <media :query="{minWidth: 600, minHeight: 600}">
       <div class="stepper">
-        <el-steps :space="150" :center="true" :align-center="true" :active="currentStep" finish-status="success">
+        <el-steps space="33%" :center="true" :align-center="true" :active="currentStep" process-status="finish" finish-status="process">
           <el-step title="Step 1" description="Property Address"></el-step>
           <el-step title="Step 2" description="Property Details"></el-step>
           <el-step title="Step 3" description="Contact Info"></el-step>
@@ -21,7 +21,7 @@
       <el-col :xs="24" :sm="18">
         <div class="content" v-loading.body="loading" :element-loading-text="loading_text">
           <div>
-            <component :is='currentForm' v-on:next="next" v-on:prev="prev"></component>
+            <component :is='currentForm' @next="next" @prev="prev" @close="close" :quote="_quote"></component>
           </div>
         </div>
       </el-col>
@@ -117,6 +117,9 @@ export default {
       if (--this.currentStep < 0) this.currentStep = 0;
       document.body.scrollTop = document.documentElement.scrollTop = 0;
     },
+    close() {
+      window.location = '/'
+    },
     search() {
       let address = this.$store.state.property.address;
       if (address == '') {
@@ -172,9 +175,7 @@ export default {
 
 <style>
 body {
-  font-family: "intercom-font", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  color: darkblue;
+  font-family: 'Poppins', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .stepper {
@@ -198,13 +199,56 @@ body {
 .quote .quote_text {
   font-size: 12px;
   color: #EEEEEE;
-  margin: 12px;
+  margin: 10px;
 }
 
 .quote .quote_value {
-  font-weight: bold;
+  font-weight: 900;
   font-size: 20px;
   color: #fff;
-  margin: 12px;
+  margin: 10px;
+}
+
+.el-form .el-row {
+  min-height: 88px;
+}
+
+.el-form .el-input, .el-form .el-input-number, .el-form .el-autocomplete, .el-form .el-select {
+  width: 100%;
+}
+
+.el-form .el-form-item__label, .el-form .el-checkbox__label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.el-form .el-button--primary, .el-form .el-input-group__append {
+  color: #fff;
+  border-color: #337ab7;
+  background-color: #337ab7;
+  padding: 10px 75px;
+}
+
+.el-form .title {
+  color: #337ab7;
+  font-size: 22px;
+  font-weight: 700;
+  margin: 10px 0;
+}
+
+.el-form .subtitle {
+  color: #8391a5;
+  font-size: 14px;
+  margin: 10px 0 50px 0;
+}
+
+.el-form .actions {
+  margin-top: 12px;
+}
+
+.el-step__head.is-text.is-success {
+  background-color: #13ce66;
+  border-color: #13ce66;
 }
 </style>

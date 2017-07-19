@@ -3,7 +3,6 @@ import usaddress
 import googlemaps
 
 
-
 class PropertyService(object):
 
     def __init__(self):
