@@ -26,10 +26,25 @@ __pycache__/
 
 
 ### Build Files
-/build/
 /cache/
 /output/
 /tmp/
 /bower_components/
-/node_modules/
-/static/
+
+/Dockerfile
+/db.sqlite3
+/ops.sh
+/package-lock.json
+/package.json
+/webpack.config.js
+
+.git
+.gitignore
+.dockerignore
+
+/docs
+/node_modules
+/reactapp
+/vueapp
+/build
+/assets

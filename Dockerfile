@@ -60,7 +60,7 @@ RUN pip install -r /opt/app/requirements.txt
 
 # install app
 COPY . /opt/app
-RUN cd /opt/app && ./manage.py collectstatic --noinput
+#RUN cd /opt/app && ./manage.py collectstatic --noinput
 #RUN chown -R www-data:www-data /opt/app
 
 

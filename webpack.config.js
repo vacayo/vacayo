@@ -12,7 +12,8 @@ module.exports = {
   //because you will specify extensions later in the `resolve` section
   entry: {
     //reactApp: './reactapp/js/app',
-    vueApp: './vueapp/js/app',
+    registration: './vueapp/js/registration/main',
+    dashboard: './vueapp/js/dashboard/main',
   },
 
   output: {
@@ -42,7 +43,7 @@ module.exports = {
   ],
 
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.vue$/,
         loader: 'vue-loader'

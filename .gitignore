@@ -81,6 +81,7 @@ celerybeat-schedule
 
 # dotenv
 .env
+.envrc
 
 # virtualenv
 .venv
@@ -106,5 +107,5 @@ db.sqlite3
 webpack-stats.json
 settings_prod.py
 
-static
+/static
 node_modules

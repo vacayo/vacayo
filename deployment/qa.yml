@@ -18,6 +18,41 @@ spec:
           env:
             - name: deployment_trigger
               value: DEPLOY_TRIGGER
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: django
+                  key: DB_PASS
+            - name: DJANGO_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: django
+                  key: DJANGO_SECRET
           ports:
             - containerPort: 80
               name: vacayo
+        - image: b.gcr.io/cloudsql-docker/gce-proxy:1.09
+          name: cloudsql-proxy
+          command: [
+            "/cloud_sql_proxy",
+            "--dir=/cloudsql",
+            "-instances=vacayo-qa:us-east1:vacayo=tcp:5432",
+            "-credential_file=/secrets/service-account/credentials.json"
+          ]
+          volumeMounts:
+            - name: service-account
+              mountPath: /secrets/service-account
+              readOnly: true
+            - name: ssl-certs
+              mountPath: /etc/ssl/certs
+            - name: cloudsql
+              mountPath: /cloudsql
+      volumes:
+        - name: service-account
+          secret:
+            secretName: service-account
+        - name: ssl-certs
+          hostPath:
+            path: /etc/ssl/certs
+        - name: cloudsql
+          emptyDir:

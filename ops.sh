@@ -117,7 +117,7 @@ create_deployment() {
   fi
 
   echo "Creating Load Balancer service ${ZONE}/${GCLOUD_PROJECT}/${CLUSTER}/${APP}"
-  kubectl expose deployment ${APP} --type="LoadBalancer" &> /dev/null
+  kubectl expose deployment ${APP} --target-port=80 --type="NodePort" &> /dev/null
 }
 
 upgrade_deployment() {
