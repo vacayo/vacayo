@@ -13,6 +13,7 @@ class Property(models.Model):
     available_date = models.DateField(blank=True, null=True)
     visit_date = models.DateField(blank=True, null=True)
     last_rent = models.DecimalField(decimal_places=2, max_digits=7, blank=True, null=True)
+    offer = models.DecimalField(decimal_places=2, max_digits=7, blank=True, null=True)
 
     def __unicode__(self):
         return '{}, {}, {} {}'.format(self.address1, self.city, self.state, self.zip_code)

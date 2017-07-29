@@ -1,12 +1,13 @@
 from pyzillow.pyzillow import ZillowWrapper, ZillowResults
 from pyzillow.pyzillowerrors import ZillowError, ZillowFail, ZillowNoResults
 from vacayo.utils.struct import Struct
+from django.conf import settings
 
 
 class ZillowAPI(object):
 
     def __init__(self):
-        self.zillow = ZillowWrapper('X1-ZWz1fuwo60hszv_6msnx')
+        self.zillow = ZillowWrapper(settings.ZILLOW_API_KEY)
 
     def lookup(self, address, citystatezip):
         try:

@@ -3,7 +3,7 @@ from django.utils.dateparse import parse_datetime
 from django.views.generic.edit import View
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from ..services.property import PropertyService
 from ..services.email import EmailService
 from ..models.owner import Owner
@@ -69,6 +69,7 @@ class RegistrationView(View):
             home_size=property_data.get('home_size'),
             available_date=property_data.get('available_date'),
             last_rent=property_data.get('last_rent'),
+            offer=property_data.get('offer'),
         )
 
         owner.properties.add(property)
@@ -78,7 +79,7 @@ class RegistrationView(View):
                 to_email=owner.email,
                 to_name=owner.first_name,
                 address=address.get('address1'),
-                quote=property_data.get('quote')
+                offer=property_data.get('offer')
             )
         except Exception, e:
             pass

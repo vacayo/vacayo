@@ -8,7 +8,7 @@ class PropertyService(object):
 
     def __init__(self):
         self.zillow = ZillowAPI()
-        self.gmaps = googlemaps.Client(settings.ZILLOW_API_KEY)
+        self.gmaps = googlemaps.Client(settings.GOOGLE_API_KEY)
 
     def geocode(self, address):
         result = self.gmaps.geocode(address)
