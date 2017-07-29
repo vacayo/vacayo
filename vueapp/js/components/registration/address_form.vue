@@ -4,7 +4,7 @@
     <div class="subtitle"></div>
     <el-row :gutter="50">
       <el-col :sm="24" :md="24">
-        <el-form-item label="First Name" prop="first_name">
+        <el-form-item prop="address">
           <el-autocomplete
             size="large"
             class="inline-input"
@@ -14,7 +14,7 @@
             :value="property.address"
             @input="updateProperty('address', $event)"
           >
-            <el-button slot="append" type="primary" @click="next">Get Your Instant Quote</el-button>
+            <el-button slot="append" type="primary" @click="next">Get Your Instant Offer</el-button>
           </el-autocomplete>
         </el-form-item>
       </el-col>

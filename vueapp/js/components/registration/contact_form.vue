@@ -1,6 +1,6 @@
 <template>
   <el-form :model="owner" :rules="rules" ref="owner" label-width="100px" label-position="top">
-    <div class="title">{{ quote }} per month</div>
+    <div class="title">Our Offer: {{ offer }} per month</div>
     <div class="subtitle">
       We estimate that we can offer you a 1 year lease at the monthly rent above.
       We will provide you with an exact offer once a property walk-through is conducted.
@@ -62,7 +62,7 @@ export default {
     }
   },
   props: [
-    'quote'
+    'offer'
   ],
   methods: {
     updateOwner(field, value) {

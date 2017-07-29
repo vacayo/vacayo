@@ -4,7 +4,7 @@
       <el-col :xs="0" :sm="3"></el-col>
       <el-col :xs="24" :sm="18">
         <div class="logo">
-          <img :src="logo" alt="Vacayo: Begin at Home" />
+          <a href="/"><img :src="logo" alt="Vacayo: Begin at Home" /></a>
         </div>
       </el-col>
       <el-col :xs="0" :sm="3"></el-col>
@@ -13,7 +13,7 @@
 </template>
 
 <script type="text/babel">
-import logo from '../../../assets/img/vacayo-logo-horiz-white_1.png'
+import logo from '../../img/logo.png'
 
 export default {
   data() {

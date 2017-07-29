@@ -31,7 +31,7 @@
 </template>
 
 <script type="text/babel">
-import AppHeader from '../components/app_header.vue'
+import AppHeader from '../components/registration/app_header.vue'
 import AddressForm from '../components/registration/address_form.vue'
 import PropertyForm from '../components/registration/property_form.vue'
 import ContactForm from '../components/registration/contact_form.vue'
