@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="quote">
-      <div class="quote_text">Estimated Quote</div>
-      <div class="quote_value">{{ _quote }} / mo.</div>
+    <div class="offer">
+      <div class="offer_text">Estimated Offer</div>
+      <div class="offer_value">{{ _offer | currency }} / mo.</div>
     </div>
     <div v-sticky="{zIndex: 9999, stickyTop:0}">
       <app-header></app-header>
@@ -21,7 +21,7 @@
       <el-col :xs="24" :sm="18">
         <div class="content" v-loading.body="loading" :element-loading-text="loading_text">
           <div>
-            <component :is='currentForm' @next="next" @prev="prev" @close="close" :quote="_quote"></component>
+            <component :is='currentForm' @next="next" @prev="prev" @close="close" :offer="_offer"></component>
           </div>
         </div>
       </el-col>
@@ -61,7 +61,7 @@ export default {
     Confirmation
   },
   computed: {
-    _quote() {
+    _offer() {
       let markup = 1.05; // 5%
       let last_rent = this.round(this.property.last_rent * markup, -1);
       let rent_estimate = this.round(this.property.rent_estimate * markup, -1);
@@ -72,16 +72,21 @@ export default {
       if (value > rent_estimate_high) value = rent_estimate_high;
       if (value < rent_estimate_low) value = rent_estimate_low;
 
+      return value;
+    },
+    currentForm() {
+      return FORMS[this.currentStep]
+    },
+  },
+  filters: {
+    currency(value) {
       let formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
         minimumFractionDigits: 2,
       });
       return formatter.format(value)
-    },
-    currentForm() {
-      return FORMS[this.currentStep]
-    },
+    }
   },
   methods: {
     next() {
@@ -146,7 +151,8 @@ export default {
       return roundedTempNumber / factor;
     },
     save() {
-      let data = this.$store.state;
+      let data = Object.assign({}, this.$store.state);
+      data.property.offer = this._offer;
       let url  = '/api/registration/';
       let options = {
         method: "POST",
@@ -188,7 +194,7 @@ body {
   padding: 50px 50px;
 }
 
-.quote {
+.offer {
   text-align: right;
   position: fixed;
   top: 0;
@@ -196,13 +202,13 @@ body {
   z-index: 10000;
 }
 
-.quote .quote_text {
+.offer .offer_text {
   font-size: 12px;
   color: #EEEEEE;
   margin: 10px;
 }
 
-.quote .quote_value {
+.offer .offer_value {
   font-weight: 900;
   font-size: 20px;
   color: #fff;
@@ -225,13 +231,13 @@ body {
 
 .el-form .el-button--primary, .el-form .el-input-group__append {
   color: #fff;
-  border-color: #337ab7;
-  background-color: #337ab7;
+  border-color: #24678D;
+  background-color: #24678D;
   padding: 10px 75px;
 }
 
 .el-form .title {
-  color: #337ab7;
+  color: #24678D;
   font-size: 22px;
   font-weight: 700;
   margin: 10px 0;
