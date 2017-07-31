@@ -1,13 +1,14 @@
 <template>
-  <div class="animated fadeIn">
-    Hello World
+  <div class="row" data-plugin="matchHeight" data-by-row="true">
+
   </div>
 </template>
 
 <script type="text/babel">
   export default {
     data() {
-      return {}
+      return {
+      }
     },
     components: {},
     methods: {}

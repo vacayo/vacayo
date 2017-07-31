@@ -5,7 +5,7 @@
       <div class="offer_value">{{ _offer | currency }} / mo.</div>
     </div>
     <div v-sticky="{zIndex: 9999, stickyTop:0}">
-      <app-header></app-header>
+      <AppHeader/>
       <media :query="{minWidth: 600, minHeight: 600}">
       <div class="stepper">
         <el-steps space="33%" :center="true" :align-center="true" :active="currentStep" process-status="finish" finish-status="process">
@@ -31,11 +31,11 @@
 </template>
 
 <script type="text/babel">
-import AppHeader from '../components/registration/app_header.vue'
-import AddressForm from '../components/registration/address_form.vue'
-import PropertyForm from '../components/registration/property_form.vue'
-import ContactForm from '../components/registration/contact_form.vue'
-import Confirmation from '../components/registration/confirmation.vue'
+import AppHeader from '../components/Header'
+import AddressForm from './views/AddressForm'
+import PropertyForm from './views/PropertyForm'
+import ContactForm from './views/ContactForm'
+import Confirmation from './views/Confirmation.vue'
 import Media from 'vue-media'
 import Headroom from 'vue-headroom'
 

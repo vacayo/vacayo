@@ -1,33 +1,28 @@
 <template>
   <div class="app">
-    <AppHeader/>
-    <div class="app-body">
-      <Sidebar/>
-      <main class="main">
-        <breadcrumb :list="list"/>
-        <div class="container-fluid">
-          <router-view></router-view>
-        </div>
-      </main>
-      <AppAside/>
+    <Navigation/>
+    <div class="page animsition" style="animation-duration: 800ms; opacity: 1;">
+      <div class="page-header">
+        <h1 class="page-title">My Properties</h1>
+        <Breadcrumb/>
+      </div>
+      <div class="page-content">
+        <router-view></router-view>
+      </div>
     </div>
-    <AppFooter/>
+    <Footer/>
   </div>
 </template>
 
 <script>
-import AppHeader from '../components/Header'
-import Sidebar from '../components/Sidebar'
-import AppAside from '../components/Aside'
-import AppFooter from '../components/Footer'
+import Navigation from '../components/Navigation'
+import Footer from '../components/Footer'
 import Breadcrumb from '../components/Breadcrumb'
 
 export default {
   components: {
-    AppHeader,
-    Sidebar,
-    AppAside,
-    AppFooter,
+    Navigation,
+    Footer,
     Breadcrumb
   },
   computed: {

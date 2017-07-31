@@ -1,43 +1,36 @@
 <template>
-  <navbar>
-    <button class="navbar-toggler mobile-sidebar-toggler d-lg-none" type="button" @click="mobileSidebarToggle">&#9776;</button>
-    <a class="navbar-brand" href="#"></a>
-    <ul class="nav navbar-nav d-md-down-none mr-auto">
-      <li class="nav-item">
-        <a class="nav-link navbar-toggler sidebar-toggler" href="#" @click="sidebarToggle">&#9776;</a>
-      </li>
-    </ul>
-  </navbar>
+  <div>
+    <el-row class="header" type="flex" justify="space-around">
+      <el-col :xs="0" :sm="3"></el-col>
+      <el-col :xs="24" :sm="18">
+        <div class="logo">
+          <a href="/"><img :src="logo" alt="Vacayo: Begin at Home" /></a>
+        </div>
+      </el-col>
+      <el-col :xs="0" :sm="3"></el-col>
+    </el-row>
+  </div>
 </template>
-<script>
-import navbar from './Navbar'
-import { dropdown } from 'vue-strap'
+
+<script type="text/babel">
+import logo from '../../img/logo.png'
+
 export default {
-  name: 'header',
-  components: {
-    navbar,
-    dropdown
-  },
-  methods: {
-    click () {
-      // do nothing
-    },
-    sidebarToggle (e) {
-      e.preventDefault()
-      document.body.classList.toggle('sidebar-hidden')
-    },
-    sidebarMinimize (e) {
-      e.preventDefault()
-      document.body.classList.toggle('sidebar-minimized')
-    },
-    mobileSidebarToggle (e) {
-      e.preventDefault()
-      document.body.classList.toggle('sidebar-mobile-show')
-    },
-    asideToggle (e) {
-      e.preventDefault()
-      document.body.classList.toggle('aside-menu-hidden')
+  data() {
+    return {
+      logo: logo
     }
-  }
+  },
 }
 </script>
+
+<style>
+.header {
+  background-color: #282D33;
+  height: 76px;
+}
+
+.logo img {
+  height: 72px;
+}
+</style>

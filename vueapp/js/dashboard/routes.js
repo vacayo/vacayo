@@ -1,22 +1,23 @@
 import App from './App'
-import Login from './views/Login'
-import Signup from './views/Signup'
+import Properties from './views/Properties'
+import Maintenance from './views/Maintenance'
 
 export default [
   {
     path: '/',
     name: 'Dashboard',
+    redirect: 'properties',
     component: App,
     children: [
       {
-        path: 'login',
-        name: 'Log In',
-        component: Login
+        path: 'properties',
+        name: 'Properties',
+        component: Properties
       },
       {
-        path: 'signup',
-        name: 'Sign Up',
-        component: Signup
+        path: 'maintenance',
+        name: 'Maintenance',
+        component: Maintenance
       }
     ]
   }

@@ -3,6 +3,7 @@ from django.utils.dateparse import parse_datetime
 from django.views.generic.edit import View
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponseRedirect
 from ..services.property import PropertyService
 from ..services.email import EmailService
@@ -42,6 +43,25 @@ class PropertyView(View):
         return JsonResponse({
             'status': 'ok',
             'results': prop
+        })
+
+
+@method_decorator(login_required, name='get')
+class PropertiesView(View):
+
+    def get(self, request):
+        properties = [{
+            'address1': p.address1,
+            'bedrooms': p.bedrooms,
+            'bathrooms': p.bathrooms,
+            'status': 'lease',
+            'visit_date': p.visit_date,
+            'main_image': p.main_image.url
+        } for p in Property.objects.filter(owners__email=request.user.email)]
+
+        return JsonResponse({
+            'status': 'ok',
+            'results': properties
         })
 
 

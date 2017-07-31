@@ -1,6 +1,6 @@
 import Vue from 'vue/dist/vue'
 import VueRouter from 'vue-router'
-import styles from '../../scss/styles.scss'
+//import styles from '../../scss/styles.scss'
 import routes from './routes'
 
 Vue.use(VueRouter);
