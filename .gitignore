@@ -108,4 +108,6 @@ webpack-stats.json
 settings_prod.py
 
 /static
-node_modules
+/media
+/remark
+/node_modules

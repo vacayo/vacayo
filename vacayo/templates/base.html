@@ -1,68 +1,172 @@
 {% load i18n staticfiles static %}
-<!doctype html>
+{% load render_bundle from webpack_loader %}
+<!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE }}">
   <head>
-    <title>{% block meta_title %}{% endblock %}{% if settings.SITE_TITLE %} | {{ settings.SITE_TITLE }}{% endif %} {% if settings.SITE_TAGLINE %}::
-      {{ settings.SITE_TAGLINE }} {% endif %}</title>
+    <title>
+      {% block meta_title %}{% endblock %}
+      {% if settings.SITE_TITLE %} | {{ settings.SITE_TITLE }}{% endif %}
+      {% if settings.SITE_TAGLINE %}::{{ settings.SITE_TAGLINE }} {% endif %}
+    </title>
+    <meta charset="utf-8">
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="keywords" content="{% block meta_keywords %}{% endblock %}">
     <meta name="description" content="{% block meta_description %}{% endblock %}">
     <link rel="shortcut icon" href="{% static "img/favicon.ico" %}">
 
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <!-- Core Stylesheets -->
+    <link rel="stylesheet" href="{% static 'vacayo/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vacayo/css/bootstrap-extend.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vacayo/css/site.min.css' %}">
+
+    <!-- Plugin Stylesheets -->
+    <link rel="stylesheet" href="{% static 'vacayo/vendor/animsition/animsition.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vacayo/vendor/asscrollable/asScrollable.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vacayo/vendor/switchery/switchery.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vacayo/vendor/intro-js/introjs.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vacayo/vendor/slidepanel/slidePanel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vacayo/vendor/formvalidation/formValidation.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'vacayo/css/v1.css' %}">
+
+
+{#    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">#}
+{#    <link href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css" rel="stylesheet">#}
+{#    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">#}
+{#    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">#}
+{#    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>#}
+{#    <link href="{% static 'vacayo/css/styles.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>#}
     {% block extra_css %}{% endblock %}
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
-    {% block extra_js %}{% endblock %}
+    <!-- Fonts -->
+    <link rel="stylesheet" href="{% static 'vacayo/fonts/web-icons/web-icons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vacayo/fonts/brand-icons/brand-icons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vacayo/fonts/font-awesome/font-awesome.min.css' %}">
+    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic'>
 
-    <!--[if lt IE 9]>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
-      <![endif]-->
+    <!-- Scripts -->
+    <script src="{% static 'vacayo/vendor/breakpoints/breakpoints.min.js' %}"></script>
+    <script>
+    Breakpoints();
+    </script>
 
     {% block extra_head %}{% endblock %}
   </head>
+  <body class="animsition layout-full page-dark" data-gr-c-s-loaded="true" style="animation-duration: 800ms; opacity: 1;">
+    {% block content %}{% endblock %}
 
-  <body id="{% block body_id %}body{% endblock %}">
-    <nav class="grey darken-4">
-      <div class="nav-wrapper">
-        {% if settings.SITE_TITLE %}
-          <a href="#!" class="brand-logo" style="padding-left:20px;">{{ settings.SITE_TITLE }}</a>
-        {% endif %}
-        <!-- {% if settings.SITE_TAGLINE %}<p class="navbar-text visible-lg">{{ settings.SITE_TAGLINE }}</p>{% endif %} -->
+    <!-- Header navigation menu
+    <header class="app-header navbar">
+      <button class="navbar-toggler mobile-sidebar-toggler d-lg-none" type="button" @click="mobileSidebarToggle">&#9776;</button>
+      <a class="navbar-brand" href="#">
 
-        {% page_menu "pages/menus/primary.html" %}
-      </div>
-    </nav>
-
-    {% block main %}{% endblock %}
-    {% page_menu "pages/menus/footer.html" %}
-
-    {% include "includes/footer_scripts.html" %}
-
-    <!-- Search Modal Structure -->
-    <div id="modal1" class="modal bottom-sheet">
-      <div class="modal-content">
-        <h4 class="center-align">What are you looking for?</h4>
-
-        <div class="divider"></div>
-        <form style="margin-top:10px;">
-          <div class="input-field">
-            <input id="search" type="search" required>
-            <label for="search"><i class="material-icons">search</i></label>
-            <i class="material-icons">close</i>
-            <button href="#!" class="modal-action modal-close btn-floating btn-large waves-effect waves-light left"><i class="material-icons">search</i></button>
-          </div>
-          <div class="modal-footer">
-            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat red">Cancel</a>
-          </div>
-        </form>
+      </a>
+      <ul class="nav navbar-nav d-md-down-none mr-auto">
+        <li class="nav-item">
+          <a class="nav-link navbar-toggler sidebar-toggler" href="#" @click="sidebarToggle">&#9776;</a>
+        </li>
+      </ul>
+    </header>
+    <div class="container">
+      <div class="row" style="margin-top:14px;">
+        <a class='dropdown-button btn' href='#' data-activates='myMenu'>Menu</a>
+        <ul id='myMenu' class='dropdown-content'>
+          <li><a href="{% url 'home' %}">Home</a></li>
+          <div class="divider"></div>
+          {% if user.is_authenticated %}
+            <li><a href="{% url 'account_profile' %}">Account</a></li>
+            <li><a href="{% url 'account_email' %}">Change E-mail</a></li>
+            <li><a href="{% url 'account_logout' %}">Sign Out</a></li>
+          {% else %}
+            <li><a href="{% url 'account_login' %}">Sign In</a></li>
+            <li><a href="{% url 'account_signup' %}">Sign Up</a></li>
+          {% endif %}
+        </ul>
       </div>
     </div>
+    <div class="divider"></div>
+    -->
+
+    <!-- Main Content
+    <div class="app-body">
+      <main class="main">
+        {% block body %}
+          {% if messages %}
+            <div>
+              <strong>Messages:</strong>
+              <ul>
+                {% for message in messages %}
+                  <li>{{ message }}</li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+        {% endblock %}
+
+        {% block extra_body %}{% endblock %}
+      </main>
+    </div>
+    -->
+
+    <!-- Core  -->
+    <script src="{% static 'vacayo/vendor/babel-external-helpers/babel-external-helpers.js' %}"></script>
+    <script src="{% static 'vacayo/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vacayo/vendor/tether/tether.min.js' %}"></script>
+    <script src="{% static 'vacayo/vendor/bootstrap/bootstrap.min.js' %}"></script>
+    <script src="{% static 'vacayo/vendor/animsition/animsition.min.js' %}"></script>
+    <script src="{% static 'vacayo/vendor/mousewheel/jquery.mousewheel.min.js' %}"></script>
+    <script src="{% static 'vacayo/vendor/asscrollbar/jquery-asScrollbar.min.js' %}"></script>
+    <script src="{% static 'vacayo/vendor/asscrollable/jquery-asScrollable.min.js' %}"></script>
+    <script src="{% static 'vacayo/vendor/ashoverscroll/jquery-asHoverScroll.min.js' %}"></script>
+
+    <!-- Plugins -->
+    <script src="{% static 'vacayo/vendor/switchery/switchery.min.js' %}"></script>
+    <script src="{% static 'vacayo/vendor/intro-js/intro.min.js' %}"></script>
+    <script src="{% static 'vacayo/vendor/screenfull/screenfull.min.js' %}"></script>
+    <script src="{% static 'vacayo/vendor/slidepanel/jquery-slidePanel.min.js' %}"></script>
+    <script src="{% static 'vacayo/vendor/skycons/skycons.js' %}"></script>
+    <script src="{% static 'vacayo/vendor/aspieprogress/jquery-asPieProgress.min.js' %}"></script>
+    <script src="{% static 'vacayo/vendor/matchheight/jquery.matchHeight-min.js' %}"></script>
+    <script src="{% static 'vacayo/vendor/formvalidation/formValidation.min.js' %}"></script>
+    <script src="{% static 'vacayo/vendor/formvalidation/framework/bootstrap4.min.js' %}"></script>
+
+    <!-- Scripts -->
+    <script src="{% static 'vacayo/js/State.min.js' %}"></script>
+    <script src="{% static 'vacayo/js/Component.min.js' %}"></script>
+    <script src="{% static 'vacayo/js/Plugin.min.js' %}"></script>
+    <script src="{% static 'vacayo/js/Base.min.js' %}"></script>
+    <script src="{% static 'vacayo/js/Config.min.js' %}"></script>
+    <script src="{% static 'vacayo/js/Menubar.min.js' %}"></script>
+    <script src="{% static 'vacayo/js/GridMenu.min.js' %}"></script>
+    <script src="{% static 'vacayo/js/Sidebar.min.js' %}"></script>
+    <script src="{% static 'vacayo/js/PageAside.min.js' %}"></script>
+    <script src="{% static 'vacayo/js/menu.min.js' %}"></script>
+    <script src="{% static 'vacayo/js/colors.min.js' %}"></script>
+    <script>
+    Config.set('assets', '../assets');
+    </script>
+
+    <!-- Page -->
+    <script src="{% static 'vacayo/js/Site.min.js' %}"></script>
+    <script src="{% static 'vacayo/js/asscrollable.min.js' %}"></script>
+    <script src="{% static 'vacayo/js/slidepanel.min.js' %}"></script>
+    <script src="{% static 'vacayo/js/switchery.min.js' %}"></script>
+    <script src="{% static 'vacayo/js/matchheight.min.js' %}"></script>
+    <script>
+      $(document).ready(function($) {
+        Site.run();
+      });
+    </script>
+
+{#    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>#}
+{#    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>#}
+{#    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>#}
+{#    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>#}
+{#    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>#}
+{#    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>#}
+{#    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>#}
+    {% block extra_js %}{% endblock %}
+
   </body>
 </html>

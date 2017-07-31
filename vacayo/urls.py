@@ -13,11 +13,14 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+from django.conf import settings
 from django.conf.urls import url, include
+from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
 
-from vacayo.views.registration import AddressView, PropertyView, RegistrationView
+from vacayo.views.api import AddressView, PropertyView, PropertiesView, RegistrationView
 
 
 class StaticPageView(TemplateView):
@@ -32,14 +35,15 @@ class StaticPageView(TemplateView):
 urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='wp.html'), name='home'),
     url(r'^registration', StaticPageView.as_view(template_name='vue.html', context={'vue': 'registration'}), name='registration'),
-    url(r'^dashboard', StaticPageView.as_view(template_name='vue.html', context={'vue': 'dashboard'}), name='dashboard'),
+    url(r'^dashboard', login_required(StaticPageView.as_view(template_name='vue2.html', context={'vue': 'dashboard'})), name='dashboard'),
 
     url(r'api/address', AddressView.as_view()),
     url(r'api/property', PropertyView.as_view()),
+    url(r'api/properties', PropertiesView.as_view()),
     url(r'api/registration', RegistrationView.as_view()),
 
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^accounts/profile/', TemplateView.as_view(template_name='account/account_profile.html'), name='account_profile'),
     url(r'^accounts/update/(?P<username>[\w-]+)', TemplateView.as_view(template_name='account/account_update.html'), name='account_update'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

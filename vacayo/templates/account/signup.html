@@ -1,78 +1,148 @@
 {% extends "account/base.html" %}
-{% load i18n account socialaccount material_form %}
+{% load i18n staticfiles static account socialaccount %}
 
 {% block meta_title %}
   {% trans "Signup" %}
 {% endblock %}
 
+{% block extra_css %}
+  <style>
+    body::before {
+      background-image: url(https://static.pexels.com/photos/276508/pexels-photo-276508.jpeg)
+    }
+    .page-signup .panel {
+      width: 500px;
+      color: #76838f;
+    }
+
+    .page-signup form {
+      margin: 45px 0 30px;
+    }
+  </style>
+{% endblock %}
+
 {% block content %}
-  <div class="app flex-row align-items-center">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-md-6">
-          <div class="card mx-4">
-            <div class="card-block p-4">
-              <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
-                <h1>{% trans "Sign Up" %}</h1>
-                <p class="text-muted">Create your account</p>
-                <p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">log in</a>.{% endblocktrans %}</p>
-                {% csrf_token %}
-{#                {% form form=form %} {% endform %}#}
-                {% if redirect_field_value %}
-                  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-                {% endif %}
+  <div class="page page-signup vertical-align text-center" data-animsition-in="fade-in" data-animsition-out="fade-out">&gt;
+    <div class="page-content vertical-align-middle animation-slide-top animation-duration-1">
+      <div class="panel">
+        <div class="panel-body">
+          <div class="brand">
+            <img class="brand-img" src="{% static 'vacayo/img/logo.png' %}" alt="...">
+          </div>
+          <h1>{% trans "Sign Up" %}</h1>
+          <form id="signup_form" class="form-horizontal fv-form fv-form-bootstrap4" autocomplete="off" novalidate="novalidate" method="POST" action="{% url 'account_signup' %}">
+            <button type="submit" class="fv-hidden-submit" style="display: none; width: 0px; height: 0px;"></button>
+{#            {% form form=form %} {% endform %}#}
+            {% csrf_token %}
+            {% if redirect_field_value %}<input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />{% endif %}
 
-                {% if form.errors %}
-                  <div style="margin-top:15px;" class="flow-text red-text">
-                    {% for field in form %}
-                      {% for error in field.errors %}
-                        <div class="alert alert-danger">
-                          <strong>{{ error|escape }}</strong>
-                        </div>
-                      {% endfor %}
-                    {% endfor %}
-                    {% for error in form.non_field_errors %}
-                      <div class="alert alert-danger">
-                        <strong>{{ error|escape }}</strong>
-                      </div>
-                    {% endfor %}
+            {% if form.errors %}
+              <div style="margin-top:15px;" class="flow-text red-text">
+                {% for error in form.non_field_errors %}
+                  <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
                   </div>
-                {% endif %}
+                {% endfor %}
+              </div>
+            {% endif %}
 
-                <div class="input-group mb-3">
-                  <span class="input-group-addon">@</span>
-                  <input type="text" name="email" class="form-control" placeholder="Email">
-                </div>
-
-                <div class="input-group mb-3">
-                  <span class="input-group-addon"><i class="icon-lock"></i></span>
-                  <input type="password"  name="password1" class="form-control" placeholder="Password">
-                </div>
-
-                <div class="input-group mb-4">
-                  <span class="input-group-addon"><i class="icon-lock"></i></span>
-                  <input type="password" name="password2" class="form-control" placeholder="Repeat password">
-                </div>
-
-                <button type="submit" class="btn btn-block btn-success">Create Account</button>
-              </form>
-            </div>
-            <!--
-            <div class="card-footer p-4">
-              <div>
-                {% get_providers as socialaccount_providers %}
-                {% if socialaccount_providers %}
-                <div class="mb-4">
-                  {% include "socialaccount/snippets/provider_list.html" with process="login" %}
-                  {% include "socialaccount/snippets/login_extra.html" %}
-                </div>
-                {% endif %}
+            <div class="form-group">
+              <div class="input-group">
+                <span class="input-group-addon">@</span>
+                <input type="email" class="form-control" name="email" placeholder="Email" data-fv-field="email" autofocus="autofocus">
               </div>
             </div>
-            -->
-          </div>
+            <div class="form-group">
+              <div class="input-group">
+                <span class="input-group-addon">
+                  <i class="icon wb-lock" aria-hidden="true"></i>
+                </span>
+                <input type="password" class="form-control" name="password1" placeholder="Password" data-fv-field="password1">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <span class="input-group-addon">
+                  <i class="icon wb-lock" aria-hidden="true"></i>
+                </span>
+                <input type="password" class="form-control" name="password2" placeholder="Password (again)" data-fv-field="password2">
+              </div>
+            </div>
+
+            <button type="submit" id="signup_form_submit" class="btn btn-block btn-success mt-40">Create Account</button>
+          </form>
+          <p>Already have an account? Please <a href="{% url 'account_login' %}">Sign In</a> instead.</p>
         </div>
       </div>
+      <footer class="page-copyright page-copyright-inverse">
+        <p>© Vacayo, Inc 2017. All RIGHTS RESERVED.</p>
+        <div class="social">
+          <a class="btn btn-icon btn-pure" href="javascript:void(0)">
+            <i class="icon bd-twitter" aria-hidden="true"></i>
+          </a>
+          <a class="btn btn-icon btn-pure" href="javascript:void(0)">
+            <i class="icon bd-facebook" aria-hidden="true"></i>
+          </a>
+          <a class="btn btn-icon btn-pure" href="javascript:void(0)">
+            <i class="icon bd-google-plus" aria-hidden="true"></i>
+          </a>
+        </div>
+      </footer>
     </div>
   </div>
+{% endblock %}
+
+{% block extra_js %}
+  <script>
+    (function() {
+      $('#signup_form').formValidation({
+        framework: "bootstrap4",
+        icon: null,
+        button: {
+          selector: '#signup_form_submit',
+          disabled: 'disabled'
+        },
+        fields: {
+          email: {
+            validators: {
+              notEmpty: {
+                message: 'The email address is required and cannot be empty'
+              },
+              emailAddress: {
+                message: 'The email address is not valid'
+              }
+            }
+          },
+          password1: {
+            validators: {
+              notEmpty: {
+                message: 'The password is required and cannot be empty'
+              },
+              stringLength: {
+                min: 8,
+                message: 'The password must at least 8 characters long'
+              }
+            }
+          },
+          password2: {
+            validators: {
+              notEmpty: {
+                message: 'The password is required and cannot be empty'
+              },
+              stringLength: {
+                min: 8,
+                message: 'The password must at least 8 characters long'
+              }
+            }
+          }
+        },
+        err: {
+          clazz: 'text-help'
+        },
+        row: {
+          invalid: 'has-danger'
+        }
+      });
+    })();
+  </script>
 {% endblock %}

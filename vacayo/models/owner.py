@@ -6,7 +6,7 @@ class Owner(models.Model):
     last_name = models.CharField(max_length=256)
     email = models.CharField(max_length=256)
     phone = PhoneNumberField()
-    properties = models.ManyToManyField('Property')
+    properties = models.ManyToManyField('Property', related_name='owners')
 
     def __unicode__(self):
         return '{} {} <{}>'.format(self.first_name, self.last_name, self.email)

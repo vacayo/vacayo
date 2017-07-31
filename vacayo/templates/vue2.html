@@ -1,0 +1,90 @@
+{% load static %}
+{% load render_bundle from webpack_loader %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Vacayo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Core Stylesheets -->
+    <link rel="stylesheet" href="{% static 'vacayo/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vacayo/css/bootstrap-extend.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vacayo/css/site.min.css' %}">
+
+    <!-- Plugin Stylesheets -->
+    <link rel="stylesheet" href="{% static 'vacayo/vendor/animsition/animsition.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vacayo/vendor/asscrollable/asScrollable.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vacayo/vendor/switchery/switchery.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vacayo/vendor/intro-js/introjs.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vacayo/vendor/slidepanel/slidePanel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vacayo/vendor/formvalidation/formValidation.min.css' %}">
+
+    <!-- Fonts -->
+    <link rel="stylesheet" href="{% static 'vacayo/fonts/web-icons/web-icons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vacayo/fonts/brand-icons/brand-icons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vacayo/fonts/font-awesome/font-awesome.min.css' %}">
+    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic'>
+
+    <!-- Scripts -->
+    <script src="{% static 'vacayo/vendor/breakpoints/breakpoints.min.js' %}"></script>
+    <script>
+    Breakpoints();
+    </script>
+  </head>
+  <body class="dashboard">
+    <div id="app"></div>
+    {% render_bundle vue %}
+
+    <!-- Core  -->
+    <script src="{% static 'vacayo/vendor/babel-external-helpers/babel-external-helpers.js' %}"></script>
+    <script src="{% static 'vacayo/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vacayo/vendor/tether/tether.min.js' %}"></script>
+    <script src="{% static 'vacayo/vendor/bootstrap/bootstrap.min.js' %}"></script>
+    <script src="{% static 'vacayo/vendor/animsition/animsition.min.js' %}"></script>
+    <script src="{% static 'vacayo/vendor/mousewheel/jquery.mousewheel.min.js' %}"></script>
+    <script src="{% static 'vacayo/vendor/asscrollbar/jquery-asScrollbar.min.js' %}"></script>
+    <script src="{% static 'vacayo/vendor/asscrollable/jquery-asScrollable.min.js' %}"></script>
+    <script src="{% static 'vacayo/vendor/ashoverscroll/jquery-asHoverScroll.min.js' %}"></script>
+
+    <!-- Plugins -->
+    <script src="{% static 'vacayo/vendor/switchery/switchery.min.js' %}"></script>
+    <script src="{% static 'vacayo/vendor/intro-js/intro.min.js' %}"></script>
+    <script src="{% static 'vacayo/vendor/screenfull/screenfull.min.js' %}"></script>
+    <script src="{% static 'vacayo/vendor/slidepanel/jquery-slidePanel.min.js' %}"></script>
+    <script src="{% static 'vacayo/vendor/skycons/skycons.js' %}"></script>
+    <script src="{% static 'vacayo/vendor/aspieprogress/jquery-asPieProgress.min.js' %}"></script>
+    <script src="{% static 'vacayo/vendor/matchheight/jquery.matchHeight-min.js' %}"></script>
+    <script src="{% static 'vacayo/vendor/formvalidation/formValidation.min.js' %}"></script>
+    <script src="{% static 'vacayo/vendor/formvalidation/framework/bootstrap4.min.js' %}"></script>
+
+    <!-- Scripts -->
+    <script src="{% static 'vacayo/js/State.min.js' %}"></script>
+    <script src="{% static 'vacayo/js/Component.min.js' %}"></script>
+    <script src="{% static 'vacayo/js/Plugin.min.js' %}"></script>
+    <script src="{% static 'vacayo/js/Base.min.js' %}"></script>
+    <script src="{% static 'vacayo/js/Config.min.js' %}"></script>
+    <script src="{% static 'vacayo/js/Menubar.min.js' %}"></script>
+    <script src="{% static 'vacayo/js/GridMenu.min.js' %}"></script>
+    <script src="{% static 'vacayo/js/Sidebar.min.js' %}"></script>
+    <script src="{% static 'vacayo/js/PageAside.min.js' %}"></script>
+    <script src="{% static 'vacayo/js/menu.min.js' %}"></script>
+    <script src="{% static 'vacayo/js/colors.min.js' %}"></script>
+    <script>
+    Config.set('assets', '../assets');
+    </script>
+
+    <!-- Page -->
+    <script src="{% static 'vacayo/js/Site.min.js' %}"></script>
+    <script src="{% static 'vacayo/js/asscrollable.min.js' %}"></script>
+    <script src="{% static 'vacayo/js/slidepanel.min.js' %}"></script>
+    <script src="{% static 'vacayo/js/switchery.min.js' %}"></script>
+    <script src="{% static 'vacayo/js/matchheight.min.js' %}"></script>
+    <script>
+      $(document).ready(function($) {
+        Site.run();
+      });
+    </script>
+
+  </body>
+</html>
