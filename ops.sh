@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 #-- Usage  --#
-# $ ./kubernetes.sh ENV ACTION [PROJECT] [--OPTIONS]
+# $ ./ops.sh ENV ACTION [PROJECT] [--OPTIONS]
 
 
 #-- Arguments  --#
 if [ "$#" -eq 0 ]; then
   echo "Command is missing arguments"
-  echo "USAGE ./kubernetes.sh ENV ACTION [PROJECT] [--OPTIONS]"
+  echo "USAGE ./ops.sh ENV ACTION [PROJECT] [--OPTIONS]"
   exit 1
 fi
 
@@ -37,7 +37,7 @@ YAML="${PROJECT_DIR}/deployment/${ENV}.yml" &> /dev/null
 
 
 # extract options and their arguments into variables.
-TEMP=`getopt -o v:y:n:k: --long version:yaml:num:key: -n 'kubernetes.sh' -- "$@"`
+TEMP=`getopt -o v:y:n:k: --long version:yaml:num:key: -n 'ops.sh' -- "$@"`
 if [ $? != 0 ] ; then echo "Terminating..." >&2 ; exit 1 ; fi
 eval set -- "${TEMP}"
 while true ; do
@@ -148,6 +148,15 @@ ssh() {
   kubectl exec -it ${CONTAINER_ID} bash
 }
 
+pool() {
+    gcloud container node-pools create n1-standard-2 \
+        --cluster kubernetes \
+        --machine-type n1-standard-2 \
+        --image-type COS \
+        --disk-size 100 \
+        --num-nodes 2 \
+        --scopes compute-rw,storage-rw,sql-admin
+}
 main () {
 #  set -o errexit
 
