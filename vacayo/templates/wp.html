@@ -63,7 +63,7 @@
       box-sizing: border-box;
       vertical-align: top;
       resize: none;
-      width: 300px;
+      width: 350px;
 
       border: none;
       border-radius: 6px;
@@ -92,6 +92,23 @@
       background-color: #24678D;
 
       color: #f4f7f9;
+    }
+
+    @media screen and (max-width: 768px) {
+      input#address_input {
+        display: block;
+        border: none;
+        border-radius: 6px !important;
+        width: 350px;
+      }
+
+      button#address_button {
+        display: inline-block;
+        border: none;
+        border-radius: 6px !important;
+        width: 350px;
+        margin-top: 10px;
+      }
     }
   </style>
   <style type='text/css'>
@@ -674,6 +691,12 @@ for(h=0;h<k.length;h++)e(d,k[h]);a._i.push([b,c,f])};a.__SV=1.2;b=e.createElemen
           <i class="fa fa-times"></i>
         </div>
         <ul id="menu-mobile-menu" class="mobilex-menu">
+          <li id="menu-item-2559" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2559">
+            <a href="/accounts/login/">Sign In</a>
+          </li>
+          <li id="menu-item-2559" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2559">
+            <a href="/accounts/signup/">Sign Up</a>
+          </li>
           <li id="menu-item-2122" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2122">
             <a href="//www.vacayo.com/register/">Get Your Offer</a>
           </li>
@@ -687,93 +710,6 @@ for(h=0;h<k.length;h++)e(d,k[h]);a._i.push([b,c,f])};a.__SV=1.2;b=e.createElemen
             <a href="//homes.vacayo.com/contact-us/">Contact Us</a>
           </li>
         </ul>
-      </div>
-    </div>
-  </div>
-
-  <!-- Right Sidebar-->
-  <div class="mobilewrapper-user">
-    <div class="snap-drawers">
-      <div class="snap-drawer snap-drawer-right">
-        <div class="mobilemenu-close-user">
-          <i class="fa fa-times"></i>
-        </div>
-        <div class="login_sidebar_mobile">
-          <h3 class="widget-title-sidebar" id="login-div-title-mobile">Login</h3>
-
-          <div class="login_form" id="login-div-mobile">
-            <div class="loginalert" id="login_message_area_wd_mobile"></div>
-            <input type="text" class="form-control" name="log" id="login_user_wd_mobile" placeholder="Email" />
-            <input type="password" class="form-control" name="pwd" id="login_pwd_wd_mobile" placeholder="Password" />
-            <input type="hidden" name="loginpop" id="loginpop_mobile" value="0">
-            <input type="hidden" id="security-login-mobile" name="security-login-mobile" value="3b96ed8396-1500166616">
-            <button class="wpb_button  wpb_btn-info  wpb_regularsize   wpestate_vc_button  vc_button" id="wp-login-but-wd-mobile">Login</button>
-            <div class="login-links">
-              <a href="//homes.vacayo.com/sign-up" id="widget_register_mobile-custom" style="color:#fff;">Need an account? Register here!</a>
-              <a href="#" id="forgot_pass_widget_mobile">Forgot Password?</a>
-            </div>
-            <div id="facebooklogin_mb" data-social="facebook"><i class="fa fa-facebook"></i>Login with Facebook
-            </div>
-            <div id="googlelogin_mb" data-social="google"><i class="fa fa-google"></i>Login with Google
-            </div>
-          </div>
-          <h3 class="widget-title-sidebar" id="register-div-title-mobile">Register</h3>
-
-          <div class="login_form" id="register-div-mobile">
-            <div class="loginalert" id="register_message_area_wd_mobile"></div>
-            <input type="text" name="user_firstname_register" id="user_firstname_register_wd_mobile" class="form-control"
-                   placeholder="First Name" />
-            <input type="text" name="user_lastname_register" id="user_lastname_register_wd_mobile" class="form-control" placeholder="Last Name" />
-            <input type="text" name="user_email_register" id="user_email_register_wd_mobile" class="form-control" placeholder="Email" />
-            <input type="password" name="user_password" id="user_password_wd_mobile" class="form-control" placeholder="Password" size="20" />
-            <input type="password" name="user_password_retype" id="user_password_retype_wd_mobile" class="form-control"
-                   placeholder="Retype Password" size="20" />
-            <input type="checkbox" name="terms" id="user_terms_register_wd_mobile">
-            <label id="user_terms_register_wd_label_mobile" for="user_terms_register_wd_mobile">I agree with
-              <a href="//homes.vacayo.com/terms-and-conditions/" target="_blank" id="user_terms_register_topbar_link">terms &amp;
-                conditions
-              </a>
-            </label>
-
-            <p id="reg_passmail_mobile">A password will be e-mailed to you</p>
-            <input type="hidden" id="security-register-mobile" name="security-register-mobile" value="7a86a3c78a-1500166616">
-            <button class="wpb_button  wpb_btn-info  wpb_regularsize  wpestate_vc_button  vc_button" id="wp-submit-register_wd_mobile">
-              Register
-            </button>
-            <div class="login-links">
-              <a href="#" id="widget_login_sw_mobile">Back to Login</a>
-            </div>
-            <div class="login-links">
-              <div id="facebooklogin_mb" data-social="facebook">
-                <i class="fa fa-facebook"></i>
-                Login with Facebook
-              </div>
-              <div id="googlelogin_mb" data-social="google"><i class="fa fa-google"></i>Login with Google
-              </div>
-            </div>
-            <!-- end login links-->
-          </div>
-        </div>
-        <div id="mobile_forgot_wrapper">
-          <h3 class="widget-title-sidebar" id="forgot-div-title_mobile">Reset Password</h3>
-
-          <div class="login_form" id="forgot-pass-div_mobile">
-            <div class="loginalert" id="forgot_pass_area_shortcode_wd_mobile"></div>
-            <div class="loginrow">
-              <input type="text" class="form-control" name="forgot_email" id="forgot_email_mobile" placeholder="Enter Your Email Address"
-                     size="20" />
-            </div>
-            <input type="hidden" id="security-login-forgot_wd_mobile" name="security-login-forgot_wd_mobile" value="348d723d02" />
-            <input type="hidden" name="_wp_http_referer" value="/" />
-            <input type="hidden" id="postid" value="0">
-            <button class="wpb_btn-info wpb_regularsize wpestate_vc_button  vc_button" id="wp-forgot-but_mobile" name="forgot">Reset
-              Password
-            </button>
-            <div class="login-links shortlog">
-              <a href="#" id="return_login_shortcode_mobile">Return to Login</a>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -793,9 +729,6 @@ for(h=0;h<k.length;h++)e(d,k[h]);a._i.push([b,c,f])};a.__SV=1.2;b=e.createElemen
               <img src="//homes.vacayo.com/wp-content/uploads/2017/03/vacayo-logo-horiz-white_1.png"
                    class="img-responsive" alt="logo" />
             </a>
-          </div>
-          <div class="mobile-trigger-user">
-            <i class=" fa fa-plus-square-o"></i>
           </div>
         </div>
 
@@ -824,10 +757,19 @@ for(h=0;h<k.length;h++)e(d,k[h]);a._i.push([b,c,f])};a.__SV=1.2;b=e.createElemen
           <nav id="access">
             <ul id="menu-main-menu" class="menu">
               <li id="menu-item-2053" class="accct menu-item menu-item-type-post_type menu-item-object-page menu-item-2053">
-                <a href="//www.vacayo.com/register/">Get your offer</a>
+                <a href="/register/">Get your offer</a>
               </li>
               <li id="menu-item-1905" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1905">
                 <a href="//homes.vacayo.com/our-homes/">Our Homes</a>
+              </li>
+              <li id="menu-item-2053" class="accct menu-item menu-item-type-post_type menu-item-object-page menu-item-2053">
+                <a href="/accounts/login/">Sign In</a>
+              </li>
+              <li id="menu-item-2053" class="accct menu-item menu-item-type-post_type menu-item-object-page menu-item-2053">
+                <a href="/accounts/signup/">Sign Up</a>
+              </li>
+              <li id="menu-item-1905" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1905">
+
               </li>
             </ul>
           </nav>
@@ -1041,7 +983,9 @@ for(h=0;h<k.length;h++)e(d,k[h]);a._i.push([b,c,f])};a.__SV=1.2;b=e.createElemen
                                    data-paddingleft="[30,30,30,30]"
 
                                    style="z-index: 8;">
-                                <input type="text" id="address_input" placeholder="Enter your home address" /><button type="button" id="address_button">Get Your Instant Offer</button>
+                                <div class="address_search">
+                                  <input type="text" id="address_input" placeholder="Enter your home address" /><button type="button" id="address_button">Get Your Instant Offer</button>
+                                </div>
                               </div>
 
                               <!-- LAYER NR. 6 -->

@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'bootstrapform',
+    # 'bootstrapform',
 
     'allauth',
     'allauth.account',
@@ -172,6 +172,12 @@ ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
 ACCOUNT_SESSION_REMEMBER = True
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = "sgbackend.SendGridBackend"
+
+if os.environ.get('ENV') != 'dev':
+    DEFAULT_FILE_STORAGE = 'vacayo.storages.GoogleCloudStorage'
+    GS_BUCKET_NAME = 'vacayo-static'
+    GS_AUTO_CREATE_ACL = 'publicRead'
+    GS_AUTO_CREATE_BUCKET = True
 
 from settings_prod import *

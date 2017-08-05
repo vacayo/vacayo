@@ -31,152 +31,152 @@
 </template>
 
 <script type="text/babel">
-import AppHeader from '../components/Header'
-import AddressForm from './views/AddressForm'
-import PropertyForm from './views/PropertyForm'
-import ContactForm from './views/ContactForm'
-import Confirmation from './views/Confirmation.vue'
-import Media from 'vue-media'
-import Headroom from 'vue-headroom'
+  import AppHeader from '../components/Header'
+  import AddressForm from './views/AddressForm'
+  import PropertyForm from './views/PropertyForm'
+  import ContactForm from './views/ContactForm'
+  import Confirmation from './views/Confirmation.vue'
+  import Media from 'vue-media'
+  import Headroom from 'vue-headroom'
 
-let FORMS = ['address-form', 'property-form', 'contact-form', 'confirmation'];
-let PINS = [true, false, false, true];
+  let FORMS = ['address-form', 'property-form', 'contact-form', 'confirmation'];
+  let PINS = [true, false, false, true];
 
-export default {
-  data() {
-    return {
-      property: this.$store.state.property,
-      currentStep: 0,
-      loading: false,
-      loading_text: 'Loading...'
-    }
-  },
-  components: {
-    Media,
-    Headroom,
-    AppHeader,
-    AddressForm,
-    PropertyForm,
-    ContactForm,
-    Confirmation
-  },
-  computed: {
-    _offer() {
-      let markup = 1.05; // 5%
-      let last_rent = this.round(this.property.last_rent * markup, -1);
-      let rent_estimate = this.round(this.property.rent_estimate * markup, -1);
-      let rent_estimate_low = this.round(this.property.rent_estimate_low, -1);
-      let rent_estimate_high = this.round(this.property.rent_estimate_high, -1);
-      let value = last_rent || rent_estimate;
-
-      if (value > rent_estimate_high) value = rent_estimate_high;
-      if (value < rent_estimate_low) value = rent_estimate_low;
-
-      return value;
-    },
-    currentForm() {
-      return FORMS[this.currentStep]
-    },
-  },
-  filters: {
-    currency(value) {
-      let formatter = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-        minimumFractionDigits: 2,
-      });
-      return formatter.format(value)
-    }
-  },
-  methods: {
-    next() {
-      // search & pre-load property details
-      if (this.currentStep == 0) {
-        this.loading_text = 'Searching ...';
-        this.loading = true;
-        this.search().then(() => {
-          this.loading = false;
-          this.currentStep = 1;
-          document.body.scrollTop = document.documentElement.scrollTop = 0;
-        })
+  export default {
+    data() {
+      return {
+        property: this.$store.state.property,
+        currentStep: 0,
+        loading: false,
+        loading_text: 'Loading...'
       }
+    },
+    components: {
+      Media,
+      Headroom,
+      AppHeader,
+      AddressForm,
+      PropertyForm,
+      ContactForm,
+      Confirmation
+    },
+    computed: {
+      _offer() {
+        let markup = 1.05; // 5%
+        let last_rent = this.round(this.property.last_rent * markup, -1);
+        let rent_estimate = this.round(this.property.rent_estimate * markup, -1);
+        let rent_estimate_low = this.round(this.property.rent_estimate_low, -1);
+        let rent_estimate_high = this.round(this.property.rent_estimate_high, -1);
+        let value = last_rent || rent_estimate;
 
-      // load contact form
-      else if (this.currentStep == 1) {
-        this.currentStep = 2;
-        document.body.scrollTop = document.documentElement.scrollTop = 0;
-      }
+        if (value > rent_estimate_high) value = rent_estimate_high;
+        if (value < rent_estimate_low) value = rent_estimate_low;
 
-      // save the registration
-      else if (this.currentStep == 2) {
-        this.loading_text = 'Saving ...';
-        this.loading = true;
-        this.save().then(() => {
-          this.loading = false;
-          this.currentStep = 3;
-          document.body.scrollTop = document.documentElement.scrollTop = 0;
+        return value;
+      },
+      currentForm() {
+        return FORMS[this.currentStep]
+      },
+    },
+    filters: {
+      currency(value) {
+        let formatter = new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD',
+          minimumFractionDigits: 2,
         });
+        return formatter.format(value)
       }
     },
-    prev() {
-      if (--this.currentStep < 0) this.currentStep = 0;
-      document.body.scrollTop = document.documentElement.scrollTop = 0;
-    },
-    close() {
-      window.location = '/'
-    },
-    search() {
-      let address = this.$store.state.property.address;
-      if (address == '') {
-        return
+    methods: {
+      next() {
+        // search & pre-load property details
+        if (this.currentStep == 0) {
+          this.loading_text = 'Searching ...';
+          this.loading = true;
+          this.search().then(() => {
+            this.loading = false;
+            this.currentStep = 1;
+            document.body.scrollTop = document.documentElement.scrollTop = 0;
+          })
+        }
+
+        // load contact form
+        else if (this.currentStep == 1) {
+          this.currentStep = 2;
+          document.body.scrollTop = document.documentElement.scrollTop = 0;
+        }
+
+        // save the registration
+        else if (this.currentStep == 2) {
+          this.loading_text = 'Saving ...';
+          this.loading = true;
+          this.save().then(() => {
+            this.loading = false;
+            this.currentStep = 3;
+            document.body.scrollTop = document.documentElement.scrollTop = 0;
+          });
+        }
+      },
+      prev() {
+        if (--this.currentStep < 0) this.currentStep = 0;
+        document.body.scrollTop = document.documentElement.scrollTop = 0;
+      },
+      close() {
+        window.location = '/'
+      },
+      search() {
+        let address = this.$store.state.property.address;
+        if (address == '') {
+          return
+        }
+        let url  = '/api/property?address=' + address;
+
+        return fetch(url)
+          .then(
+            response => response.json(),
+            error => console.log('An error occurred while fetching property:', error)
+          )
+          .then(
+            json => {
+              let props = json.results;
+              this.$store.commit('updateProperty', props);
+            }
+          )
+      },
+      round(number, precision) {
+        var factor = Math.pow(10, precision);
+        var tempNumber = number * factor;
+        var roundedTempNumber = Math.round(tempNumber);
+        return roundedTempNumber / factor;
+      },
+      save() {
+        let data = Object.assign({}, this.$store.state);
+        data.property.offer = this._offer;
+        let url  = '/api/registration/';
+        let options = {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: new Headers({
+            'Content-Type': 'application/json'
+          })
+        };
+
+        return fetch(url, options)
+          .then(
+            response => response.json(),
+            error => console.log('An error occurred while looking up address:', error)
+          )
       }
-      let url  = '/api/property?address=' + address;
-
-      return fetch(url)
-        .then(
-          response => response.json(),
-          error => console.log('An error occurred while fetching property:', error)
-        )
-        .then(
-          json => {
-            let props = json.results;
-            this.$store.commit('updateProperty', props);
-          }
-        )
     },
-    round(number, precision) {
-      var factor = Math.pow(10, precision);
-      var tempNumber = number * factor;
-      var roundedTempNumber = Math.round(tempNumber);
-      return roundedTempNumber / factor;
-    },
-    save() {
-      let data = Object.assign({}, this.$store.state);
-      data.property.offer = this._offer;
-      let url  = '/api/registration/';
-      let options = {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: new Headers({
-          'Content-Type': 'application/json'
-        })
-      };
-
-      return fetch(url, options)
-        .then(
-          response => response.json(),
-          error => console.log('An error occurred while looking up address:', error)
-        )
-    }
-  },
-  created() {
-    let address = this.$route.query.address;
-    if (address) {
-      this.$store.commit('updateProperty', {address});
-      this.next()
+    created() {
+      let address = this.$route.query.address;
+      if (address) {
+        this.$store.commit('updateProperty', {address});
+        this.next()
+      }
     }
   }
-}
 </script>
 
 <style>

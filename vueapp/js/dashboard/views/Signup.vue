@@ -46,8 +46,7 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'SignUp'
-}
+<script type="text/babel">
+  export default {
+  }
 </script>

@@ -42,8 +42,7 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'LogIn'
-}
+<script type="text/babel">
+  export default {
+  }
 </script>

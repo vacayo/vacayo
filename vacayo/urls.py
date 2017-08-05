@@ -34,7 +34,7 @@ class StaticPageView(TemplateView):
 
 urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='wp.html'), name='home'),
-    url(r'^registration', StaticPageView.as_view(template_name='vue.html', context={'vue': 'registration'}), name='registration'),
+    url(r'^register', StaticPageView.as_view(template_name='vue.html', context={'vue': 'registration'}), name='registration'),
     url(r'^dashboard', login_required(StaticPageView.as_view(template_name='vue2.html', context={'vue': 'dashboard'})), name='dashboard'),
 
     url(r'api/address', AddressView.as_view()),

@@ -30,6 +30,7 @@
     "babel-preset-stage-1": "^6.24.1",
     "babel-preset-vue-app": "^1.2.0",
     "bootstrap": "^4.0.0-alpha.6",
+    "bootstrap-datepicker": "^1.7.1",
     "chart.js": "^2.6.0",
     "css-loader": "^0.28.4",
     "element-react": "^1.0.14",

@@ -3,38 +3,40 @@
     <Navigation/>
     <div class="page animsition" style="animation-duration: 800ms; opacity: 1;">
       <div class="page-header">
-        <h1 class="page-title">My Properties</h1>
-        <Breadcrumb/>
+        <h1 class="page-title mb-10">{{ name }}</h1>
+        <!--
+        <Breadcrumb :list="list"/>
+        -->
       </div>
       <div class="page-content">
         <router-view></router-view>
       </div>
     </div>
-    <Footer/>
+    <AppFooter/>
   </div>
 </template>
 
-<script>
-import Navigation from '../components/Navigation'
-import Footer from '../components/Footer'
-import Breadcrumb from '../components/Breadcrumb'
+<script type="text/babel">
+  import Navigation from '../components/Navigation'
+  import AppFooter from '../components/Footer'
+  import Breadcrumb from '../components/Breadcrumb'
 
-export default {
-  components: {
-    Navigation,
-    Footer,
-    Breadcrumb
-  },
-  computed: {
-    name () {
-      return this.$route.name
+  export default {
+    components: {
+      Navigation,
+      AppFooter,
+      Breadcrumb
     },
+    computed: {
+      name () {
+        return this.$route.name
+      },
 
-    list () {
-      return this.$route.matched
+      list () {
+        return this.$route.matched
+      },
     }
   }
-}
 </script>
 
 <style>

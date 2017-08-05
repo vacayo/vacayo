@@ -1,6 +1,6 @@
 import App from './App'
 import Properties from './views/Properties'
-import Maintenance from './views/Maintenance'
+import ComingSoon from './views/ComingSoon'
 
 export default [
   {
@@ -11,13 +11,28 @@ export default [
     children: [
       {
         path: 'properties',
-        name: 'Properties',
+        name: 'My Properties',
         component: Properties
       },
       {
         path: 'maintenance',
-        name: 'Maintenance',
-        component: Maintenance
+        name: 'Maintenance Requests',
+        component: ComingSoon
+      },
+      {
+        path: 'statements',
+        name: 'Rent Statements',
+        component: ComingSoon
+      },
+      {
+        path: 'profile',
+        name: 'My Profile',
+        component: ComingSoon
+      },
+      {
+        path: 'settings',
+        name: 'My Settings',
+        component: ComingSoon
       }
     ]
   }

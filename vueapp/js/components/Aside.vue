@@ -4,8 +4,7 @@
   </aside>
 </template>
 
-<script>
-export default {
-  name: 'aside'
-}
+<script type="text/babel">
+  export default {
+  }
 </script>

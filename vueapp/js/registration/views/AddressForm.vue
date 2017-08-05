@@ -23,38 +23,38 @@
 </template>
 
 <script type="text/babel">
-import fetch from 'isomorphic-fetch';
+  import fetch from 'isomorphic-fetch';
 
-export default {
-  data() {
-    return {
-      property: this.$store.state.property,
-    }
-  },
-  methods: {
-    updateProperty(field, value) {
-      this.$store.commit('updateProperty', {[field]: value});
-    },
-    next() {
-      this.$emit('next');
-    },
-    search(address, cb) {
-      if (address == '') {
-        return
+  export default {
+    data() {
+      return {
+        property: this.$store.state.property,
       }
-
-      let url  = '/api/address?query=' + address;
-      fetch(url)
-        .then(
-          response => response.json(),
-          error => console.log('An error occurred while looking up address:', error)
-        )
-        .then(
-          json => cb(json.results)
-        )
     },
-  },
-}
+    methods: {
+      updateProperty(field, value) {
+        this.$store.commit('updateProperty', {[field]: value});
+      },
+      next() {
+        this.$emit('next');
+      },
+      search(address, cb) {
+        if (address == '') {
+          return
+        }
+
+        let url  = '/api/address?query=' + address;
+        fetch(url)
+          .then(
+            response => response.json(),
+            error => console.log('An error occurred while looking up address:', error)
+          )
+          .then(
+            json => cb(json.results)
+          )
+      },
+    },
+  }
 </script>
 
 <style>

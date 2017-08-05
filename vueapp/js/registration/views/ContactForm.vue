@@ -39,48 +39,48 @@
 </template>
 
 <script type="text/babel">
-import fetch from 'isomorphic-fetch';
+  import fetch from 'isomorphic-fetch';
 
-export default {
-  data() {
-    return {
-      owner: this.$store.state.owner,
-      rules: {
-        first_name: [
-          { required: true, type: 'string', message: 'Please enter your first name', trigger: 'blur' },
-        ],
-        last_name: [
-          { required: true, type: 'string', message: 'Please enter your last name', trigger: 'blur' },
-        ],
-        phone: [
-          { required: true, type: 'string', message: 'Please enter your phone number', trigger: 'change' }
-        ],
-        email: [
-          { required: true, type: 'string', message: 'Please enter your email', trigger: 'blur' },
-        ],
+  export default {
+    data() {
+      return {
+        owner: this.$store.state.owner,
+        rules: {
+          first_name: [
+            { required: true, type: 'string', message: 'Please enter your first name', trigger: 'blur' },
+          ],
+          last_name: [
+            { required: true, type: 'string', message: 'Please enter your last name', trigger: 'blur' },
+          ],
+          phone: [
+            { required: true, type: 'string', message: 'Please enter your phone number', trigger: 'change' }
+          ],
+          email: [
+            { required: true, type: 'string', message: 'Please enter your email', trigger: 'blur' },
+          ],
+        },
+      }
+    },
+    props: [
+      'offer'
+    ],
+    methods: {
+      updateOwner(field, value) {
+        this.$store.commit('updateOwner', {[field]: value});
       },
-    }
-  },
-  props: [
-    'offer'
-  ],
-  methods: {
-    updateOwner(field, value) {
-      this.$store.commit('updateOwner', {[field]: value});
+      next() {
+        this.$refs['owner'].validate((valid) => {
+          if (!valid) {
+            return false;
+          }
+          this.$emit('next');
+        });
+      },
+      prev() {
+        this.$emit('prev');
+      },
     },
-    next() {
-      this.$refs['owner'].validate((valid) => {
-        if (!valid) {
-          return false;
-        }
-        this.$emit('next');
-      });
-    },
-    prev() {
-      this.$emit('prev');
-    },
-  },
-}
+  }
 </script>
 
 <style>

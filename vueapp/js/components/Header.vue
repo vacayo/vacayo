@@ -13,15 +13,15 @@
 </template>
 
 <script type="text/babel">
-import logo from '../../img/logo.png'
+  import logo from '../../img/logo.png'
 
-export default {
-  data() {
-    return {
-      logo: logo
-    }
-  },
-}
+  export default {
+    data() {
+      return {
+        logo: logo
+      }
+    },
+  }
 </script>
 
 <style>

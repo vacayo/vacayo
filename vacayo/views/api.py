@@ -1,7 +1,9 @@
 import json
+import pytz
+import datetime
 from django.utils.dateparse import parse_datetime
-from django.views.generic.edit import View
 from django.utils.decorators import method_decorator
+from django.views.generic.edit import View
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponseRedirect
@@ -46,22 +48,49 @@ class PropertyView(View):
         })
 
 
-@method_decorator(login_required, name='get')
+@method_decorator(csrf_exempt, name='dispatch')
 class PropertiesView(View):
 
+    @method_decorator(login_required)
     def get(self, request):
-        properties = [{
-            'address1': p.address1,
-            'bedrooms': p.bedrooms,
-            'bathrooms': p.bathrooms,
-            'status': 'lease',
-            'visit_date': p.visit_date,
-            'main_image': p.main_image.url
-        } for p in Property.objects.filter(owners__email=request.user.email)]
+        properties = {
+            p.id: {
+                'id': p.id,
+                'offer': p.offer,
+                'status': p.status,
+                'address1': p.address1,
+                'bedrooms': p.bedrooms,
+                'bathrooms': p.bathrooms,
+                'visit_date': p.visit_date.strftime('%m/%d/%Y') if p.visit_date else None,
+                'main_image': p.main_image.url if p.main_image else None,
+                'onboarding_statuses': p.onboarding_statuses
+            } for p in Property.objects.filter(owners__email=request.user.email)
+        }
 
         return JsonResponse({
             'status': 'ok',
             'results': properties
+        })
+
+    def post(self, request):
+        data = json.loads(request.body)
+        p = Property.objects.get(pk=data.get('id'))
+        p.visit_date = pytz.utc.localize(datetime.datetime.strptime(data.get('visit_date'), '%m/%d/%Y'))
+        p.save()
+
+        return JsonResponse({
+            'status': 'ok',
+            'results': {
+                'id': p.id,
+                'offer': p.offer,
+                'status': p.status,
+                'address1': p.address1,
+                'bedrooms': p.bedrooms,
+                'bathrooms': p.bathrooms,
+                'visit_date': p.visit_date.strftime('%m/%d/%Y') if p.visit_date else None,
+                'main_image': p.main_image.url if p.main_image else None,
+                'onboarding_statuses': p.onboarding_statuses
+            }
         })
 
 

@@ -13,18 +13,18 @@
 </template>
 
 <script type="text/babel">
-export default {
-  data() {
-    return {
-      owner: this.$store.state.owner,
-    }
-  },
-  methods: {
-    close() {
-      this.$emit('close');
-    }
-  },
-}
+  export default {
+    data() {
+      return {
+        owner: this.$store.state.owner,
+      }
+    },
+    methods: {
+      close() {
+        this.$emit('close');
+      }
+    },
+  }
 </script>
 
 <style>
