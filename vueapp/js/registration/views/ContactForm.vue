@@ -1,39 +1,75 @@
 <template>
   <el-form :model="owner" :rules="rules" ref="owner" label-width="100px" label-position="top">
-    <div class="title">Our Offer: {{ offer }} per month</div>
-    <div class="subtitle">
-      We estimate that we can offer you a 1 year lease at the monthly rent above.
-      We will provide you with an exact offer once a property walk-through is conducted.
-      <br /><br />
-      Please fill in your contact info below to schedule a walk-through.
+    <div v-if="this.property.in_service">
+      <div class="title">Our Offer: {{ offer }} per month</div>
+      <div class="subtitle">
+        We estimate that we can offer you a 1 year lease at the monthly rent above.
+        We will provide you with an exact offer once a property walk-through is conducted.
+        <br /><br />
+        Please fill in your contact info below to schedule a walk-through.
+      </div>
+      <el-row :gutter="50">
+        <el-col :sm="24" :md="12">
+          <el-form-item label="First Name" prop="first_name">
+            <el-input :value="owner.first_name" @input="updateOwner('first_name', $event)"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :sm="24" :md="12">
+          <el-form-item label="Last Name" prop="last_name">
+            <el-input :value="owner.last_name" @input="updateOwner('last_name', $event)"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="50">
+        <el-col :sm="24" :md="12">
+          <el-form-item label="Phone" prop="phone">
+            <el-input :value="owner.phone" @input="updateOwner('phone', $event)" v-mask="'+1(###)-###-####'"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :sm="24" :md="12">
+          <el-form-item label="Email" prop="email">
+            <el-input :value="owner.email" @input="updateOwner('email', $event)"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <div class="actions">
+        <el-button @click="prev">Prev</el-button>
+        <el-button type="primary" @click="next">Next</el-button>
+      </div>
     </div>
-    <el-row :gutter="50">
-      <el-col :sm="24" :md="12">
-        <el-form-item label="First Name" prop="first_name">
-          <el-input :value="owner.first_name" @input="updateOwner('first_name', $event)"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :sm="24" :md="12">
-        <el-form-item label="Last Name" prop="last_name">
-          <el-input :value="owner.last_name" @input="updateOwner('last_name', $event)"></el-input>
-        </el-form-item>
-      </el-col>
-    </el-row>
-    <el-row :gutter="50">
-      <el-col :sm="24" :md="12">
-        <el-form-item label="Phone" prop="phone">
-          <el-input :value="owner.phone" @input="updateOwner('phone', $event)" v-mask="'+1(###)-###-####'"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :sm="24" :md="12">
-        <el-form-item label="Email" prop="email">
-          <el-input :value="owner.email" @input="updateOwner('email', $event)"></el-input>
-        </el-form-item>
-      </el-col>
-    </el-row>
-    <div class="actions">
-      <el-button @click="prev">Prev</el-button>
-      <el-button type="primary" @click="next">Next</el-button>
+    <div v-else>
+      <div class="title">Contact Info</div>
+      <div class="subtitle">
+        Please leave your contact information and we’ll notify you when we arrive at your area.
+      </div>
+      <el-row :gutter="50">
+        <el-col :sm="24" :md="12">
+          <el-form-item label="First Name" prop="first_name">
+            <el-input :value="owner.first_name" @input="updateOwner('first_name', $event)"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :sm="24" :md="12">
+          <el-form-item label="Last Name" prop="last_name">
+            <el-input :value="owner.last_name" @input="updateOwner('last_name', $event)"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="50">
+        <el-col :sm="24" :md="12">
+          <el-form-item label="Phone" prop="phone">
+            <el-input :value="owner.phone" @input="updateOwner('phone', $event)" v-mask="'+1(###)-###-####'"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :sm="24" :md="12">
+          <el-form-item label="Email" prop="email">
+            <el-input :value="owner.email" @input="updateOwner('email', $event)"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <div class="actions">
+        <el-button @click="prev">Prev</el-button>
+        <el-button type="primary" @click="next">Next</el-button>
+      </div>
     </div>
   </el-form>
 </template>
@@ -44,6 +80,7 @@
   export default {
     data() {
       return {
+        property: this.$store.state.property,
         owner: this.$store.state.owner,
         rules: {
           first_name: [

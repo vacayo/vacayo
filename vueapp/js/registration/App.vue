@@ -95,8 +95,8 @@
           this.loading_text = 'Searching ...';
           this.loading = true;
           this.search().then(() => {
-            this.loading = false;
             this.currentStep = 1;
+            this.loading = false;
             document.body.scrollTop = document.documentElement.scrollTop = 0;
           })
         }
@@ -112,8 +112,8 @@
           this.loading_text = 'Saving ...';
           this.loading = true;
           this.save().then(() => {
-            this.loading = false;
             this.currentStep = 3;
+            this.loading = false;
             document.body.scrollTop = document.documentElement.scrollTop = 0;
           });
         }

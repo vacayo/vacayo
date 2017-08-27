@@ -1,7 +1,8 @@
 import usaddress
 import googlemaps
-from ..apis.zillow import ZillowAPI
 from django.conf import settings
+from ..apis.zillow import ZillowAPI
+from ..models import Zip
 
 
 class PropertyService(object):
@@ -61,11 +62,14 @@ class PropertyService(object):
             address.get('zip_code', '')
         ).strip()
 
+        # Lookup the property against Zillow
         result = self.zillow.lookup(address1, citystatezip)
-
         # print "Address:", result.street, result.city, result.state, result.zipcode
         # print "Low:", result.rentzestimate_range_low
         # print "Hight:", result.rentzestimate_range_high
+
+        # Determine if this property is in our service range
+        in_service = Zip.objects.filter(code=result.zipcode, in_service=True).exists()
 
         return {
             'home_type': result.home_type,
@@ -78,4 +82,5 @@ class PropertyService(object):
             'rent_estimate': result.rentzestimate_amount,
             'rent_estimate_low': result.rentzestimate_range_low,
             'rent_estimate_high': result.rentzestimate_range_high,
+            'in_service': in_service
         }

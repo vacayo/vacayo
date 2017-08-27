@@ -72,6 +72,7 @@ class PropertiesView(View):
             'results': properties
         })
 
+    @method_decorator(login_required)
     def post(self, request):
         data = json.loads(request.body)
         p = Property.objects.get(pk=data.get('id'))
