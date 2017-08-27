@@ -31,7 +31,7 @@
   <link rel='stylesheet' id='tlpportfolio-css-css' href='//homes.vacayo.com/wp-content/plugins/tlp-portfolio/assets/css/tlpportfolio.css?ver=4.7.5' type='text/css' media='all'/>
   <link rel='stylesheet' id='wpestate_bootstrap-css' href='//homes.vacayo.com/wp-content/themes/wprentals/css/bootstrap.css?ver=1.0' type='text/css' media='all'/>
   <link rel='stylesheet' id='wpestate_bootstrap-theme-css' href='//homes.vacayo.com/wp-content/themes/wprentals/css/bootstrap-theme.css?ver=1.0' type='text/css' media='all'/>
-  <link rel='stylesheet' id='wpestate_style-css' href='//homes.vacayo.com/wp-content/themes/wprentals/style.css?ver=1.0' type='text/css' media='all'/>
+  <link rel='stylesheet' id='wpestate_style-css' href='/static/vacayo/css/homepage.css' type='text/css' media='all'/>
   <link rel='stylesheet' id='wpestate_media-css' href='//homes.vacayo.com/wp-content/themes/wprentals/css/my_media.css?ver=1.0' type='text/css' media='all'/>
   <link rel='stylesheet' id='wpestate_jquery.ui.theme-css' href='//homes.vacayo.com/wp-content/themes/wprentals/css/jquery-ui.min.css?ver=4.7.5' type='text/css' media='all'/>
   <link rel='stylesheet' id='wpestate-railway-css' href='https://fonts.googleapis.com/css?family=Raleway%3A500%2C600%2C400%2C700%2C800&#038;subset=latin%2Clatin-ext&#038;ver=4.7.5' type='text/css' media='all'/>
@@ -95,6 +95,10 @@
     }
 
     @media screen and (max-width: 768px) {
+      #slide-4-layer-4 {
+        display: none;
+      }
+
       input#address_input {
         display: block;
         border: none;
@@ -742,6 +746,7 @@ for(h=0;h<k.length;h++)e(d,k[h]);a._i.push([b,c,f])};a.__SV=1.2;b=e.createElemen
                      class="img-responsive" alt="logo" />
               </a>
 
+              <!--
               <div style="width:60%;margin-left:65.4%;">
                 <form method="get" id="searchform" action="//homes.vacayo.com/">
                   <input type="text" class="form-control" name="s" id="s" placeholder="Where will you go next?" />
@@ -750,6 +755,8 @@ for(h=0;h<k.length;h++)e(d,k[h]);a._i.push([b,c,f])};a.__SV=1.2;b=e.createElemen
                   </button>
                 </form>
               </div>
+              -->
+
             </div>
           </div>
 
@@ -762,10 +769,10 @@ for(h=0;h<k.length;h++)e(d,k[h]);a._i.push([b,c,f])};a.__SV=1.2;b=e.createElemen
               <li id="menu-item-1905" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1905">
                 <a href="//homes.vacayo.com/our-homes/">Our Homes</a>
               </li>
-              <li id="menu-item-2053" class="accct menu-item menu-item-type-post_type menu-item-object-page menu-item-2053">
+              <li id="menu-item-2053" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2053">
                 <a href="/accounts/login/">Sign In</a>
               </li>
-              <li id="menu-item-2053" class="accct menu-item menu-item-type-post_type menu-item-object-page menu-item-2053">
+              <li id="menu-item-2053" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2053">
                 <a href="/accounts/signup/">Sign Up</a>
               </li>
               <li id="menu-item-1905" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1905">
@@ -1393,15 +1400,20 @@ for(h=0;h<k.length;h++)e(d,k[h]);a._i.push([b,c,f])};a.__SV=1.2;b=e.createElemen
                                     </div>
                                   </div>
                                 </div>
-                                <div class="aio-icon-header"><h3 class="aio-icon-title ult-responsive" data-ultimate-target='#Info-box-wrap-9871 .aio-icon-title'
-                                                                 data-responsive-json-new='{"font-size":"","line-height":""}' style="">Dynamic Pricing</h3></div>
-                                <!-- header -->
+                                <div class="aio-icon-header">
+                                  <h3 class="aio-icon-title ult-responsive"
+                                      data-ultimate-target='#Info-box-wrap-9871 .aio-icon-title'
+                                      data-responsive-json-new='{"font-size":"","line-height":""}'
+                                      style="">Dynamic Pricing</h3>
+                                </div>
+                                <!--
                                 <div class="aio-icon-description ult-responsive" data-ultimate-target='#Info-box-wrap-9871 .aio-icon-description'
                                      data-responsive-json-new='{"font-size":"","line-height":""}' style="">Our analysts use advanced pricing algorithms&#8211;based
                                   on
                                   seasonal travel trends, local events and conferences&#8211;to optimize your bookings. Prices are updated nightly.
                                 </div>
-                                <!-- description --></div>
+                                -->
+                              </div>
                               <!-- aio-icon-box --></div>
                             <!-- aio-icon-component --></div>
                         </div>
@@ -1421,10 +1433,14 @@ for(h=0;h<k.length;h++)e(d,k[h]);a._i.push([b,c,f])};a.__SV=1.2;b=e.createElemen
                                     </div>
                                   </div>
                                 </div>
-                                <div class="aio-icon-header"><h3 class="aio-icon-title ult-responsive" data-ultimate-target='#Info-box-wrap-1076 .aio-icon-title'
-                                                                 data-responsive-json-new='{"font-size":"","line-height":""}' style="">Marketing and
-                                  Promotion</h3></div>
-                                <!-- header -->
+                                <div class="aio-icon-header">
+                                  <h3
+                                    class="aio-icon-title ult-responsive"
+                                    data-ultimate-target='#Info-box-wrap-1076 .aio-icon-title'
+                                    data-responsive-json-new='{"font-size":"","line-height":""}'
+                                    style="">Marketing and Promotion</h3>
+                                </div>
+                                <!--
                                 <div class="aio-icon-description ult-responsive" data-ultimate-target='#Info-box-wrap-1076 .aio-icon-description'
                                      data-responsive-json-new='{"font-size":"","line-height":""}' style="">We take professional photos of your home, build an
                                   enticing
@@ -1432,7 +1448,8 @@ for(h=0;h<k.length;h++)e(d,k[h]);a._i.push([b,c,f])};a.__SV=1.2;b=e.createElemen
                                   of your
                                   property.
                                 </div>
-                                <!-- description --></div>
+                                -->
+                              </div>
                               <!-- aio-icon-box --></div>
                             <!-- aio-icon-component --></div>
                         </div>
@@ -1451,15 +1468,20 @@ for(h=0;h<k.length;h++)e(d,k[h]);a._i.push([b,c,f])};a.__SV=1.2;b=e.createElemen
                                     </div>
                                   </div>
                                 </div>
-                                <div class="aio-icon-header"><h3 class="aio-icon-title ult-responsive" data-ultimate-target='#Info-box-wrap-6752 .aio-icon-title'
-                                                                 data-responsive-json-new='{"font-size":"","line-height":""}' style="">Booking Management</h3>
+                                <div class="aio-icon-header">
+                                  <h3
+                                    class="aio-icon-title ult-responsive"
+                                    data-ultimate-target='#Info-box-wrap-6752 .aio-icon-title'
+                                    data-responsive-json-new='{"font-size":"","line-height":""}'
+                                    style="">Booking Management</h3>
                                 </div>
-                                <!-- header -->
+                                <!--
                                 <div class="aio-icon-description ult-responsive" data-ultimate-target='#Info-box-wrap-6752 .aio-icon-description'
                                      data-responsive-json-new='{"font-size":"","line-height":""}' style="">Our booking agents manage your calendar and respond to
                                   inquiries at rapid fire speed. We vet each guest carefully based on your standards.
                                 </div>
-                                <!-- description --></div>
+                                -->
+                              </div>
                               <!-- aio-icon-box --></div>
                             <!-- aio-icon-component --></div>
                         </div>
@@ -1481,16 +1503,21 @@ for(h=0;h<k.length;h++)e(d,k[h]);a._i.push([b,c,f])};a.__SV=1.2;b=e.createElemen
                                     </div>
                                   </div>
                                 </div>
-                                <div class="aio-icon-header"><h3 class="aio-icon-title ult-responsive" data-ultimate-target='#Info-box-wrap-2465 .aio-icon-title'
-                                                                 data-responsive-json-new='{"font-size":"","line-height":""}' style="">Guest Communication</h3>
+                                <div class="aio-icon-header">
+                                  <h3
+                                    class="aio-icon-title ult-responsive"
+                                    data-ultimate-target='#Info-box-wrap-2465 .aio-icon-title'
+                                    data-responsive-json-new='{"font-size":"","line-height":""}'
+                                    style="">Guest Communication</h3>
                                 </div>
-                                <!-- header -->
+                                <!--
                                 <div class="aio-icon-description ult-responsive" data-ultimate-target='#Info-box-wrap-2465 .aio-icon-description'
                                      data-responsive-json-new='{"font-size":"","line-height":""}' style="">We create a seamless rental experience with 24/7 live
                                   phone and
                                   chat support, warm in-person, checkins and on-call emergency teams in each of our cities.
                                 </div>
-                                <!-- description --></div>
+                                -->
+                              </div>
                               <!-- aio-icon-box --></div>
                             <!-- aio-icon-component --></div>
                         </div>
@@ -1510,16 +1537,21 @@ for(h=0;h<k.length;h++)e(d,k[h]);a._i.push([b,c,f])};a.__SV=1.2;b=e.createElemen
                                     </div>
                                   </div>
                                 </div>
-                                <div class="aio-icon-header"><h3 class="aio-icon-title ult-responsive" data-ultimate-target='#Info-box-wrap-9273 .aio-icon-title'
-                                                                 data-responsive-json-new='{"font-size":"","line-height":""}' style="">Hospitality Services</h3>
+                                <div class="aio-icon-header">
+                                  <h3
+                                    class="aio-icon-title ult-responsive"
+                                    data-ultimate-target='#Info-box-wrap-9273 .aio-icon-title'
+                                    data-responsive-json-new='{"font-size":"","line-height":""}'
+                                    style="">Hospitality Services</h3>
                                 </div>
-                                <!-- header -->
+                                <!--
                                 <div class="aio-icon-description ult-responsive" data-ultimate-target='#Info-box-wrap-9273 .aio-icon-description'
                                      data-responsive-json-new='{"font-size":"","line-height":""}' style="">Our dedicated cleaning professionals prepare your home
                                   for
                                   quick turnarounds with high-quality linens, toiletries, and a guest &#8220;welcome&#8221; package.
                                 </div>
-                                <!-- description --></div>
+                                -->
+                              </div>
                               <!-- aio-icon-box --></div>
                             <!-- aio-icon-component --></div>
                         </div>
@@ -1539,16 +1571,21 @@ for(h=0;h<k.length;h++)e(d,k[h]);a._i.push([b,c,f])};a.__SV=1.2;b=e.createElemen
                                     </div>
                                   </div>
                                 </div>
-                                <div class="aio-icon-header"><h3 class="aio-icon-title ult-responsive" data-ultimate-target='#Info-box-wrap-6432 .aio-icon-title'
-                                                                 data-responsive-json-new='{"font-size":"","line-height":""}' style="">Smart Home Technology</h3>
+                                <div class="aio-icon-header">
+                                  <h3
+                                    class="aio-icon-title ult-responsive"
+                                    data-ultimate-target='#Info-box-wrap-6432 .aio-icon-title'
+                                    data-responsive-json-new='{"font-size":"","line-height":""}'
+                                    style="">Smart Home Technology</h3>
                                 </div>
-                                <!-- header -->
+                                <!--
                                 <div class="aio-icon-description ult-responsive" data-ultimate-target='#Info-box-wrap-6432 .aio-icon-description'
                                      data-responsive-json-new='{"font-size":"","line-height":""}' style="">We employ wireless electronic locks, Nest thermostat
                                   control,
                                   and motion detector cameras to lower utility bills and safeguard your home.
                                 </div>
-                                <!-- description --></div>
+                                -->
+                              </div>
                               <!-- aio-icon-box --></div>
                             <!-- aio-icon-component --></div>
                         </div>
