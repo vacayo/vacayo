@@ -19,6 +19,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
+from django.http import HttpResponse
 
 from vacayo.views.api import AddressView, PropertyView, PropertiesView, RegistrationView
 
@@ -33,6 +34,8 @@ class StaticPageView(TemplateView):
 
 
 urlpatterns = [
+    url(r'^ping$', lambda request: HttpResponse("pong", content_type="text/plain")),
+
     url(r'^$', TemplateView.as_view(template_name='wp.html'), name='home'),
     url(r'^register', StaticPageView.as_view(template_name='vue.html', context={'vue': 'registration'}), name='registration'),
     url(r'^dashboard', login_required(StaticPageView.as_view(template_name='vue2.html', context={'vue': 'dashboard'})), name='dashboard'),

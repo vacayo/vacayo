@@ -175,9 +175,17 @@ ACCOUNT_SESSION_REMEMBER = True
 EMAIL_BACKEND = "sgbackend.SendGridBackend"
 
 if os.environ.get('ENV') != 'dev':
+    # Use Google Cloud Storage for media assets
     DEFAULT_FILE_STORAGE = 'vacayo.storages.GoogleCloudStorage'
     GS_BUCKET_NAME = 'vacayo-static'
     GS_AUTO_CREATE_ACL = 'publicRead'
     GS_AUTO_CREATE_BUCKET = True
+
+    # Force SSL only connections
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_REDIRECT_EXEMPT = [r'^ping$']
 
 from settings_prod import *
