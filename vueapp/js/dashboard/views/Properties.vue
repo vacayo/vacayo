@@ -139,25 +139,22 @@
               this.properties[props.id] = props;
             }
           )
-      },
-      load() {
-        let url  = '/api/properties/';
-
-        return fetch(url, {credentials: 'same-origin'})
-          .then(
-            response => response.json(),
-            error => console.log('An error occurred while fetching property:', error)
-          )
-          .then(
-            json => {
-              let props = json.results;
-              this.properties = props;
-            }
-          )
-      },
+      }
     },
     created() {
-      this.load();
+      let url  = '/api/properties/';
+
+      return fetch(url, {credentials: 'same-origin'})
+        .then(
+          response => response.json(),
+          error => console.log('An error occurred while fetching property:', error)
+        )
+        .then(
+          json => {
+            let props = json.results;
+            this.properties = props;
+          }
+        )
     },
     mounted() {
       $('#datepicker').datepicker({

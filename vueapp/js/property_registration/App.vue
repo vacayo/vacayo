@@ -31,7 +31,7 @@
 </template>
 
 <script type="text/babel">
-  import AppHeader from '../components/Header'
+  import AppHeader from './views/Header'
   import AddressForm from './views/AddressForm'
   import PropertyForm from './views/PropertyForm'
   import ContactForm from './views/ContactForm'

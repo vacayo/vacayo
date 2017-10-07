@@ -172,6 +172,7 @@ ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
 ACCOUNT_SESSION_REMEMBER = True
+ACCOUNT_SIGNUP_FORM_CLASS = 'vacayo.forms.signup.SignupForm'
 EMAIL_BACKEND = "sgbackend.SendGridBackend"
 
 if os.environ.get('ENV') != 'dev':

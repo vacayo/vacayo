@@ -11,7 +11,7 @@
 </template>
 
 <script type="text/babel">
-  import AppHeader from '../components/Header2'
+  import AppHeader from '../components/Header'
   import AppFooter from '../components/Footer'
 
   export default {
@@ -56,4 +56,7 @@
 </script>
 
 <style>
+  body {
+    background-color: #282D33;
+  }
 </style>

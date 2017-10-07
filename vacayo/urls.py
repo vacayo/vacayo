@@ -37,9 +37,9 @@ urlpatterns = [
     url(r'^ping$', lambda request: HttpResponse("pong", content_type="text/plain")),
 
     url(r'^$', TemplateView.as_view(template_name='wp.html'), name='home'),
-    url(r'^register', StaticPageView.as_view(template_name='vue.html', context={'vue': 'registration'}), name='registration'),
-    url(r'^dashboard', login_required(StaticPageView.as_view(template_name='vue2.html', context={'vue': 'dashboard'})), name='dashboard'),
+    url(r'^register', StaticPageView.as_view(template_name='vue.html', context={'vue': 'property_registration'}), name='property_registration'),
     url(r'^host', StaticPageView.as_view(template_name='vue2.html', context={'vue': 'host_registration'}), name='host_registration'),
+    url(r'^dashboard', login_required(StaticPageView.as_view(template_name='vue2.html', context={'vue': 'dashboard'})), name='dashboard'),
 
     url(r'api/user', UserView.as_view()),
     url(r'api/address', AddressView.as_view()),

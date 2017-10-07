@@ -12,8 +12,8 @@ module.exports = {
   //because you will specify extensions later in the `resolve` section
   entry: {
     //reactApp: './reactapp/js/app',
+    property_registration: './vueapp/js/property_registration/main',
     host_registration: './vueapp/js/host_registration/main',
-    registration: './vueapp/js/registration/main',
     dashboard: './vueapp/js/dashboard/main',
   },
 

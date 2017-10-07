@@ -70,7 +70,7 @@ class PropertiesView(View):
 
     @method_decorator(login_required)
     def get(self, request):
-        properties = {
+        owned_properties = {
             p.id: {
                 'id': p.id,
                 'offer': p.offer,
@@ -80,13 +80,29 @@ class PropertiesView(View):
                 'bathrooms': p.bathrooms,
                 'visit_date': p.visit_date.strftime('%m/%d/%Y') if p.visit_date else None,
                 'main_image': p.main_image.url if p.main_image else None,
-                'onboarding_statuses': p.onboarding_statuses
+                'onboarding_statuses': p.onboarding_statuses,
+                'relationship': 'OWNED'
             } for p in Property.objects.filter(owners__email=request.user.email)
+        }
+
+        hosted_properties = {
+            p.id: {
+                'id': p.id,
+                'offer': p.offer,
+                'status': p.status,
+                'address1': p.address1,
+                'bedrooms': p.bedrooms,
+                'bathrooms': p.bathrooms,
+                'visit_date': p.visit_date.strftime('%m/%d/%Y') if p.visit_date else None,
+                'main_image': p.main_image.url if p.main_image else None,
+                'onboarding_statuses': p.onboarding_statuses,
+                'relationship': 'HOSTED'
+            } for p in Property.objects.filter(hosts__user=request.user)
         }
 
         return JsonResponse({
             'status': 'ok',
-            'results': properties
+            'results': dict(owned_properties.items() + hosted_properties.items())
         })
 
     @method_decorator(login_required)
