@@ -17,6 +17,22 @@ property_service = PropertyService()
 email_service = EmailService()
 
 
+class UserView(View):
+
+    def get(self, request):
+        user = request.user
+
+        return JsonResponse({
+            'status': 'ok',
+            'results': {
+                'user': {
+                    'first_name': user.get_short_name(),
+                    'full_name': user.get_full_name()
+                } if user else None
+            }
+        })
+
+
 class AddressView(View):
 
     def get(self, request):

@@ -1,10 +1,8 @@
 <template>
   <div class="card card-shadow text-center">
     <div class="panel">
-      <div class="panel-heading">
-        <h3 class="panel-title">VACAYO “SUPERHOST” MANAGEMENT AGREEMENT</h3>
-      </div>
       <div class="panel-body text-justify">
+        <h3 class="panel-title">VACAYO “SUPERHOST” MANAGEMENT AGREEMENT</h3>
         <p>This Agreement is made and entered into this _____ day of ____________, 20____ between __________________ (Superhost) and __________________ (Vacayo Agent’s Name).</p>
         <p>Vacayo employs the services of Superhost _____________to manage cleaning, repairs and emergency services the following described property: ______________________________________________________________.</p>
         <p>Responsibilities of Superhost. Vacayo hereby appoints “Superhost” as his lawful agent with full authority to do any and all lawful things necessary for the fulfillment of this Agreement, including the following:</p>
@@ -27,6 +25,7 @@
 
 <script type="text/babel">
   export default {
+    props: ['user'],
     methods: {
       agree() {
         let url  = '/api/host';
@@ -44,7 +43,7 @@
             error => console.log('An error occurred creating your host account:', error)
           )
           .then(
-            json => cb(json.results)
+            json => this.$router.push('congrats')
           )
       }
     }

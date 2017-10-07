@@ -44,9 +44,6 @@
         <!-- Navbar Toolbar Right -->
         <ul class="nav navbar-toolbar navbar-right navbar-toolbar-right">
           <li class="nav-item dropdown">
-            <a class="nav-link">Become a Host</a>
-          </li>
-          <li class="nav-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="javascript:void(0)" title="Notifications"
             aria-expanded="false" data-animation="scale-up" role="button">
               <i class="icon wb-bell" aria-hidden="true"></i>

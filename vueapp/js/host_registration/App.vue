@@ -1,12 +1,9 @@
 <template>
   <div class="app">
-    <AppHeader/>
+    <AppHeader :user="user" />
     <div class="page animsition" style="animation-duration: 800ms; opacity: 1;">
-      <div class="page-header">
-        <h1 class="page-title mb-10">Manage Properties on Vacayo</h1>
-      </div>
-      <div class="page-content">
-        <router-view></router-view>
+      <div class="page-content container">
+        <router-view :user="user"></router-view>
       </div>
     </div>
     <AppFooter/>
@@ -21,6 +18,30 @@
     components: {
       AppHeader,
       AppFooter
+    },
+    data() {
+      return {
+        user: null
+      }
+    },
+    created: function() {
+      let url  = '/api/user';
+      let options = {
+        method: "GET",
+        credentials: 'same-origin',
+        headers: new Headers({
+          'Content-Type': 'application/json'
+        })
+      };
+
+      fetch(url, options)
+        .then(
+          response => response.json(),
+          error => console.log('An error occurred creating your host account:', error)
+        )
+        .then(
+          json => this.user = json.results.user
+        )
     },
     computed: {
       name () {

@@ -21,7 +21,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
 from django.http import HttpResponse
 
-from vacayo.views.api import AddressView, PropertyView, PropertiesView, RegistrationView, HostView
+from vacayo.views.api import UserView, AddressView, PropertyView, PropertiesView, RegistrationView, HostView
 
 
 class StaticPageView(TemplateView):
@@ -39,8 +39,9 @@ urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='wp.html'), name='home'),
     url(r'^register', StaticPageView.as_view(template_name='vue.html', context={'vue': 'registration'}), name='registration'),
     url(r'^dashboard', login_required(StaticPageView.as_view(template_name='vue2.html', context={'vue': 'dashboard'})), name='dashboard'),
-    url(r'^host', login_required(StaticPageView.as_view(template_name='vue2.html', context={'vue': 'host_registration'})), name='host_registration'),
+    url(r'^host', StaticPageView.as_view(template_name='vue2.html', context={'vue': 'host_registration'}), name='host_registration'),
 
+    url(r'api/user', UserView.as_view()),
     url(r'api/address', AddressView.as_view()),
     url(r'api/property', PropertyView.as_view()),
     url(r'api/properties', PropertiesView.as_view()),

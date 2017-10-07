@@ -1,14 +1,19 @@
 <template>
   <nav class="site-navbar navbar navbar-inverse navbar-fixed-top navbar-mega" role="navigation">
+
     <div class="navbar-container container-fluid">
+
       <!-- Navbar Collapse -->
       <div class="collapse navbar-collapse navbar-collapse-toolbar" id="site-navbar-collapse">
+
         <!-- Navbar Toolbar Right -->
         <ul class="nav navbar-toolbar navbar-right navbar-toolbar-right">
+
           <li class="nav-item dropdown">
-            <a class="nav-link">Become a Host</a>
+            <a class="nav-link" href="/host">Become a Host</a>
           </li>
-          <li class="nav-item dropdown">
+
+          <li v-if="user" class="nav-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="javascript:void(0)" title="Notifications"
             aria-expanded="false" data-animation="scale-up" role="button">
               <i class="icon wb-bell" aria-hidden="true"></i>
@@ -90,7 +95,8 @@
               </div>
             </div>
           </li>
-          <li class="nav-item dropdown">
+
+          <li v-if="user" class="nav-item dropdown">
             <a class="nav-link navbar-avatar" data-toggle="dropdown" href="#" aria-expanded="false"
             data-animation="scale-up" role="button">
               <span class="avatar avatar-online">
@@ -109,28 +115,19 @@
               <a class="dropdown-item" href="/accounts/logout/" role="menuitem"><i class="icon wb-power" aria-hidden="true"></i> Logout</a>
             </div>
           </li>
+
         </ul>
+
       </div>
 
-      <!-- Site Navbar Seach -->
-      <div class="collapse navbar-search-overlap" id="site-navbar-search">
-        <form role="search">
-          <div class="form-group">
-            <div class="input-search">
-              <i class="input-search-icon wb-search" aria-hidden="true"></i>
-              <input type="text" class="form-control" name="site-search" placeholder="Search...">
-              <button type="button" class="input-search-close icon wb-close" data-target="#site-navbar-search"
-              data-toggle="collapse" aria-label="Close"></button>
-            </div>
-          </div>
-        </form>
-      </div>
     </div>
+
   </nav>
 </template>
 
 <script type="text/babel">
   export default {
+    props: ['user'],
   }
 </script>
 
