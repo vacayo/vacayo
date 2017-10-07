@@ -9,11 +9,28 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponseRedirect
 from ..services.property import PropertyService
 from ..services.email import EmailService
+from ..models.host import Host
 from ..models.owner import Owner
 from ..models.property import Property
 
 property_service = PropertyService()
 email_service = EmailService()
+
+
+class UserView(View):
+
+    def get(self, request):
+        user = request.user
+
+        return JsonResponse({
+            'status': 'ok',
+            'results': {
+                'user': {
+                    'first_name': user.get_short_name(),
+                    'full_name': user.get_full_name()
+                } if user else None
+            }
+        })
 
 
 class AddressView(View):
@@ -133,6 +150,18 @@ class RegistrationView(View):
             )
         except Exception, e:
             pass
+
+        return JsonResponse({
+            'status': 'ok'
+        })
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class HostView(View):
+
+    @method_decorator(login_required)
+    def post(self, request):
+        host = Host.objects.get_or_create(user=request.user)
 
         return JsonResponse({
             'status': 'ok'

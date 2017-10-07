@@ -22,3 +22,9 @@ class ZipAdmin(admin.ModelAdmin):
     icon = '<i class="material-icons">weekend</i>'
     ordering = ('-id', )
 admin.site.register(m.Zip, ZipAdmin)
+
+@admin.register(m.Host, site=admin_site)
+class HostAdmin(admin.ModelAdmin):
+    icon = '<i class="material-icons">face</i>'
+    ordering = ('-id', )
+admin.site.register(m.Host, HostAdmin)

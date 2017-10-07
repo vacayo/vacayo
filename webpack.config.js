@@ -12,6 +12,7 @@ module.exports = {
   //because you will specify extensions later in the `resolve` section
   entry: {
     //reactApp: './reactapp/js/app',
+    host_registration: './vueapp/js/host_registration/main',
     registration: './vueapp/js/registration/main',
     dashboard: './vueapp/js/dashboard/main',
   },
