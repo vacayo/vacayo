@@ -1,5 +1,7 @@
 import App from './App'
 import Properties from './views/Properties'
+import Settings from './views/Settings'
+import ProfileSettings from './views/ProfileSettings'
 import ComingSoon from './views/ComingSoon'
 
 export default [
@@ -25,14 +27,26 @@ export default [
         component: ComingSoon
       },
       {
-        path: 'profile',
-        name: 'My Profile',
-        component: ComingSoon
-      },
-      {
         path: 'settings',
         name: 'My Settings',
-        component: ComingSoon
+        component: Settings,
+        children: [
+          {
+            path: 'profile',
+            name: 'Edit Profile',
+            component: ProfileSettings
+          },
+          {
+            path: 'superhost',
+            name: 'Superhost Settings',
+            component: ComingSoon
+          },
+          {
+            path: 'owner',
+            name: 'Owner Settings',
+            component: ComingSoon
+          },
+        ]
       }
     ]
   }

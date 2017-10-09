@@ -13,7 +13,7 @@ export default [
     children: [
       {
         path: 'index',
-        name: 'Become A Super Host',
+        name: 'Become A Superhost',
         component: Index
       },
       {

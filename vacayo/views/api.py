@@ -27,6 +27,7 @@ class UserView(View):
             'results': {
                 'user': {
                     'first_name': user.get_short_name(),
+                    'last_name': user.last_name,
                     'full_name': user.get_full_name()
                 } if user else None
             }

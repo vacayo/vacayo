@@ -9,7 +9,7 @@
         -->
       </div>
       <div class="page-content container">
-        <router-view></router-view>
+        <router-view :user="user"></router-view>
       </div>
     </div>
     <AppFooter/>

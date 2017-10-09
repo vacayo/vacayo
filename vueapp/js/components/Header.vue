@@ -16,7 +16,7 @@
         <ul class="nav navbar-toolbar navbar-right navbar-toolbar-right">
 
           <li class="nav-item dropdown">
-            <a class="nav-link" href="/host">Become a Host</a>
+            <a class="nav-link" href="/host">Become a Superhost</a>
           </li>
 
           <li v-if="user" class="nav-item dropdown">
