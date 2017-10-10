@@ -7,11 +7,8 @@
         <li class="nav-item">
           <router-link to="/settings/profile" class="nav-link" data-toggle="tab" href="#settings" aria-controls="superhost" role="tab" aria-expanded="true">Edit Profile</router-link>
         </li>
-        <li class="nav-item">
+        <li v-if="user.host" class="nav-item">
           <router-link to="/settings/superhost" class="nav-link" data-toggle="tab" href="#settings" aria-controls="superhost" role="tab" aria-expanded="true">Superhost Settings</router-link>
-        </li>
-        <li class="nav-item">
-          <router-link to="/settings/owner" class="nav-link" data-toggle="tab" href="#settings" aria-controls="superhost" role="tab" aria-expanded="true">Owner Settings</router-link>
         </li>
       </ul>
     </div>

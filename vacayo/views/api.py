@@ -17,10 +17,12 @@ property_service = PropertyService()
 email_service = EmailService()
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class UserView(View):
 
     def get(self, request):
         user = request.user
+        host = Host.objects.filter(user=user).first()
 
         return JsonResponse({
             'status': 'ok',
@@ -28,9 +30,24 @@ class UserView(View):
                 'user': {
                     'first_name': user.get_short_name(),
                     'last_name': user.last_name,
-                    'full_name': user.get_full_name()
+                    'full_name': user.get_full_name(),
+                    'host': host.to_dict() if host else None
                 } if user else None
             }
+        })
+
+    @method_decorator(login_required)
+    def patch(self, request):
+        user = request.user
+        data = json.loads(request.body)
+
+        user.first_name = data['first_name']
+        user.last_name = data['last_name']
+
+        user.save()
+
+        return JsonResponse({
+            'status': 'ok'
         })
 
 
@@ -178,8 +195,23 @@ class HostView(View):
 
     @method_decorator(login_required)
     def post(self, request):
-        host = Host.objects.get_or_create(user=request.user)
+        host, _ = Host.objects.get_or_create(user=request.user)
 
         return JsonResponse({
             'status': 'ok'
+        })
+
+    @method_decorator(login_required)
+    def patch(self, request):
+        host = Host.objects.get(user=request.user)
+        data = json.loads(request.body)
+
+        for key, val in data.items():
+            setattr(host, key, val)
+
+        host.save()
+
+        return JsonResponse({
+            'status': 'ok',
+            'results': host.to_dict()
         })

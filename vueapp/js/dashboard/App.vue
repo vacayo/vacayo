@@ -29,7 +29,7 @@
     },
     data() {
       return {
-        user: null
+        user: {}
       }
     },
     created: function() {
@@ -66,5 +66,8 @@
 <style>
   body {
     background-color: #282D33;
+  }
+  .page {
+    min-height: 670px;
   }
 </style>

@@ -2,6 +2,7 @@ import App from './App'
 import Properties from './views/Properties'
 import Settings from './views/Settings'
 import ProfileSettings from './views/ProfileSettings'
+import SuperhostSettings from './views/SuperhostSettings'
 import ComingSoon from './views/ComingSoon'
 
 export default [
@@ -39,7 +40,7 @@ export default [
           {
             path: 'superhost',
             name: 'Superhost Settings',
-            component: ComingSoon
+            component: SuperhostSettings
           },
           {
             path: 'owner',
