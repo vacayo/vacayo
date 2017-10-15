@@ -21,12 +21,20 @@
         <!-- Navbar Toolbar Right -->
         <ul class="nav navbar-toolbar navbar-right navbar-toolbar-right">
 
-          <li class="nav-item dropdown">
-            <a v-if="!user.host" class="nav-link" href="/host">Become a Superhost</a>
+          <li v-if="!user" class="nav-item dropdown">
+            <a class="nav-link" href="/accounts/login/">Sign In</a>
           </li>
 
-          <li class="nav-item dropdown">
-            <router-link to="/properties" class="nav-link">My Properties</router-link>
+          <li v-if="!user" class="nav-item dropdown">
+            <a class="nav-link" href="/accounts/signup/">Sign Up</a>
+          </li>
+
+          <li v-if="user && !user.host" class="nav-item dropdown">
+            <a class="nav-link" href="/host">Become a Superhost</a>
+          </li>
+
+          <li v-if="user" class="nav-item dropdown">
+            <a href="/dashboard#/properties" class="nav-link">My Properties</a>
           </li>
 
           <li v-if="user" class="nav-item dropdown" id="avatar">

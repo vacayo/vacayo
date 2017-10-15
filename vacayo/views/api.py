@@ -21,7 +21,7 @@ email_service = EmailService()
 class UserView(View):
 
     def get(self, request):
-        user = request.user
+        user = request.user if request.user.is_authenticated else None
         host = Host.objects.filter(user=user).first()
 
         return JsonResponse({

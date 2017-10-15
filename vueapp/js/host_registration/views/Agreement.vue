@@ -2,9 +2,9 @@
   <div class="card card-shadow text-center">
     <div class="panel">
       <div class="panel-body text-justify">
-        <h3 class="panel-title">VACAYO “SUPERHOST” MANAGEMENT AGREEMENT</h3>
-        <p>This Agreement is made and entered into this _____ day of ____________, 20____ between __________________ (Superhost) and __________________ (Vacayo Agent’s Name).</p>
-        <p>Vacayo employs the services of Superhost _____________to manage cleaning, repairs and emergency services the following described property: ______________________________________________________________.</p>
+        <h3 class="panel-title text-center">VACAYO “SUPERHOST” MANAGEMENT AGREEMENT</h3>
+        <p>This Agreement is made and entered into this _____ day of ____________, 20____ between _______________ (Superhost) and _______________ (Vacayo Agent’s Name).</p>
+        <p>Vacayo employs the services of Superhost _______________ to manage cleaning, repairs and emergency services the following described property: _______________.</p>
         <p>Responsibilities of Superhost. Vacayo hereby appoints “Superhost” as his lawful agent with full authority to do any and all lawful things necessary for the fulfillment of this Agreement, including the following:</p>
         <p>A. Collection and Disbursement. Vacayo agrees to collect all rents as they become due; to render to Superhost a monthly accounting of rents received on vacation rental platforms, less any sums paid out. Vacayo agrees to collect the rents from the tenant and to disburse funds by ordinary mail or as instructed by the “Superhost” on or before the 15th day of the current month, provided, however, that the rent has been received from the tenant.</p>
         <p>B. Maintenance and Labor. “Superhost” agrees to manage cleaning services, guest checkins, maintain, and to repair the property and to hire and to supervise all employees and other needed labor. Superhost agrees to maintain the property in excellent working order.</p>
