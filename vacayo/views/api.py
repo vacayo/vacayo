@@ -1,20 +1,23 @@
 import json
 import pytz
 import datetime
-from django.utils.dateparse import parse_datetime
+
 from django.utils.decorators import method_decorator
 from django.views.generic.edit import View
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse, HttpResponseRedirect
+from django.http import JsonResponse
+from django.db import transaction
+
 from ..services.property import PropertyService
 from ..services.email import EmailService
+from ..services.user import UserService
 from ..models.host import Host
-from ..models.owner import Owner
 from ..models.property import Property
 
 property_service = PropertyService()
 email_service = EmailService()
+user_service = UserService()
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -153,34 +156,19 @@ class RegistrationView(View):
         data = json.loads(request.body)
         owner_data = data.get('owner')
         property_data = data.get('property')
-        
-        owner, _ = Owner.objects.get_or_create(**owner_data)
 
-        address = property_service.parse(property_data.get('address'))
-        property_data['available_date'] = parse_datetime(property_data.get('available_date')).date()
-        property, _ = Property.objects.get_or_create(
-            address1=address.get('address1'),
-            address2=address.get('address2'),
-            city=address.get('city'),
-            state=address.get('state'),
-            zip_code=address.get('zip_code'),
-            bedrooms=property_data.get('bedrooms'),
-            bathrooms=property_data.get('bathrooms'),
-            home_type=property_data.get('home_type'),
-            home_size=property_data.get('home_size'),
-            available_date=property_data.get('available_date'),
-            last_rent=property_data.get('last_rent'),
-            offer=property_data.get('offer'),
-        )
-
-        owner.properties.add(property)
+        with transaction.atomic():
+            user = user_service.create(**owner_data)
+            owner = user_service.assign_owner_role(user, **owner_data)
+            property = property_service.create(**property_data)
+            property_service.assign_owner(property, owner)
 
         try:
             email_service.send_registration_confirmation_email(
-                to_email=owner.email,
-                to_name=owner.first_name,
-                address=address.get('address1'),
-                offer=property_data.get('offer')
+                to_email=user.email,
+                to_name=user.first_name,
+                address=property.address1,
+                offer=property.offer
             )
         except Exception, e:
             pass

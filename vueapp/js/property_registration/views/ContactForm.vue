@@ -6,7 +6,7 @@
         We estimate that we can offer you a 1 year lease at the monthly rent above.
         We will provide you with an exact offer once a property walk-through is conducted.
         <br /><br />
-        Please fill in your contact info below to schedule a walk-through.
+        Please finish signing up for your Vacayo account below to schedule a walk-through.
       </div>
       <el-row :gutter="50">
         <el-col :sm="24" :md="12">
@@ -29,6 +29,18 @@
         <el-col :sm="24" :md="12">
           <el-form-item label="Email" prop="email">
             <el-input :value="owner.email" @input="updateOwner('email', $event)"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="50">
+        <el-col :sm="24" :md="12">
+          <el-form-item label="Password" prop="password1">
+            <el-input type="password" :value="owner.password1" @input="updateOwner('password1', $event)"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :sm="24" :md="12">
+          <el-form-item label="Confirm Password" prop="password2">
+            <el-input type="password" :value="owner.password2" @input="updateOwner('password2', $event)"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -94,6 +106,12 @@
           ],
           email: [
             { required: true, type: 'string', message: 'Please enter your email', trigger: 'blur' },
+          ],
+          password1: [
+            { required: true, type: 'string', message: 'Please enter a password', trigger: 'blur' },
+          ],
+          password2: [
+            { required: true, type: 'string', message: 'Please enter a password', trigger: 'blur' },
           ],
         },
       }

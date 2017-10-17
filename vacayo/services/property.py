@@ -1,8 +1,9 @@
 import usaddress
 import googlemaps
 from django.conf import settings
+from django.utils.dateparse import parse_datetime
 from ..apis.zillow import ZillowAPI
-from ..models import Zip
+from ..models import Zip, Property
 
 
 class PropertyService(object):
@@ -10,6 +11,27 @@ class PropertyService(object):
     def __init__(self):
         self.zillow = ZillowAPI()
         self.gmaps = googlemaps.Client(settings.GOOGLE_API_KEY)
+
+    def create(self, address, bedrooms, bathrooms, home_type, home_size, available_date, last_rent, offer, *args, **kwargs):
+        address = self.parse(address)
+        available_date = parse_datetime(available_date).date()
+
+        property, _ = Property.objects.get_or_create(
+            address1=address.get('address1'),
+            address2=address.get('address2'),
+            city=address.get('city'),
+            state=address.get('state'),
+            zip_code=address.get('zip_code'),
+            bedrooms=bedrooms,
+            bathrooms=bathrooms,
+            home_type=home_type,
+            home_size=home_size,
+            available_date=available_date,
+            last_rent=last_rent,
+            offer=offer,
+        )
+
+        return property
 
     def geocode(self, address):
         result = self.gmaps.geocode(address)
@@ -84,3 +106,9 @@ class PropertyService(object):
             'rent_estimate_high': result.rentzestimate_range_high,
             'in_service': in_service
         }
+
+    def assign_owner(self, property, owner):
+        owner.properties.add(property)
+
+    def assign_host(self, property, host=None):
+        pass

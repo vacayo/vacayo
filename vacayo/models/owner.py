@@ -1,15 +1,14 @@
 from django.db import models
+from django.conf import settings
 from phonenumber_field.modelfields import PhoneNumberField
 
 class Owner(models.Model):
-    first_name = models.CharField(max_length=256)
-    last_name = models.CharField(max_length=256)
-    email = models.CharField(max_length=256)
-    phone = PhoneNumberField()
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='owner', null=True, blank=True)
     properties = models.ManyToManyField('Property', related_name='owners')
+    phone = PhoneNumberField()
 
     def __unicode__(self):
-        return '{} {} <{}>'.format(self.first_name, self.last_name, self.email)
+        return 'Owner <{}>'.format(self.user.email)
 
     class Meta:
         db_table = 'owner'

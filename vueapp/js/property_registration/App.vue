@@ -21,7 +21,7 @@
       <el-col :xs="24" :sm="18">
         <div class="content" v-loading.body="loading" :element-loading-text="loading_text">
           <div>
-            <component :is='currentForm' @next="next" @prev="prev" @close="close" :offer="_offer"></component>
+            <component :is='currentForm' @next="next" @prev="prev" @close="close" :offer="_offer | currency"></component>
           </div>
         </div>
       </el-col>
@@ -167,6 +167,12 @@
             response => response.json(),
             error => console.log('An error occurred while looking up address:', error)
           )
+          .then(
+            json => {
+              this.$store.commit('updateOwner', {['password']: null});
+              this.$store.commit('updateOwner', {['password2']: null});
+            }
+        )
       }
     },
     created() {
