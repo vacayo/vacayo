@@ -1,9 +1,13 @@
+import geopy
 import usaddress
 import googlemaps
 from django.conf import settings
 from django.utils.dateparse import parse_datetime
+from django.db.models import F
+from django.contrib.gis.geos import Point
+from django.contrib.gis.db.models.functions import Distance
 from ..apis.zillow import ZillowAPI
-from ..models import Zip, Property
+from ..models import Zip, Property, Host
 
 
 class PropertyService(object):
@@ -13,11 +17,14 @@ class PropertyService(object):
         self.gmaps = googlemaps.Client(settings.GOOGLE_API_KEY)
 
     def create(self, address, bedrooms, bathrooms, home_type, home_size, available_date, last_rent, offer, *args, **kwargs):
+        lat, lng = self.geolocate(address)
         address = self.parse(address)
         available_date = parse_datetime(available_date).date()
 
         property, _ = Property.objects.get_or_create(
             address1=address.get('address1'),
+
+
             address2=address.get('address2'),
             city=address.get('city'),
             state=address.get('state'),
@@ -29,14 +36,28 @@ class PropertyService(object):
             available_date=available_date,
             last_rent=last_rent,
             offer=offer,
+            latitude=lat,
+            longitude=lng
         )
 
         return property
 
+    def lookup(self, address):
+        pass
+
     def geocode(self, address):
         result = self.gmaps.geocode(address)
 
-        return [_['formatted_address'] for _ in result if 'formatted_address' in _]
+        return [{
+            'address': _['formatted_address'],
+            'latitude': _['geometry']['location']['lat'],
+            'longitude': _['geometry']['location']['lng'],
+        } for _ in result if 'formatted_address' in _]
+
+    def geolocate(self, address):
+        geolocator = geopy.geocoders.GoogleV3(api_key=settings.GOOGLE_API_KEY)
+        location = geolocator.geocode(address)
+        return location.latitude, location.longitude
 
     def parse(self, address):
         address, address_type = usaddress.tag(address, tag_mapping={
@@ -71,7 +92,7 @@ class PropertyService(object):
 
         return address
 
-    def lookup(self, address):
+    def meta(self, address):
         # address1 = '4117 Crescent St APT 7F'
         # citystatezip = 'Long Island City, NY 11101'
         # result = self.zillow.lookup(address1, citystatezip)
@@ -108,7 +129,26 @@ class PropertyService(object):
         }
 
     def assign_owner(self, property, owner):
-        owner.properties.add(property)
+        property.owners.add(owner)
 
     def assign_host(self, property, host=None):
-        pass
+        # a host was provided so just assign
+        if host:
+            property.hosts.add(host)
+            return
+
+        # geolocate the property
+        lat, lng = self.geolocate(property.address)
+        geo = Point(lat, lng, srid=4326)
+
+        # attempt to find the closest host that is within range
+        if not host:
+            host = Host.objects.annotate(distance=Distance('geo', geo)).filter(active=True, distance__lte=F('radius') * 1609.34).order_by('-distance').first()
+            property.hosts.add(host)
+            return
+
+        # attempt to find the closest host regardless if within range
+        if not host:
+            host = Host.objects.annotate(distance=Distance('geo', geo)).filter(active=True).order_by('-distance').first()
+            print "Closest host is {}, would you like to assign?".format(host)
+            return

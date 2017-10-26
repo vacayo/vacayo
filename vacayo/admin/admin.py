@@ -1,4 +1,4 @@
-from django.contrib import admin
+from django.contrib.gis import admin
 import vacayo.models as m
 
 class VacayoAdminSite(admin.AdminSite):

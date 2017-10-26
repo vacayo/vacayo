@@ -23,7 +23,7 @@
       <el-row :gutter="50">
         <el-col :sm="24" :md="12">
           <el-form-item label="Phone" prop="phone">
-            <el-input :value="owner.phone" @input="updateOwner('phone', $event)" v-mask="'+1(###)-###-####'"></el-input>
+            <el-input type="tel" :value="owner.phone" @input="updateOwner('phone', $event)"></el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="24" :md="12">
@@ -69,7 +69,7 @@
       <el-row :gutter="50">
         <el-col :sm="24" :md="12">
           <el-form-item label="Phone" prop="phone">
-            <el-input :value="owner.phone" @input="updateOwner('phone', $event)" v-mask="'+1(###)-###-####'"></el-input>
+            <el-input type="tel" :value="owner.phone" @input="updateOwner('phone', $event)"></el-input>
           </el-form-item>
         </el-col>
         <el-col :sm="24" :md="12">
@@ -134,7 +134,7 @@
       prev() {
         this.$emit('prev');
       },
-    },
+    }
   }
 </script>
 

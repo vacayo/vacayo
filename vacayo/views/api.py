@@ -66,7 +66,7 @@ class AddressView(View):
 
         return JsonResponse({
             'status': 'ok',
-            'results': [{'value': v} for v in addresses]
+            'results': addresses
         })
 
 
@@ -78,7 +78,7 @@ class PropertyView(View):
         if not address:
             raise Exception('No address provided')
 
-        prop = property_service.lookup(address)
+        prop = property_service.meta(address)
 
         return JsonResponse({
             'status': 'ok',
@@ -103,7 +103,7 @@ class PropertiesView(View):
                 'main_image': p.main_image.url if p.main_image else None,
                 'onboarding_statuses': p.onboarding_statuses,
                 'relationship': 'OWNED'
-            } for p in Property.objects.filter(owners__email=request.user.email)
+            } for p in Property.objects.filter(owners__user__email=request.user.email)
         }
 
         hosted_properties = {
@@ -162,6 +162,7 @@ class RegistrationView(View):
             owner = user_service.assign_owner_role(user, **owner_data)
             property = property_service.create(**property_data)
             property_service.assign_owner(property, owner)
+            property_service.assign_host(property)
 
         try:
             email_service.send_registration_confirmation_email(
@@ -183,7 +184,7 @@ class HostView(View):
 
     @method_decorator(login_required)
     def post(self, request):
-        host, _ = Host.objects.get_or_create(user=request.user)
+        host = user_service.assign_host_role(request.user)
 
         return JsonResponse({
             'status': 'ok'

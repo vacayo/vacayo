@@ -2,7 +2,7 @@ from django.apps import apps
 from django.conf import settings
 from allauth.utils import generate_unique_username
 from allauth.account.models import EmailAddress
-from ..models import Owner, Property
+from ..models import Owner, Host
 
 User = apps.get_model(settings.AUTH_USER_MODEL, require_ready=True)
 
@@ -39,5 +39,9 @@ class UserService(object):
 
         return owner
 
-    def assign_host_role(self):
-        pass
+    def assign_host_role(self, user):
+        host, _ = Host.objects.get_or_create(
+            user=user
+        )
+
+        return host

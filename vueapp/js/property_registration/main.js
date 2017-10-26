@@ -1,6 +1,5 @@
 import Vue from 'vue/dist/vue'
 import Vuex from 'vuex'
-import VueMask from 'v-mask'
 import VueSticky from 'vue-sticky'
 import VueRouter from 'vue-router'
 import VueMultianalytics from 'vue-multianalytics'
@@ -9,10 +8,8 @@ import locale from 'element-ui/lib/locale/lang/en'
 import styles from 'element-ui/lib/theme-default/index.css'
 import routes from './routes'
 
-Vue.directive('sticky', VueSticky);
 Vue.use(ElementUI, { locale });
 Vue.use(Vuex);
-Vue.use(VueMask);
 Vue.use(VueRouter);
 Vue.use(VueMultianalytics, {
   modules: {
@@ -21,6 +18,8 @@ Vue.use(VueMultianalytics, {
     }
   }
 });
+
+Vue.directive('sticky', VueSticky);
 
 const router = new VueRouter({
   mode: 'hash',

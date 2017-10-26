@@ -36,11 +36,11 @@ module.exports = {
     new BundleTracker({filename: './webpack-stats.json'}),
 
     //makes jQuery available in every module
-    new webpack.ProvidePlugin({
-      $: 'jquery',
-      jQuery: 'jquery',
-      'window.jQuery': 'jquery'
-    })
+    //new webpack.ProvidePlugin({
+    //  $: 'jquery',
+    //  jQuery: 'jquery',
+    //  'window.jQuery': 'jquery'
+    //})
   ],
 
   module: {

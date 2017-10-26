@@ -60,7 +60,7 @@
         </el-col>
         <el-col :sm="24" :md="12">
           <el-form-item v-if="property.has_rented" label="Last Monthly Rent?" prop="last_rent">
-            <el-input-number :value="property.last_rent" @input="updateProperty('last_rent', $event)" :step="10" size="large" v-mask="'$####.00'"></el-input-number>
+            <el-input-number :value="property.last_rent" @input="updateProperty('last_rent', $event)" :step="10" size="large"></el-input-number>
           </el-form-item>
         </el-col>
       </el-row>
