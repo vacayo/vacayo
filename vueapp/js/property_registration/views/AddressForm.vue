@@ -9,6 +9,7 @@
             size="large"
             class="inline-input"
             placeholder="Address"
+            :props="{label:'address', value:'address'}"
             :fetch-suggestions="search"
             :trigger-on-focus="false"
             :value="property.address"

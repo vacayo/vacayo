@@ -55,7 +55,7 @@ class PropertyService(object):
         } for _ in result if 'formatted_address' in _]
 
     def geolocate(self, address):
-        geolocator = geopy.geocoders.GoogleV3(api_key=settings.GOOGLE_API_KEY)
+        geolocator = geopy.geocoders.GoogleV3(api_key=settings.GOOGLE_API_KEY, timeout=5)
         location = geolocator.geocode(address)
         return location.latitude, location.longitude
 
