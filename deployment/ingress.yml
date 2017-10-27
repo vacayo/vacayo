@@ -6,7 +6,7 @@ metadata:
     kubernetes.io/ingress.global-static-ip-name: vacayo-static-ip
 spec:
   tls:
-    - secretName: ssl-certs
+    - secretName: ssl-certs-2017-10-27
   backend:
     serviceName: vacayo
     servicePort: 80

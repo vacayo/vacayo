@@ -43,7 +43,7 @@ spec:
             - name: service-account
               mountPath: /secrets/service-account
               readOnly: true
-            - name: ssl-certs
+            - name: ssl-certs-2017-10-27
               mountPath: /etc/ssl/certs
             - name: cloudsql
               mountPath: /cloudsql
@@ -51,7 +51,7 @@ spec:
         - name: service-account
           secret:
             secretName: service-account
-        - name: ssl-certs
+        - name: ssl-certs-2017-10-27
           hostPath:
             path: /etc/ssl/certs
         - name: cloudsql
