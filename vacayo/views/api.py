@@ -96,7 +96,7 @@ class PropertiesView(View):
                 'id': p.id,
                 'offer': p.offer,
                 'status': p.status,
-                'address1': p.address1,
+                'location': p.location.to_dict(),
                 'bedrooms': p.bedrooms,
                 'bathrooms': p.bathrooms,
                 'visit_date': p.visit_date.strftime('%m/%d/%Y') if p.visit_date else None,
@@ -111,7 +111,7 @@ class PropertiesView(View):
                 'id': p.id,
                 'offer': p.offer,
                 'status': p.status,
-                'address1': p.address1,
+                'location': p.location.to_dict(),
                 'bedrooms': p.bedrooms,
                 'bathrooms': p.bathrooms,
                 'visit_date': p.visit_date.strftime('%m/%d/%Y') if p.visit_date else None,
@@ -139,7 +139,7 @@ class PropertiesView(View):
                 'id': p.id,
                 'offer': p.offer,
                 'status': p.status,
-                'address1': p.address1,
+                'location': p.location.to_dict(),
                 'bedrooms': p.bedrooms,
                 'bathrooms': p.bathrooms,
                 'visit_date': p.visit_date.strftime('%m/%d/%Y') if p.visit_date else None,
@@ -168,7 +168,7 @@ class RegistrationView(View):
             email_service.send_registration_confirmation_email(
                 to_email=user.email,
                 to_name=user.first_name,
-                address=property.address1,
+                address=property.location.address,
                 offer=property.offer
             )
         except Exception, e:
@@ -194,11 +194,18 @@ class HostView(View):
     def patch(self, request):
         host = Host.objects.get(user=request.user)
         data = json.loads(request.body)
+        active = data.get('active')
+        radius = data.get('radius')
+        location = data.get('location')
 
-        for key, val in data.items():
-            setattr(host, key, val)
-
+        host.active = active
+        host.radius = radius
         host.save()
+
+        host.location.address = location['address']
+        host.location.latitude = location['latitude']
+        host.location.longitude = location['longitude']
+        host.location.save()
 
         return JsonResponse({
             'status': 'ok',

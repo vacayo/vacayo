@@ -4,10 +4,9 @@ import googlemaps
 from django.conf import settings
 from django.utils.dateparse import parse_datetime
 from django.db.models import F
-from django.contrib.gis.geos import Point
 from django.contrib.gis.db.models.functions import Distance
 from ..apis.zillow import ZillowAPI
-from ..models import Zip, Property, Host
+from ..models import Location, Host, Zip, Property
 
 
 class PropertyService(object):
@@ -17,27 +16,19 @@ class PropertyService(object):
         self.gmaps = googlemaps.Client(settings.GOOGLE_API_KEY)
 
     def create(self, address, bedrooms, bathrooms, home_type, home_size, available_date, last_rent, offer, *args, **kwargs):
-        lat, lng = self.geolocate(address)
-        address = self.parse(address)
-        available_date = parse_datetime(available_date).date()
+        location = Location.objects.create(
+            address=address
+        )
 
         property, _ = Property.objects.get_or_create(
-            address1=address.get('address1'),
-
-
-            address2=address.get('address2'),
-            city=address.get('city'),
-            state=address.get('state'),
-            zip_code=address.get('zip_code'),
+            location=location,
             bedrooms=bedrooms,
             bathrooms=bathrooms,
             home_type=home_type,
             home_size=home_size,
-            available_date=available_date,
+            available_date=parse_datetime(available_date).date(),
             last_rent=last_rent,
             offer=offer,
-            latitude=lat,
-            longitude=lng
         )
 
         return property
@@ -137,18 +128,28 @@ class PropertyService(object):
             property.hosts.add(host)
             return
 
-        # geolocate the property
-        lat, lng = self.geolocate(property.address)
-        geo = Point(lat, lng, srid=4326)
-
         # attempt to find the closest host that is within range
         if not host:
-            host = Host.objects.annotate(distance=Distance('geo', geo)).filter(active=True, distance__lte=F('radius') * 1609.34).order_by('-distance').first()
+            host = Host.objects\
+                .annotate(distance=Distance('location__geo', property.location.geo))\
+                .filter(active=True, distance__lte=F('radius') * 1609.34)\
+                .order_by('-distance')\
+                .first()
+
+        # a host was found that is within range
+        if host:
             property.hosts.add(host)
             return
 
-        # attempt to find the closest host regardless if within range
+        # attempt to find the closest host regardless of range
         if not host:
-            host = Host.objects.annotate(distance=Distance('geo', geo)).filter(active=True).order_by('-distance').first()
+            host = Host.objects\
+                .annotate(distance=Distance('location__geo', property.location.geo))\
+                .filter(active=True)\
+                .order_by('-distance')\
+                .first()
+
+        # the closest host was found regardless of range
+        if host:
             print "Closest host is {}, would you like to assign?".format(host)
             return
