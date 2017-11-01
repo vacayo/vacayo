@@ -78,7 +78,7 @@
           )
       },
       next() {
-        this.$emit('loading', {text: 'Searching...'});
+        this.$emit('loading', 'Searching...');
 
         this.details(this.property.address).then((property) => {
           this.$emit('loaded');

@@ -37,7 +37,7 @@
     },
     methods: {
       close() {
-        this.$emit('close');
+        window.location.href = '/'
       }
     },
   }

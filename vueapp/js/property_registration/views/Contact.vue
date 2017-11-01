@@ -1,5 +1,5 @@
 <template>
-  <el-form :rules="rules" ref="contact" label-width="100px" label-position="top">
+  <el-form :model="owner" :rules="rules" ref="owner" label-width="100px" label-position="top">
     <div class="title">We're sorry, but we're not in your area yet!</div>
     <div class="subtitle">
       We’re working to expand our services across the nation.
@@ -66,8 +66,6 @@
       },
       save() {
         let data = Object.assign({}, this.$store.state);
-        data.property.offer = this._offer;
-        let url  = '/api/lead/';
         let options = {
           method: "POST",
           body: JSON.stringify(data),
@@ -76,7 +74,7 @@
           })
         };
 
-        return fetch(url, options)
+        return fetch('/api/lead/', options)
           .then(
             response => response.json(),
             error => console.log('An error occurred while looking up address:', error)
@@ -89,11 +87,11 @@
         )
       },
       next() {
-        this.$refs['contact'].validate((valid) => {
+        this.$refs['owner'].validate((valid) => {
           if (!valid) {
             return false;
           }
-          this.$emit('loading', {text: 'Saving...'});
+          this.$emit('loading', 'Saving...');
           this.save().then(() => {
             this.$emit('loaded');
             this.$router.push({name: 'confirmation'});

@@ -21,7 +21,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
 from django.http import HttpResponse
 
-from vacayo.views.api import UserView, AddressView, PropertyView, PropertiesView, RegistrationView, HostView
+from vacayo.views.api import UserView, AddressView, PropertyView, PropertiesView, RegistrationView, HostView, LeadView
 
 
 class StaticPageView(TemplateView):
@@ -47,6 +47,7 @@ urlpatterns = [
     url(r'api/properties', PropertiesView.as_view()),
     url(r'api/registration', RegistrationView.as_view()),
     url(r'api/host', HostView.as_view()),
+    url(r'api/lead', LeadView.as_view()),
 
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('allauth.urls')),

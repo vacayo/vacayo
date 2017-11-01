@@ -12,8 +12,7 @@ from django.db import transaction
 from ..services.property import PropertyService
 from ..services.email import EmailService
 from ..services.user import UserService
-from ..models.host import Host
-from ..models.property import Property
+from ..models import Host, Property, Location, Lead
 
 property_service = PropertyService()
 email_service = EmailService()
@@ -170,6 +169,41 @@ class RegistrationView(View):
                 to_name=user.first_name,
                 address=property.location.address,
                 offer=property.offer
+            )
+        except Exception, e:
+            pass
+
+        return JsonResponse({
+            'status': 'ok'
+        })
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class LeadView(View):
+
+    def post(self, request):
+        data = json.loads(request.body)
+        owner_data = data.get('owner')
+        property_data = data.get('property')
+
+        with transaction.atomic():
+            location = Location.objects.create(
+                address=property_data.get('address')
+            )
+
+            lead = Lead.objects.create(
+                first_name=owner_data.get('first_name'),
+                last_name=owner_data.get('last_name'),
+                email=owner_data.get('email'),
+                phone=owner_data.get('phone'),
+                location=location
+            )
+
+        try:
+            email_service.send_new_lead_email(
+                to_email=lead.email,
+                to_name=lead.first_name,
+                address=location.address
             )
         except Exception, e:
             pass

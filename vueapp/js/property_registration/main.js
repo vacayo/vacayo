@@ -21,6 +21,15 @@ Vue.use(VueMultianalytics, {
 
 Vue.directive('sticky', VueSticky);
 
+Vue.filter('currency', function (value) {
+    let formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+    });
+    return formatter.format(value)
+});
+
 const router = new VueRouter({
   mode: 'hash',
   linkActiveClass: 'open active',

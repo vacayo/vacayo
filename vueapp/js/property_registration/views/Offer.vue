@@ -1,6 +1,6 @@
 <template>
   <el-form :model="owner" :rules="rules" ref="owner" label-width="100px" label-position="top">
-    <div class="title">Our Offer: {{ offer }} per month</div>
+    <div class="title">Our Offer: {{ offer | currency }} per month</div>
     <div class="subtitle">
       We estimate that we can offer you a one year lease at the monthly rent above.
       We will provide you with an exact offer once a property walk-through is conducted.
@@ -88,8 +88,7 @@
       },
       save() {
         let data = Object.assign({}, this.$store.state);
-        data.property.offer = this._offer;
-        let url  = '/api/registration/';
+        data.property.offer = this.offer;
         let options = {
           method: "POST",
           body: JSON.stringify(data),
@@ -98,7 +97,7 @@
           })
         };
 
-        return fetch(url, options)
+        return fetch('/api/registration/', options)
           .then(
             response => response.json(),
             error => console.log('An error occurred while looking up address:', error)
@@ -115,7 +114,7 @@
           if (!valid) {
             return false;
           }
-          this.$emit('loading', {text: 'Saving...'});
+          this.$emit('loading', 'Saving...');
           this.save().then(() => {
             this.$emit('loaded');
             this.$router.push({name: 'confirmation'});

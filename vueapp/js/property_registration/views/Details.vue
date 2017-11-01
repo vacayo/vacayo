@@ -1,5 +1,5 @@
 <template>
-  <el-form :rules="rules" label-width="100px" label-position="top">
+  <el-form :model="property" :rules="rules" ref="property" label-width="100px" label-position="top">
     <div class="title">Property Details</div>
     <div class="subtitle">Please describe your property.</div>
     <el-row :gutter="50">

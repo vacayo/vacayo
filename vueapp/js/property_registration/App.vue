@@ -2,7 +2,7 @@
   <div>
     <div class="offer">
       <div class="offer_text">Estimated Offer</div>
-      <div class="offer_value">{{ _offer | currency }} / mo.</div>
+      <div class="offer_value">{{ offer | currency }} / mo.</div>
     </div>
     <div v-sticky="{zIndex: 9999, stickyTop:0}">
       <AppHeader/>
@@ -19,9 +19,9 @@
     <el-row type="flex" justify="space-around">
       <el-col :xs="0" :sm="3"></el-col>
       <el-col :xs="24" :sm="18">
-        <div class="content" v-loading.body="loading" :element-loading-text="loading_text">
+        <div class="content" v-loading.body="spinner" :element-loading-text="spinner_text">
           <div>
-            <router-view :offer="_offer | currency" @loading="loading" @loaded="loaded"></router-view>
+            <router-view :offer="offer" @loading="loading" @loaded="loaded"></router-view>
           </div>
         </div>
       </el-col>
@@ -40,8 +40,8 @@
       return {
         property: this.$store.state.property,
         currentStep: 0,
-        loading: false,
-        loading_text: 'Loading...'
+        spinner: false,
+        spinner_text: 'Loading...'
       }
     },
     components: {
@@ -50,7 +50,7 @@
       AppHeader,
     },
     computed: {
-      _offer() {
+      offer() {
         let round = function(number, precision) {
           var factor = Math.pow(10, precision);
           var tempNumber = number * factor;
@@ -70,24 +70,14 @@
         return value;
       },
     },
-    filters: {
-      currency(value) {
-        let formatter = new Intl.NumberFormat('en-US', {
-          style: 'currency',
-          currency: 'USD',
-          minimumFractionDigits: 2,
-        });
-        return formatter.format(value)
-      }
-    },
     methods: {
       loading(text) {
-        this.loading_text = text;
-        this.loading = true;
+        this.spinner_text = text;
+        this.spinner = true;
       },
       loaded() {
-        this.loading_text = 'Loading...';
-        this.loading = false;
+        this.spinner_text = 'Loading...';
+        this.spinner = false;
         document.body.scrollTop = document.documentElement.scrollTop = 0;
       }
     },
