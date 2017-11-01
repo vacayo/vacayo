@@ -8,8 +8,8 @@ export default [
   {
     path: '/',
     name: 'SuperHostRegistration',
-    redirect: 'index',
     component: App,
+    redirect: 'index',
     children: [
       {
         path: 'index',

@@ -21,7 +21,7 @@
       <el-col :xs="24" :sm="18">
         <div class="content" v-loading.body="loading" :element-loading-text="loading_text">
           <div>
-            <component :is='currentForm' @next="next" @prev="prev" @close="close" :offer="_offer | currency"></component>
+            <router-view :offer="_offer | currency" @loading="loading" @loaded="loaded"></router-view>
           </div>
         </div>
       </el-col>
@@ -32,15 +32,8 @@
 
 <script type="text/babel">
   import AppHeader from './views/Header'
-  import AddressForm from './views/AddressForm'
-  import PropertyForm from './views/PropertyForm'
-  import ContactForm from './views/ContactForm'
-  import Confirmation from './views/Confirmation.vue'
   import Media from 'vue-media'
   import Headroom from 'vue-headroom'
-
-  let FORMS = ['address-form', 'property-form', 'contact-form', 'confirmation'];
-  let PINS = [true, false, false, true];
 
   export default {
     data() {
@@ -55,27 +48,26 @@
       Media,
       Headroom,
       AppHeader,
-      AddressForm,
-      PropertyForm,
-      ContactForm,
-      Confirmation
     },
     computed: {
       _offer() {
+        let round = function(number, precision) {
+          var factor = Math.pow(10, precision);
+          var tempNumber = number * factor;
+          var roundedTempNumber = Math.round(tempNumber);
+          return roundedTempNumber / factor;
+        };
         let markup = 1.05; // 5%
-        let last_rent = this.round(this.property.last_rent * markup, -1);
-        let rent_estimate = this.round(this.property.rent_estimate * markup, -1);
-        let rent_estimate_low = this.round(this.property.rent_estimate_low, -1);
-        let rent_estimate_high = this.round(this.property.rent_estimate_high, -1);
+        let last_rent = round(this.property.last_rent * markup, -1);
+        let rent_estimate = round(this.property.rent_estimate * markup, -1);
+        let rent_estimate_low = round(this.property.rent_estimate_low, -1);
+        let rent_estimate_high = round(this.property.rent_estimate_high, -1);
         let value = last_rent || rent_estimate;
 
         if (value > rent_estimate_high) value = rent_estimate_high;
         if (value < rent_estimate_low) value = rent_estimate_low;
 
         return value;
-      },
-      currentForm() {
-        return FORMS[this.currentStep]
       },
     },
     filters: {
@@ -89,97 +81,24 @@
       }
     },
     methods: {
-      next() {
-        // search & pre-load property details
-        if (this.currentStep == 0) {
-          this.loading_text = 'Searching ...';
-          this.loading = true;
-          this.search().then(() => {
-            this.currentStep = 1;
-            this.loading = false;
-            document.body.scrollTop = document.documentElement.scrollTop = 0;
-          })
-        }
-
-        // load contact form
-        else if (this.currentStep == 1) {
-          this.currentStep = 2;
-          document.body.scrollTop = document.documentElement.scrollTop = 0;
-        }
-
-        // save the registration
-        else if (this.currentStep == 2) {
-          this.loading_text = 'Saving ...';
-          this.loading = true;
-          this.save().then(() => {
-            this.currentStep = 3;
-            this.loading = false;
-            document.body.scrollTop = document.documentElement.scrollTop = 0;
-          });
-        }
+      loading(text) {
+        this.loading_text = text;
+        this.loading = true;
       },
-      prev() {
-        if (--this.currentStep < 0) this.currentStep = 0;
+      loaded() {
+        this.loading_text = 'Loading...';
+        this.loading = false;
         document.body.scrollTop = document.documentElement.scrollTop = 0;
-      },
-      close() {
-        window.location = '/'
-      },
-      search() {
-        let address = this.$store.state.property.address;
-        if (address == '') {
-          return
-        }
-        let url  = '/api/property?address=' + address;
-
-        return fetch(url)
-          .then(
-            response => response.json(),
-            error => console.log('An error occurred while fetching property:', error)
-          )
-          .then(
-            json => {
-              let props = json.results;
-              this.$store.commit('updateProperty', props);
-            }
-          )
-      },
-      round(number, precision) {
-        var factor = Math.pow(10, precision);
-        var tempNumber = number * factor;
-        var roundedTempNumber = Math.round(tempNumber);
-        return roundedTempNumber / factor;
-      },
-      save() {
-        let data = Object.assign({}, this.$store.state);
-        data.property.offer = this._offer;
-        let url  = '/api/registration/';
-        let options = {
-          method: "POST",
-          body: JSON.stringify(data),
-          headers: new Headers({
-            'Content-Type': 'application/json'
-          })
-        };
-
-        return fetch(url, options)
-          .then(
-            response => response.json(),
-            error => console.log('An error occurred while looking up address:', error)
-          )
-          .then(
-            json => {
-              this.$store.commit('updateOwner', {['password']: null});
-              this.$store.commit('updateOwner', {['password2']: null});
-            }
-        )
       }
     },
     created() {
       let address = this.$route.query.address;
       if (address) {
         this.$store.commit('updateProperty', {address});
-        this.next()
+        this.$router.replace({name: 'lookup', query: { auto: true }});
+      }
+      else {
+        this.$router.replace({name: 'lookup'});
       }
     }
   }
