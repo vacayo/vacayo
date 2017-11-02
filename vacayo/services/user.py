@@ -2,7 +2,7 @@ from django.apps import apps
 from django.conf import settings
 from allauth.utils import generate_unique_username
 from allauth.account.models import EmailAddress
-from ..models import Owner, Host, Location
+from ..models import Owner, Host, Location, Lead
 
 User = apps.get_model(settings.AUTH_USER_MODEL, require_ready=True)
 
@@ -46,3 +46,18 @@ class UserService(object):
         )
 
         return host
+
+    def record_lead(self, address, first_name, last_name, email, phone, *args, **kwargs):
+        location = Location.objects.create(
+            address=address
+        )
+
+        lead = Lead.objects.create(
+            first_name=first_name,
+            last_name=last_name,
+            email=email,
+            phone=phone,
+            location=location
+        )
+
+        return lead

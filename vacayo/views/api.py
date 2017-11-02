@@ -12,12 +12,99 @@ from django.db import transaction
 from ..services.property import PropertyService
 from ..services.email import EmailService
 from ..services.user import UserService
-from ..models import Host, Property, Location, Lead
+from ..models import Host, Property
 
 property_service = PropertyService()
 email_service = EmailService()
 user_service = UserService()
 
+
+# PROPERTY REGISTRATION #
+
+@method_decorator(csrf_exempt, name='dispatch')
+class AddressView(View):
+
+    def get(self, request):
+        address = request.GET.get('query')
+
+        if not address:
+            raise Exception('No address provided')
+
+        addresses = property_service.geocode(address)
+
+        return JsonResponse({
+            'status': 'ok',
+            'results': addresses
+        })
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class PropertyView(View):
+
+    def get(self, request):
+        address = request.GET.get('address')
+
+        if not address:
+            raise Exception('No address provided')
+
+        prop = property_service.meta(address)
+
+        return JsonResponse({
+            'status': 'ok',
+            'results': prop
+        })
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class RegistrationView(View):
+
+    def post(self, request):
+        data = json.loads(request.body)
+        owner_data = data.get('owner')
+        property_data = data.get('property')
+
+        with transaction.atomic():
+            user = user_service.create(**owner_data)
+            owner = user_service.assign_owner_role(user, **owner_data)
+            property = property_service.create(**property_data)
+            property_service.assign_owner(property, owner)
+            property_service.assign_host(property)
+
+            email_service.send_registration_confirmation_email(
+                to_email=user.email,
+                to_name=user.first_name,
+                address=property.location.address,
+                offer=property.offer
+            )
+
+        return JsonResponse({
+            'status': 'ok'
+        })
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class LeadView(View):
+
+    def post(self, request):
+        data = json.loads(request.body)
+        owner_data = data.get('owner')
+        property_data = data.get('property')
+
+        with transaction.atomic():
+            lead = user_service.record_lead(property_data.get('address'), **owner_data)
+
+            email_service.send_new_lead_email(
+                to_email=lead.email,
+                to_name=lead.first_name,
+                address=lead.location.address
+            )
+
+        return JsonResponse({
+            'status': 'ok'
+        })
+
+
+# DASHBOARD #
 
 @method_decorator(csrf_exempt, name='dispatch')
 class UserView(View):
@@ -53,35 +140,37 @@ class UserView(View):
         })
 
 
-class AddressView(View):
+@method_decorator(csrf_exempt, name='dispatch')
+class HostView(View):
 
-    def get(self, request):
-        address = request.GET.get('query')
-
-        if not address:
-            raise Exception('No address provided')
-
-        addresses = property_service.geocode(address)
+    @method_decorator(login_required)
+    def post(self, request):
+        host = user_service.assign_host_role(request.user)
 
         return JsonResponse({
-            'status': 'ok',
-            'results': addresses
+            'status': 'ok'
         })
 
+    @method_decorator(login_required)
+    def patch(self, request):
+        host = Host.objects.get(user=request.user)
+        data = json.loads(request.body)
+        active = data.get('active')
+        radius = data.get('radius')
+        location = data.get('location')
 
-class PropertyView(View):
+        host.active = active
+        host.radius = radius
+        host.save()
 
-    def get(self, request):
-        address = request.GET.get('address')
-
-        if not address:
-            raise Exception('No address provided')
-
-        prop = property_service.meta(address)
+        host.location.address = location['address']
+        host.location.latitude = location['latitude']
+        host.location.longitude = location['longitude']
+        host.location.save()
 
         return JsonResponse({
             'status': 'ok',
-            'results': prop
+            'results': host.to_dict()
         })
 
 
@@ -145,103 +234,4 @@ class PropertiesView(View):
                 'main_image': p.main_image.url if p.main_image else None,
                 'onboarding_statuses': p.onboarding_statuses
             }
-        })
-
-
-@method_decorator(csrf_exempt, name='dispatch')
-class RegistrationView(View):
-
-    def post(self, request):
-        data = json.loads(request.body)
-        owner_data = data.get('owner')
-        property_data = data.get('property')
-
-        with transaction.atomic():
-            user = user_service.create(**owner_data)
-            owner = user_service.assign_owner_role(user, **owner_data)
-            property = property_service.create(**property_data)
-            property_service.assign_owner(property, owner)
-            property_service.assign_host(property)
-
-        try:
-            email_service.send_registration_confirmation_email(
-                to_email=user.email,
-                to_name=user.first_name,
-                address=property.location.address,
-                offer=property.offer
-            )
-        except Exception, e:
-            pass
-
-        return JsonResponse({
-            'status': 'ok'
-        })
-
-
-@method_decorator(csrf_exempt, name='dispatch')
-class LeadView(View):
-
-    def post(self, request):
-        data = json.loads(request.body)
-        owner_data = data.get('owner')
-        property_data = data.get('property')
-
-        with transaction.atomic():
-            location = Location.objects.create(
-                address=property_data.get('address')
-            )
-
-            lead = Lead.objects.create(
-                first_name=owner_data.get('first_name'),
-                last_name=owner_data.get('last_name'),
-                email=owner_data.get('email'),
-                phone=owner_data.get('phone'),
-                location=location
-            )
-
-        try:
-            email_service.send_new_lead_email(
-                to_email=lead.email,
-                to_name=lead.first_name,
-                address=location.address
-            )
-        except Exception, e:
-            pass
-
-        return JsonResponse({
-            'status': 'ok'
-        })
-
-
-@method_decorator(csrf_exempt, name='dispatch')
-class HostView(View):
-
-    @method_decorator(login_required)
-    def post(self, request):
-        host = user_service.assign_host_role(request.user)
-
-        return JsonResponse({
-            'status': 'ok'
-        })
-
-    @method_decorator(login_required)
-    def patch(self, request):
-        host = Host.objects.get(user=request.user)
-        data = json.loads(request.body)
-        active = data.get('active')
-        radius = data.get('radius')
-        location = data.get('location')
-
-        host.active = active
-        host.radius = radius
-        host.save()
-
-        host.location.address = location['address']
-        host.location.latitude = location['latitude']
-        host.location.longitude = location['longitude']
-        host.location.save()
-
-        return JsonResponse({
-            'status': 'ok',
-            'results': host.to_dict()
         })
