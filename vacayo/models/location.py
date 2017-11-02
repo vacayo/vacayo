@@ -39,16 +39,25 @@ class Location(models.Model):
 
         from ..services.property import PropertyService
         property_service = PropertyService()
-        lat, lng = property_service.geolocate(address)
-        address = property_service.parse(address)
 
-        self.address1 = address.get('address1')
-        self.address2 = address.get('address2')
-        self.city = address.get('city')
-        self.state = address.get('state')
-        self.zip_code = address.get('zip_code')
-        self.latitude = lat
-        self.longitude = lng
+        # attempt to geolocate
+        try:
+            lat, lng = property_service.geolocate(address)
+            self.latitude = lat
+            self.longitude = lng
+        except (Exception,) as e:
+            pass
+
+        # attempt to parse
+        try:
+            address = property_service.parse(address)
+            self.address1 = address.get('address1')
+            self.address2 = address.get('address2')
+            self.city = address.get('city')
+            self.state = address.get('state')
+            self.zip_code = address.get('zip_code')
+        except (Exception,) as e:
+            pass
 
     @address.deleter
     def address(self):
