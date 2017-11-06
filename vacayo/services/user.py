@@ -42,7 +42,9 @@ class UserService(object):
     def assign_host_role(self, user):
         host, _ = Host.objects.get_or_create(
             user=user,
-            location=Location.objects.create()
+            defaults={
+                'location': Location.objects.create()
+            }
         )
 
         return host

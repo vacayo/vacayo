@@ -29,9 +29,11 @@
             <a class="nav-link" href="/accounts/signup/">Sign Up</a>
           </li>
 
+          <!--
           <li v-if="user && !user.host" class="nav-item dropdown">
             <a class="nav-link" href="/host">Become a Superhost</a>
           </li>
+          -->
 
           <li v-if="user" class="nav-item dropdown">
             <a href="/dashboard#/properties" class="nav-link">My Properties</a>

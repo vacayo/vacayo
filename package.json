@@ -44,6 +44,7 @@
     "material-ui": "^0.18.3",
     "material-ui-number-input": "^5.0.19",
     "materialize-css": "^0.98.2",
+    "moment": "^2.19.1",
     "node-sass": "^4.5.3",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",

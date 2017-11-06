@@ -111,3 +111,6 @@ settings_prod.py
 /media
 /remark
 /node_modules
+/letsencrypt
+/vacayo/static/vacayo/vendor
+/vacayo/static/vacayo/fonts
