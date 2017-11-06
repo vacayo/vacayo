@@ -26,13 +26,13 @@ class Property(models.Model):
     @property
     def onboarding_statuses(self):
         def find(s):
-            return next((i for i, x in enumerate(ONBOARDING_STATUS) if x[0] == s), [None])
+            return next((i for i, x in enumerate(ONBOARDING_STATUS.choices()) if x[0] == s), [None])
 
         return [{
             'name': name,
             'is_done': bool(find(self.status) >= find(name)),
             'is_current': bool(find(self.status) == find(name))
-        } for (name, human_name) in ONBOARDING_STATUS]
+        } for (name, human_name) in ONBOARDING_STATUS.choices()]
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
 

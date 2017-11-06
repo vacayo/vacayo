@@ -3,19 +3,29 @@
 from __future__ import unicode_literals
 
 from django.db import migrations
-from vacayo.services.user import UserService
-from vacayo.models.owner import Owner
+from allauth.utils import generate_unique_username
 
 
 def migrate_owners_into_users(apps, schema_editor):
-    user_service = UserService()
+    Owner = apps.get_model('vacayo', 'Owner')
+    User = apps.get_model('auth', 'User')
+    # EmailAddress = apps.get_model('allauth.EmailAddress')
 
     for owner in Owner.objects.all():
         if not owner.user and owner.email:
-            user = user_service.get(owner.email)
+            user = User.objects.filter(email=owner.email).first()
 
             if not user:
-                user = user_service.create(owner.first_name, owner.last_name, owner.email, None, None)
+                user = User()
+                user.first_name = owner.first_name
+                user.last_name = owner.last_name
+                user.email = owner.email
+                user.password = None
+                user.username = generate_unique_username([owner.first_name, owner.last_name, owner.email, None, 'user'])
+                user.save()
+
+                # needed for django-allauth
+                # EmailAddress(user=user, email=owner.email, primary=True, verified=False).save()
 
             owner.user = user
             owner.save()

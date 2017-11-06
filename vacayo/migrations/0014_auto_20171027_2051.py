@@ -3,11 +3,11 @@
 from __future__ import unicode_literals
 
 from django.db import migrations
-from vacayo.services.property import PropertyService
-from vacayo.models import Property, Location
 
 
 def migrate_locations(apps, schema_editor):
+    Property = apps.get_model('vacayo', 'Property')
+    Location = apps.get_model('vacayo', 'Location')
 
     for property in Property.objects.all():
         if not property.location:
