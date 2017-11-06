@@ -1,13 +1,13 @@
 from django.contrib.gis.db import models
-from django.contrib.gis.geos import Point
+from ..utils.enum import Enum
 
-
-ONBOARDING_STATUS = [
-    ('pending_review', 'Pending Review'),
-    ('pending_site_visit', 'Pending Site Visit'),
-    ('pending_lease_signing', 'Pending Lease Signing'),
-    ('ready', 'Ready'),
-]
+class ONBOARDING_STATUS(Enum):
+    NEW = 'New'
+    PENDING_REVIEW = 'Pending Review'
+    PENDING_ASSIGNMENT = 'Pending Superhost Assignment'
+    PENDING_VISIT = 'Pending Site Visit'
+    PENDING_LEASE = 'Pending Lease Signing'
+    READY = 'Ready'
 
 
 class Property(models.Model):
@@ -21,7 +21,7 @@ class Property(models.Model):
     last_rent = models.DecimalField(decimal_places=2, max_digits=7, blank=True, null=True)
     offer = models.DecimalField(decimal_places=2, max_digits=7, blank=True, null=True)
     main_image = models.ImageField(upload_to='images/properties', blank=True, null=True)
-    status = models.CharField(max_length=256, choices=ONBOARDING_STATUS, default='pending_review')
+    status = models.CharField(max_length=256, choices=ONBOARDING_STATUS.choices(), default=ONBOARDING_STATUS.NEW)
 
     @property
     def onboarding_statuses(self):
@@ -33,6 +33,20 @@ class Property(models.Model):
             'is_done': bool(find(self.status) >= find(name)),
             'is_current': bool(find(self.status) == find(name))
         } for (name, human_name) in ONBOARDING_STATUS]
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+
+        # Advance PENDING_REVIEW -> PENDING_ASSIGNMENT
+        if self.status == ONBOARDING_STATUS.PENDING_REVIEW:
+            if self.location.geo and self.offer:
+                self.status = ONBOARDING_STATUS.PENDING_ASSIGNMENT
+
+        # Advance PENDING_ASSIGNMENT -> PENDING_VISIT
+        if self.status == ONBOARDING_STATUS.PENDING_ASSIGNMENT:
+            if self.hosts.count():
+                self.status = ONBOARDING_STATUS.PENDING_VISIT
+
+        super(Property, self).save(force_insert, force_update, using, update_fields)
 
     def __unicode__(self):
         return unicode(self.location)

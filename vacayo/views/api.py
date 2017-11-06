@@ -9,13 +9,12 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.db import transaction
 
+from ..services.notification import NotificationService
 from ..services.property import PropertyService
-from ..services.email import EmailService
 from ..services.user import UserService
 from ..models import Host, Property
 
 property_service = PropertyService()
-email_service = EmailService()
 user_service = UserService()
 
 
@@ -64,18 +63,17 @@ class RegistrationView(View):
         property_data = data.get('property')
 
         with transaction.atomic():
+            # Create User, Owner and Property Record
             user = user_service.create(**owner_data)
-            owner = user_service.assign_owner_role(user, **owner_data)
             property = property_service.create(**property_data)
+
+            # Assign Owner and Host
+            owner = user_service.assign_owner_role(user, **owner_data)
             property_service.assign_owner(property, owner)
             property_service.assign_host(property)
 
-            email_service.send_registration_confirmation_email(
-                to_email=user.email,
-                to_name=user.first_name,
-                address=property.location.address,
-                offer=property.offer
-            )
+            # Send notifications
+            NotificationService.send_new_property_notifications(property)
 
         return JsonResponse({
             'status': 'ok'
@@ -91,13 +89,11 @@ class LeadView(View):
         property_data = data.get('property')
 
         with transaction.atomic():
+            # Create Lead record
             lead = user_service.record_lead(property_data.get('address'), **owner_data)
 
-            email_service.send_new_lead_email(
-                to_email=lead.email,
-                to_name=lead.first_name,
-                address=lead.location.address
-            )
+            # Send notifications
+            NotificationService.send_new_lead_notifications(lead)
 
         return JsonResponse({
             'status': 'ok'

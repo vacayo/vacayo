@@ -21,6 +21,7 @@ admin.site.register(m.Location, LocationAdmin)
 class PropertyAdmin(admin.ModelAdmin):
     icon = '<i class="material-icons">weekend</i>'
     ordering = ('-id', )
+    raw_id_fields = ('location',)
 admin.site.register(m.Property, PropertyAdmin)
 
 @admin.register(m.Zip, site=admin_site)
@@ -33,4 +34,12 @@ admin.site.register(m.Zip, ZipAdmin)
 class HostAdmin(admin.ModelAdmin):
     icon = '<i class="material-icons">face</i>'
     ordering = ('-id', )
+    raw_id_fields = ('location',)
 admin.site.register(m.Host, HostAdmin)
+
+@admin.register(m.Lead, site=admin_site)
+class LeadAdmin(admin.ModelAdmin):
+    icon = '<i class="material-icons">face</i>'
+    ordering = ('-id', )
+    raw_id_fields = ('location',)
+admin.site.register(m.Lead, LeadAdmin)

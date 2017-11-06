@@ -19,11 +19,6 @@ class Migration(migrations.Migration):
             field=models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='vacayo.Location'),
         ),
         migrations.AlterField(
-            model_name='location',
-            name='address1',
-            field=models.CharField(blank=True, db_index=True, max_length=256, null=True),
-        ),
-        migrations.AlterField(
             model_name='property',
             name='location',
             field=models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='vacayo.Location'),

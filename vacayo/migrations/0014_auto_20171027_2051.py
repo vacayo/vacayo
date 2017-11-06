@@ -6,18 +6,12 @@ from django.db import migrations
 from vacayo.services.property import PropertyService
 from vacayo.models import Property, Location
 
+
 def migrate_locations(apps, schema_editor):
 
     for property in Property.objects.all():
         if not property.location:
-            location = Location.objects.create(
-                address1=property.address1,
-                address2=property.address2,
-                city=property.city,
-                state=property.state,
-                zip_code=property.zip_code
-            )
-
+            # Reconstruct the full address
             address = property.address1
 
             if property.address2:
@@ -32,12 +26,26 @@ def migrate_locations(apps, schema_editor):
             if property.zip_code:
                 address += ' ' + property.zip_code
 
-            lat, lng = PropertyService().geolocate(address)
+            # Create the location object (it will re-constitute the address parts and geo coordinates)
+            location = Location.objects.create(
+                _address=address
+            )
 
-            location.latitude = lat
-            location.longitude = lng
+            # Fill in any missing data
+            if not location.address1:
+                location.address1 = property.address1
+
+            if not location.address2:
+                location.address2 = property.address2
+
+            if not location.city:
+                location.city = property.city
+
+            if not location.zip_code:
+                location.zip_code = property.zip_code
 
             location.save()
+
             property.location = location
             property.save()
 

@@ -3,7 +3,7 @@ import usaddress
 import googlemaps
 from django.conf import settings
 from django.utils.dateparse import parse_datetime
-from django.db.models import F
+from django.db.models import F, Count
 from django.contrib.gis.db.models.functions import Distance
 from ..apis.zillow import ZillowAPI
 from ..models import Location, Host, Zip, Property
@@ -128,28 +128,47 @@ class PropertyService(object):
             property.hosts.add(host)
             return
 
-        # attempt to find the closest host that is within range
+        # no geolocation so can't proceed
+        if not property.location.geo:
+            return
+
+        # attempt to find the host (in range) with the least amount of properties
         if not host:
             host = Host.objects\
+                .annotate(count=Count('properties')) \
                 .annotate(distance=Distance('location__geo', property.location.geo))\
                 .filter(active=True, distance__lte=F('radius') * 1609.34)\
-                .order_by('-distance')\
+                .order_by('-count')\
                 .first()
 
-        # a host was found that is within range
-        if host:
-            property.hosts.add(host)
-            return
+            if host:
+                property.hosts.add(host)
+                # TODO: email superhost
+                return
 
-        # attempt to find the closest host regardless of range
+        # attempt to find the host (within 30 miles) with the least amount of properties
+        if not host:
+            host = Host.objects \
+                .annotate(count=Count('properties')) \
+                .annotate(distance=Distance('location__geo', property.location.geo)) \
+                .filter(active=True, distance__lte=30 * 1609.34) \
+                .order_by('-count')\
+                .first()
+
+            if host:
+                property.hosts.add(host)
+                # TODO: email superhost
+                return
+
+        # attempt to find the next closest host within 50 miles
         if not host:
             host = Host.objects\
-                .annotate(distance=Distance('location__geo', property.location.geo))\
-                .filter(active=True)\
+                .annotate(distance=Distance('location__geo', property.location.geo)) \
+                .filter(active=True, distance__lte=50 * 1609.34) \
                 .order_by('-distance')\
                 .first()
 
-        # the closest host was found regardless of range
-        if host:
-            print "Closest host is {}, would you like to assign?".format(host)
-            return
+            if host:
+                property.hosts.add(host)
+                # TODO: email superhost
+                return
