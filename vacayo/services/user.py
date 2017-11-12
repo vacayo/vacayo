@@ -1,5 +1,6 @@
 from django.apps import apps
 from django.conf import settings
+from django.contrib.auth import authenticate, login
 from allauth.utils import generate_unique_username
 from allauth.account.models import EmailAddress
 from ..models import Owner, Host, Location, Lead
@@ -28,6 +29,14 @@ class UserService(object):
 
         # needed for django-allauth
         EmailAddress(user=user, email=email, primary=True, verified=False).save()
+
+        return user
+
+    def login(self, request, username, password):
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
 
         return user
 

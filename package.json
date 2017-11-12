@@ -60,7 +60,7 @@
     "redux-thunk": "^2.2.0",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.18.2",
-    "vee-validate": "^2.0.0-rc.7",
+    "vee-validate": "^2.0.0-rc.21",
     "vue": "^2.3.4",
     "vue-headroom": "^0.3.0",
     "vue-loader": "^12.2.1",

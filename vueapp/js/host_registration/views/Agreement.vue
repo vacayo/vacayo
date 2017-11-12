@@ -1,8 +1,16 @@
 <template>
-  <div v-if="user" id="host_agreement">
-    <div class="card card-shadow text-center mx-auto">
-      <div class="card-block text-justify">
-        <h3 class="panel-title text-center">VACAYO “SUPERHOST” MANAGEMENT AGREEMENT</h3>
+  <div class="card-layout">
+    <div class="card card-shadow mx-auto">
+      <div v-if="user" class="card-block">
+        <h4>Become a Vacayo Superhost</h4>
+        <p>We're thrilled that you've decided to join the Vacayo platform.</p>
+        <p>All you need to do is review and accept the Terms of Service.</p>
+        <button type="submit" class="btn btn-block btn-primary mt-40" @click.stop.prevent="showAgreement" :disabled="errors.any()">Read and Sign Agreement</button>
+      </div>
+    </div>
+    <Modal v-if="showModal">
+      <h3 slot="header" class="mx-auto">VACAYO “SUPERHOST” MANAGEMENT AGREEMENT</h3>
+      <div slot="body" class="text-justify">
         <p>This Agreement is made and entered into this <span class="highlight">{{ start_date.format('Do') }} day of {{ start_date.format('MMMM') }}, {{ start_date.format('YYYY') }}</span> between <span class="highlight">{{ user.first_name }} {{ user.last_name }}</span> (Superhost) and Vacayo Inc.</p>
         <p>Vacayo employs the services of Superhost <span class="highlight">{{ user.first_name }} {{ user.last_name }}</span> to manage cleaning, repairs and emergency services of assigned Vacayo properties.</p>
         <p>Responsibilities of Superhost. Vacayo hereby appoints “Superhost” as his lawful agent with full authority to do any and all lawful things necessary for the fulfillment of this Agreement, including the following:</p>
@@ -14,28 +22,49 @@
         <p>This document represents the entire Agreement between the parties hereto.</p>
         <p>IN WITNESS WHEREOF, the parties hereto hereby execute this Agreement on the date first above written.</p>
       </div>
-      <div class="card-footer card-footer-transparent card-footer-bordered">
-        <button type="button" class="btn btn-animate btn-animate-side btn-success" @click="agree">
-          <span><i class="icon wb-check" aria-hidden="true"></i>I Agree</span>
-        </button>
+      <div slot="footer" class="row justify-content-between" style="width: 100%">
+        <div class="col-4 mx-auto">
+          <button type="button" class="btn btn-danger" @click="cancel">
+            <span>Cancel</span>
+          </button>
+        </div>
+        <div class="col-4 mx-auto">
+          <button type="button" class="btn btn-success" @click="approve">
+            <span><i class="icon wb-check" aria-hidden="true"></i>I Agree</span>
+          </button>
+        </div>
       </div>
-    </div>
+    </Modal>
   </div>
 </template>
 
 <script type="text/babel">
   import moment from 'moment';
+  import Modal from '../../components/Modal'
 
   export default {
     data() {
       return {
+        showModal: false,
         start_date: moment(),
         end_date: moment().add(1, 'years')
       }
     },
     props: ['user'],
+    components: {
+      Modal,
+    },
     methods: {
-      agree() {
+      showAgreement() {
+        this.showModal = true;
+      },
+      approve() {
+        this.showModal = false;
+      },
+      cancel() {
+        this.showModal = false;
+      },
+      registerHost() {
         let url  = '/api/host';
         let options = {
           method: "POST",
@@ -51,7 +80,7 @@
             error => console.log('An error occurred creating your host account:', error)
           )
           .then(
-            json => this.$router.push('congrats')
+            json => this.$router.push('settings')
           )
       }
     }
@@ -59,18 +88,6 @@
 </script>
 
 <style>
-  #host_agreement {
-    padding: 30px;
-  }
-
-  #host_agreement .card {
-    max-width: 600px;
-  }
-
-  #host_agreement .card-block {
-    padding: 60px;
-  }
-
   .highlight {
     font-weight: bold;
     text-decoration: underline;

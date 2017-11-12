@@ -122,6 +122,24 @@ class UserView(View):
             }
         })
 
+    def post(self, request):
+        data = json.loads(request.body)
+        user_data = data.get('user')
+
+        with transaction.atomic():
+            user = user_service.create(**user_data)
+            user_service.login(request, user.email, user_data.get('password1'))
+
+        return JsonResponse({
+            'status': 'ok',
+            'results': {
+                'id': user.id,
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                'email': user.email
+            }
+        })
+
     @method_decorator(login_required)
     def patch(self, request):
         user = request.user
@@ -142,7 +160,12 @@ class HostView(View):
 
     @method_decorator(login_required)
     def post(self, request):
+        data = json.loads(request.body)
+        accepted_agreement_on = data.get('accepted_agreement_on')
+
         host = user_service.assign_host_role(request.user)
+        host.accepted_agreement_on = timezone.now()
+        host.save()
 
         return JsonResponse({
             'status': 'ok'
@@ -156,7 +179,6 @@ class HostView(View):
         radius = data.get('radius')
         location = data.get('location')
 
-        host.accepted_agreement_on = timezone.now()
         host.active = active
         host.radius = radius
         host.save()

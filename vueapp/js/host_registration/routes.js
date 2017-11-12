@@ -1,5 +1,6 @@
 import App from './App'
 import Index from './views/Index'
+import Register from './views/Register'
 import Agreement from './views/Agreement'
 import Congrats from './views/Congrats'
 
@@ -15,6 +16,11 @@ export default [
         path: 'index',
         name: 'Become A Superhost',
         component: Index
+      },
+      {
+        path: 'register',
+        name: 'Superhost Registration',
+        component: Register
       },
       {
         path: 'agreement',
