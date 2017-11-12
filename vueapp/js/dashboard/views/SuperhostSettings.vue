@@ -60,7 +60,6 @@
     props: ['user'],
     methods: {
       save() {
-        let url  = '/api/host';
         let options = {
           method: "PATCH",
           body: JSON.stringify(this.user.host),
@@ -70,7 +69,7 @@
           })
         };
 
-        fetch(url, options)
+        fetch('/api/host/', options)
           .then(
             response => response.json(),
             error => console.log('An error occurred creating your host account:', error)

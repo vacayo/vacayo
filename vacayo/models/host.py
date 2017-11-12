@@ -9,13 +9,15 @@ class Host(models.Model):
     location = models.OneToOneField('Location')
     radius = models.IntegerField(null=True, blank=True, default=5)
     active = models.BooleanField(default=True)
+    limit = models.IntegerField(default=5)
 
     def to_dict(self):
         return {
             'accepted_agreement_on': self.accepted_agreement_on,
             'radius': self.radius,
             'location': self.location.to_dict(),
-            'active': self.active
+            'active': self.active,
+            'limit': self.limit
         }
 
     def __unicode__(self):

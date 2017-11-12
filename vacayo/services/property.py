@@ -5,6 +5,7 @@ from django.conf import settings
 from django.utils.dateparse import parse_datetime
 from django.db.models import F, Count
 from django.contrib.gis.db.models.functions import Distance
+from django.contrib.gis.geos import Point
 from ..apis.zillow import ZillowAPI
 from ..models import Location, Host, Zip, Property
 
@@ -35,6 +36,15 @@ class PropertyService(object):
 
     def lookup(self, address):
         pass
+
+    def find(self, latitude, longitude, radius):
+        geo = Point(latitude, longitude, srid=4326)
+        properties = Property.objects \
+            .annotate(distance=Distance('location__geo', geo)) \
+            .filter(distance__lte=radius * 1609.34) \
+            [:10]
+
+        return properties
 
     def geocode(self, address):
         result = self.gmaps.geocode(address)

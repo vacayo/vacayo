@@ -148,7 +148,7 @@
         if (this.user) {
           return this.$router.push('agreement')
         }
-        window.location.href = '/accounts/signup/?next=/host#/agreement';
+        return this.$router.push('registration')
       }
     }
   }
@@ -226,31 +226,6 @@
     line-height: 32px;
     letter-spacing: -0.6px;
     text-align: center;
-  }
-
-  .btn-vacayo {
-    cursor: pointer;
-    -webkit-transition: background 0.3s, border-color 0.3s;
-    -moz-transition: background 0.3s, border-color 0.3s;
-    transition: background 0.3s, border-color 0.3s;
-    position: relative;
-    display: inline-block;
-    text-align: center;
-    text-decoration: none;
-    border: 2px solid transparent;
-    border-radius: 4px;
-    width: auto;
-    font-size: 16px;
-    line-height: 22px;
-    padding-top: 12px;
-    padding-bottom: 12px;
-    color: #ffffff;
-    font-weight: 700;
-    padding-right: 24px;
-    padding-left: 24px;
-    min-width: 80px;
-    letter-spacing: 1.1px;
-    background: #FF5A5F;
   }
 
   .content-section-a {

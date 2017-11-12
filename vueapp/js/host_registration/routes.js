@@ -1,9 +1,8 @@
 import App from './App'
 import Index from './views/Index'
-import Register from './views/Register'
+import Registration from './views/Registration'
 import Agreement from './views/Agreement'
-import Congrats from './views/Congrats'
-
+import Settings from './views/Settings'
 
 export default [
   {
@@ -18,19 +17,19 @@ export default [
         component: Index
       },
       {
-        path: 'register',
+        path: 'registration',
         name: 'Superhost Registration',
-        component: Register
+        component: Registration
       },
       {
         path: 'agreement',
-        name: 'Payment Agreement',
+        name: 'Superhost Agreement',
         component: Agreement
       },
       {
-        path: 'congrats',
-        name: 'Congratulations',
-        component: Congrats
+        path: 'Settings',
+        name: 'Superhost Settings',
+        component: Settings
       }
     ]
   }

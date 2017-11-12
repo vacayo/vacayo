@@ -21,15 +21,13 @@
           return
         }
 
-        let url  = '/api/address?query=' + address;
-        fetch(url)
+        fetch('/api/address/?query=' + address)
           .then(
             response => response.json(),
             error => console.log('An error occurred while looking up address:', error)
           )
           .then(
             json => {
-              console.log(json.results);
               asyncResults(json.results)
             }
           )

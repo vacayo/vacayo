@@ -48,6 +48,19 @@ class Property(models.Model):
 
         super(Property, self).save(force_insert, force_update, using, update_fields)
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'offer': self.offer,
+            'status': self.status,
+            'location': self.location.to_dict(),
+            'bedrooms': self.bedrooms,
+            'bathrooms': self.bathrooms,
+            'visit_date': self.visit_date.strftime('%m/%d/%Y') if self.visit_date else None,
+            'main_image': self.main_image.url if self.main_image else 'https://placeimg.com/640/480/arch/grayscale',
+            'onboarding_statuses': self.onboarding_statuses,
+        }
+
     def __unicode__(self):
         return unicode(self.location)
 

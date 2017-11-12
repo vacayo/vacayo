@@ -43,7 +43,7 @@
         for (var entry of (new FormData(document.getElementById('profile-settings'))).entries()) {
           data[entry[0]] = entry[1];
         }
-        let url  = '/api/user';
+
         let options = {
           method: "PATCH",
           body: JSON.stringify(data),
@@ -53,7 +53,7 @@
           })
         };
 
-        fetch(url, options)
+        fetch('/api/user/', options)
           .then(
             response => response.json(),
             error => console.log('An error occurred creating your host account:', error)

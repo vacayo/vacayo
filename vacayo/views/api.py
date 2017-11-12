@@ -200,33 +200,11 @@ class PropertiesView(View):
     @method_decorator(login_required)
     def get(self, request):
         owned_properties = {
-            p.id: {
-                'id': p.id,
-                'offer': p.offer,
-                'status': p.status,
-                'location': p.location.to_dict(),
-                'bedrooms': p.bedrooms,
-                'bathrooms': p.bathrooms,
-                'visit_date': p.visit_date.strftime('%m/%d/%Y') if p.visit_date else None,
-                'main_image': p.main_image.url if p.main_image else None,
-                'onboarding_statuses': p.onboarding_statuses,
-                'relationship': 'OWNED'
-            } for p in Property.objects.filter(owners__user__email=request.user.email)
+            p.id: dict(p.to_dict(), relationship='OWNED') for p in Property.objects.filter(owners__user__email=request.user.email)
         }
 
         hosted_properties = {
-            p.id: {
-                'id': p.id,
-                'offer': p.offer,
-                'status': p.status,
-                'location': p.location.to_dict(),
-                'bedrooms': p.bedrooms,
-                'bathrooms': p.bathrooms,
-                'visit_date': p.visit_date.strftime('%m/%d/%Y') if p.visit_date else None,
-                'main_image': p.main_image.url if p.main_image else None,
-                'onboarding_statuses': p.onboarding_statuses,
-                'relationship': 'HOSTED'
-            } for p in Property.objects.filter(hosts__user=request.user)
+            p.id: dict(p.to_dict(), relationship='HOSTED') for p in Property.objects.filter(owners__user__email=request.user.email)
         }
 
         return JsonResponse({
@@ -243,15 +221,31 @@ class PropertiesView(View):
 
         return JsonResponse({
             'status': 'ok',
-            'results': {
-                'id': p.id,
-                'offer': p.offer,
-                'status': p.status,
-                'location': p.location.to_dict(),
-                'bedrooms': p.bedrooms,
-                'bathrooms': p.bathrooms,
-                'visit_date': p.visit_date.strftime('%m/%d/%Y') if p.visit_date else None,
-                'main_image': p.main_image.url if p.main_image else None,
-                'onboarding_statuses': p.onboarding_statuses
-            }
+            'results': p.to_dict()
+        })
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class PropertySearchView(View):
+
+    @method_decorator(login_required)
+    def get(self, request):
+        address = request.GET.get('address')
+        latitude = float(request.GET.get('latitude', 0))
+        longitude = float(request.GET.get('longitude', 0))
+        radius = float(request.GET.get('radius', 30))
+
+        if address:
+            latitude, longitude = property_service.geolocate(address)
+
+        if not latitude or not longitude:
+            raise Exception('No geocoordinates or address provided')
+
+        properties = {
+            p.id: p.to_dict() for p in property_service.find(latitude, longitude, radius)
+        }
+
+        return JsonResponse({
+            'status': 'ok',
+            'results': properties
         })

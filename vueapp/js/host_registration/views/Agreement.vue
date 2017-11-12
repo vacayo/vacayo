@@ -1,11 +1,12 @@
 <template>
   <div class="card-layout">
     <div class="card card-shadow mx-auto">
-      <div v-if="user" class="card-block">
+      <div v-if="user" class="card-block p-60 p-xs-40">
         <h4>Become a Vacayo Superhost</h4>
         <p>We're thrilled that you've decided to join the Vacayo platform.</p>
         <p>All you need to do is review and accept the Terms of Service.</p>
-        <button type="submit" class="btn btn-block btn-primary mt-40" @click.stop.prevent="showAgreement" :disabled="errors.any()">Read and Sign Agreement</button>
+        <button v-if="!user.host" type="submit" class="btn btn-block btn-primary mt-40" @click.stop.prevent="showAgreement">Read & Accept Agreement</button>
+        <button v-if="user.host" type="submit" class="btn btn-block btn-success mt-40" @click.stop.prevent="$router.push('settings')">Let's find some properties to manage!</button>
       </div>
     </div>
     <Modal v-if="showModal">
@@ -22,13 +23,13 @@
         <p>This document represents the entire Agreement between the parties hereto.</p>
         <p>IN WITNESS WHEREOF, the parties hereto hereby execute this Agreement on the date first above written.</p>
       </div>
-      <div slot="footer" class="row justify-content-between" style="width: 100%">
-        <div class="col-4 mx-auto">
+      <div slot="footer" class="row no-gutters justify-content-around" style="width: 100%">
+        <div class="col text-left">
           <button type="button" class="btn btn-danger" @click="cancel">
             <span>Cancel</span>
           </button>
         </div>
-        <div class="col-4 mx-auto">
+        <div class="col text-right">
           <button type="button" class="btn btn-success" @click="approve">
             <span><i class="icon wb-check" aria-hidden="true"></i>I Agree</span>
           </button>
@@ -46,6 +47,7 @@
     data() {
       return {
         showModal: false,
+        now: moment(),
         start_date: moment(),
         end_date: moment().add(1, 'years')
       }
@@ -60,27 +62,30 @@
       },
       approve() {
         this.showModal = false;
+        this.registerHost();
       },
       cancel() {
         this.showModal = false;
       },
       registerHost() {
-        let url  = '/api/host';
         let options = {
           method: "POST",
           credentials: 'same-origin',
+          body: JSON.stringify({accepted_agreement_on: this.now}),
           headers: new Headers({
             'Content-Type': 'application/json'
           })
         };
 
-        fetch(url, options)
+        fetch('/api/host/', options)
           .then(
             response => response.json(),
             error => console.log('An error occurred creating your host account:', error)
           )
           .then(
-            json => this.$router.push('settings')
+            json => {
+              this.$emit('reload');
+            }
           )
       }
     }

@@ -1,7 +1,7 @@
 <template>
   <div class="card-layout">
     <div class="card card-shadow mx-auto">
-      <div class="card-block">
+      <div class="card-block p-60 p-xs-40">
         <h4>Become a Vacayo Superhost</h4>
         <p>We're thrilled that you've decided to join the Vacayo platform.</p>
         <p>Complete the registration below to start receiving homes to manage.</p>
@@ -58,7 +58,6 @@
           return;
         }
 
-        let url  = '/api/user';
         let options = {
           method: "POST",
           credentials: 'same-origin',
@@ -68,7 +67,7 @@
           })
         };
 
-        fetch(url, options)
+        fetch('/api/user/', options)
           .then(
             response => response.json(),
             error => console.log('An error occurred creating your host account:', error)
@@ -76,7 +75,7 @@
           .then(
             json => {
               this.$emit('reload');
-              this.user = this.$router.push('agreement');
+              this.$router.push('agreement');
             }
           )
       }

@@ -33,16 +33,11 @@
       }
     },
     created: function() {
-      let url  = '/api/user';
       let options = {
-        method: "GET",
         credentials: 'same-origin',
-        headers: new Headers({
-          'Content-Type': 'application/json'
-        })
       };
 
-      fetch(url, options)
+      fetch('/api/user/', options)
         .then(
           response => response.json(),
           error => console.log('An error occurred creating your host account:', error)

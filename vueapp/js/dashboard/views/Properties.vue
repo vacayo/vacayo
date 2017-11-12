@@ -118,7 +118,6 @@
         });
       },
       updateVisitDate() {
-        let url  = '/api/properties/';
         let options = {
           method: "POST",
           credentials: 'same-origin',
@@ -128,7 +127,7 @@
           })
         };
 
-        return fetch(url, options)
+        return fetch('/api/properties/', options)
           .then(
             response => response.json(),
             error => console.log('An error occurred while fetching property:', error)
@@ -142,9 +141,11 @@
       }
     },
     created() {
-      let url  = '/api/properties/';
+      let options = {
+        credentials: 'same-origin',
+      };
 
-      return fetch(url, {credentials: 'same-origin'})
+      return fetch('/api/properties/', options)
         .then(
           response => response.json(),
           error => console.log('An error occurred while fetching property:', error)
