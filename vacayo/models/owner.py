@@ -8,7 +8,7 @@ class Owner(models.Model):
     phone = PhoneNumberField()
 
     def __unicode__(self):
-        return 'Owner <{}>'.format(self.user.email)
+        return 'Owner {} {} <{}>'.format(self.user.first_name, self.user.last_name, self.user.email)
 
     class Meta:
         db_table = 'owner'

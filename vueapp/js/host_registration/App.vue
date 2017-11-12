@@ -2,7 +2,7 @@
   <div class="app">
     <AppHeader :user="user" />
     <div class="page animsition" style="animation-duration: 800ms; opacity: 1;">
-      <div class="page-content container">
+      <div>
         <router-view :user="user"></router-view>
       </div>
     </div>

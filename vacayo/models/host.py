@@ -19,7 +19,7 @@ class Host(models.Model):
         }
 
     def __unicode__(self):
-        return 'Host <{}>'.format(self.user.email)
+        return 'Host {} {} <{}>'.format(self.user.first_name, self.user.last_name, self.user.email)
 
     class Meta:
         db_table = 'host'

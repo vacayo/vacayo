@@ -1,7 +1,7 @@
 <template>
-  <div class="card card-shadow text-center">
-    <div class="panel">
-      <div class="panel-body text-justify">
+  <div v-if="user" id="host_agreement">
+    <div class="card card-shadow text-center mx-auto">
+      <div class="card-block text-justify">
         <h3 class="panel-title text-center">VACAYO “SUPERHOST” MANAGEMENT AGREEMENT</h3>
         <p>This Agreement is made and entered into this <span class="highlight">{{ start_date.format('Do') }} day of {{ start_date.format('MMMM') }}, {{ start_date.format('YYYY') }}</span> between <span class="highlight">{{ user.first_name }} {{ user.last_name }}</span> (Superhost) and Vacayo Inc.</p>
         <p>Vacayo employs the services of Superhost <span class="highlight">{{ user.first_name }} {{ user.last_name }}</span> to manage cleaning, repairs and emergency services of assigned Vacayo properties.</p>
@@ -14,7 +14,7 @@
         <p>This document represents the entire Agreement between the parties hereto.</p>
         <p>IN WITNESS WHEREOF, the parties hereto hereby execute this Agreement on the date first above written.</p>
       </div>
-      <div class="panel-footer">
+      <div class="card-footer card-footer-transparent card-footer-bordered">
         <button type="button" class="btn btn-animate btn-animate-side btn-success" @click="agree">
           <span><i class="icon wb-check" aria-hidden="true"></i>I Agree</span>
         </button>
@@ -30,7 +30,7 @@
     data() {
       return {
         start_date: moment(),
-        end_date: moment()
+        end_date: moment().add(1, 'years')
       }
     },
     props: ['user'],
@@ -59,6 +59,18 @@
 </script>
 
 <style>
+  #host_agreement {
+    padding: 30px;
+  }
+
+  #host_agreement .card {
+    max-width: 600px;
+  }
+
+  #host_agreement .card-block {
+    padding: 60px;
+  }
+
   .highlight {
     font-weight: bold;
     text-decoration: underline;

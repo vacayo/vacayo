@@ -8,6 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.db import transaction
+from django.utils import timezone
 
 from ..services.notification import NotificationService
 from ..services.property import PropertyService
@@ -155,6 +156,7 @@ class HostView(View):
         radius = data.get('radius')
         location = data.get('location')
 
+        host.accepted_agreement_on = timezone.now()
         host.active = active
         host.radius = radius
         host.save()
