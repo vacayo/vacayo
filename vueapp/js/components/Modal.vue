@@ -1,6 +1,6 @@
 <template>
   <transition name="modal">
-    <div class="modal fade show fullscreen" ref="modal" tabindex="-1" role="dialog" style="display: inherit !important;">
+    <div class="modal fade" ref="modal" :name="name" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
 
@@ -28,63 +28,63 @@
 <script type="text/babel">
   export default {
     name: 'Modal',
+    data() {
+      return {
+
+      }
+    },
     props: {
       name: String
     },
+    methods: {
+      show() {
+        $(this.$refs.modal).modal('show');
+      },
+      hide() {
+        $(this.$refs.modal).modal('hide');
+      }
+    },
     mounted() {
-      $(".modal[name='" + this.name + "']").modal('show')
+      this.hide()
     }
   }
 </script>
 
 <style>
-
-  .modal.fullscreen .modal-dialog {
-    width: 100% !important;
-    max-width: 100% !important;
-    height: 100% !important;
-    max-height: 100% !important;
-    overflow: auto !important;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-
-  .modal.fullscreen .modal-content {
+  .modal-content {
     height: auto;
     min-height: 100%;
     border-radius: 0;
   }
 
-  .modal.fullscreen .modal-header {
+  .modal-header {
     padding: 20px 30px;
   }
 
-  .modal.fullscreen .modal-body {
+  .modal-body {
     padding: 20px 30px;
   }
 
-  .modal.fullscreen .modal-footer {
+  .modal-footer {
     padding: 20px 30px;
   }
 
-  @media (min-width: 576px) {
-    .modal.fullscreen {
-      padding: 80px 100px;
-      background-color: currentColor;
+  @media (min-width: 480px) {
+    .modal-dialog {
+      max-width: 720px;
+      margin: 30px auto;
     }
   }
 
-  @media (min-width: 768px) {
-    .modal.fullscreen {
-      padding: 80px 150px;
-      background-color: currentColor;
-    }
-  }
-
-  @media (min-width: 992px) {
-    .modal.fullscreen {
-      padding: 80px 200px;
-      background-color: currentColor;
+  @media (max-width: 575px) {
+    .modal.fullscreen .modal-dialog {
+      width: 100% !important;
+      max-width: 100% !important;
+      height: 100% !important;
+      max-height: 100% !important;
+      overflow: auto !important;
+      margin: 0 !important;
+      padding: 0 !important;
     }
   }
 

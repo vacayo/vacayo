@@ -24,15 +24,27 @@ class Property(models.Model):
     status = models.CharField(max_length=256, choices=ONBOARDING_STATUS.choices(), default=ONBOARDING_STATUS.NEW)
 
     @property
+    def _status(self):
+        if self.status == ONBOARDING_STATUS.NEW:
+            return ONBOARDING_STATUS.PENDING_REVIEW
+
+        if self.status == ONBOARDING_STATUS.PENDING_ASSIGNMENT:
+            return ONBOARDING_STATUS.PENDING_VISIT
+
+        return self.status
+
+    @property
     def onboarding_statuses(self):
         def find(s):
             return next((i for i, x in enumerate(ONBOARDING_STATUS.choices()) if x[0] == s), [None])
 
+        STATUSES = ['Pending Review', 'Pending Site Visit', 'Pending Lease Signing', 'Ready']
+
         return [{
             'name': name,
-            'is_done': bool(find(self.status) >= find(name)),
-            'is_current': bool(find(self.status) == find(name))
-        } for (name, human_name) in ONBOARDING_STATUS.choices()]
+            'is_done': bool(find(self._status) >= find(name)),
+            'is_current': bool(find(self._status) == find(name))
+        } for name in STATUSES]
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
 
@@ -52,7 +64,7 @@ class Property(models.Model):
         return {
             'id': self.id,
             'offer': self.offer,
-            'status': self.status,
+            'status': self._status,
             'location': self.location.to_dict(),
             'bedrooms': self.bedrooms,
             'bathrooms': self.bathrooms,

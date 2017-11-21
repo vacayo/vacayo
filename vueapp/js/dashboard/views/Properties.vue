@@ -5,16 +5,17 @@
         <div class="card-header card-header-transparent cover overlay" style="height: calc(100% - 100px);">
           <img class="cover-image" :src="property.main_image" alt="..." style="height: 100%;">
           <div class="overlay-panel overlay-background overlay-top">
-            <div class="font-size-20 white">{{ property.address1 }}</div>
+            <div class="font-size-20 white">({{ property.relationship }})</div>
+            <div class="font-size-20 white">{{ property.location.address }}</div>
             <div class="font-size-14 grey-400">{{ property.bedrooms }} BR / {{ property.bathrooms }} BATH</div>
           </div>
         </div>
         <div class="card-block bg-white px-30 py-20 h-120">
           <div class="row pearls">
 
-            <div v-for="status in property.onboarding_statuses" class="col-3 pearl done" v-bind:class="[{ current: status.is_current }]">
+            <div v-for="status in property.onboarding_statuses" class="col-3 pearl done" :class="[{ current: status.is_current }]">
 
-              <div v-if="status.name == 'pending_review'">
+              <div v-if="status.name == 'Pending Review'">
                 <div class="pearl-icon"><i class="icon fa-home" aria-hidden="true"></i></div>
                 <div class="pearl-title">
                   <div>Vacayo Offer</div>
@@ -22,7 +23,7 @@
                 </div>
               </div>
 
-              <div v-if="status.name == 'pending_site_visit'">
+              <div v-if="status.name == 'Pending Site Visit'">
                 <div class="pearl-icon"><i class="icon fa-calendar" aria-hidden="true"></i></div>
                 <div class="pearl-title">
                   <div>Home Visit</div>
@@ -30,13 +31,13 @@
                 </div>
               </div>
 
-              <div v-if="status.name == 'pending_lease_signing'">
+              <div v-if="status.name == 'Pending Lease Signing'">
                 <div class="pearl-icon"><i class="icon fa-file-text-o" aria-hidden="true"></i></div>
                 <span class="pearl-title">Lease</span>
               </div>
 
-              <div v-if="status.name == 'ready'">
-                <div class="pearl-icon"  v-bind:class="[{ ready: property.status == 'ready' }]"><i class="icon fa-check" aria-hidden="true"></i></div>
+              <div v-if="status.name == 'Ready'">
+                <div class="pearl-icon"  :class="[{ ready: property.status == 'Ready' }]"><i class="icon fa-check" aria-hidden="true"></i></div>
                 <span class="pearl-title">Ready</span>
               </div>
 
@@ -44,8 +45,9 @@
 
           </div>
         </div>
+
         <div class="card-footer px-30 py-20 h-100">
-          <div class="row" v-if="property.status == 'pending_site_visit'">
+          <div class="row" v-if="property.status == 'Pending Site Visit'">
             <div class="col-6">Your site visit is currently scheduled for <b>{{ property.visit_date }}</b></div>
             <div class="col-6">
               <button type="button" class="btn btn-danger btn-round" data-toggle="modal" data-target="#datepickerModal" @click="updateDatePicker(property.id, property.visit_date)">
@@ -54,7 +56,7 @@
               </button>
             </div>
           </div>
-          <div class="row" v-if="property.status == 'pending_lease_signing'">
+          <div class="row" v-if="property.status == 'Pending Lease Signing'">
             <div class="col-6">Your lease is ready for signing!</div>
             <div class="col-6">
               <button type="button" class="btn btn-danger btn-round">
@@ -63,9 +65,16 @@
               </button>
             </div>
           </div>
-          <div class="row" v-if="property.status == 'ready'">
+          <div class="row" v-if="property.status == 'Ready'">
             <div class="col-12 text_center">Your rentals is unleashed!</div>
           </div>
+        </div>
+      </div>
+    </div>
+    <div v-if="!properties.length" class="col-12">
+      <div class="card card-shadow mx-auto">
+        <div class="card-block p-50 text-center">
+          <h4>Hang tight while Vacayo verifies your account and assign you new homes!</h4>
         </div>
       </div>
     </div>

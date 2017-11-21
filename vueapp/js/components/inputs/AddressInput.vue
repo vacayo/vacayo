@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input type="text" :name="name" :value="location.address" class="form-control" />
+    <input type="text" :name="name" :value="location.address" class="form-control" :placeholder="placeholder" />
   </div>
 </template>
 
@@ -13,6 +13,7 @@
     },
     props: {
       location: Object,
+      placeholder: String,
       name: String
     },
     methods: {

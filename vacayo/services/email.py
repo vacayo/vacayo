@@ -64,3 +64,22 @@ class EmailService(object):
             return True
         except (Exception,) as e:
             return False
+
+    @classmethod
+    def send_new_host_email_to_vacayo(cls, host):
+        try:
+            from_email = cls.from_email
+            to_email = cls.from_email
+            subject = 'Vacayo Superhost Registration'
+            content = Content("text/html", 'TESTING')
+
+            mail = Mail(from_email, subject, to_email, content)
+            mail.template_id = '7404049e-36da-4eb6-99ca-417017fb2289'
+            personalization = mail.personalizations[0]
+            personalization.add_substitution(Substitution("-first_name-", host.user.first_name))
+            personalization.add_substitution(Substitution("-last_name-", host.user.last_name))
+
+            cls.sg.client.mail.send.post(request_body=mail.get())
+            return True
+        except (Exception,) as e:
+            return False

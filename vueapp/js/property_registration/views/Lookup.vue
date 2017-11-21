@@ -47,7 +47,7 @@
           return Promise.resolve();
         }
 
-        fetch('/api/address?query=' + address)
+        fetch('/api/address/?query=' + address)
           .then(
             response => response.json(),
             error => console.log('An error occurred while looking up address:', error)
@@ -65,7 +65,7 @@
           return Promise.resolve();
         }
 
-        return fetch('/api/property?address=' + address)
+        return fetch('/api/property/?address=' + address)
           .then(
             response => response.json(),
             error => console.log('An error occurred while fetching property:', error)

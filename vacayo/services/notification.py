@@ -11,6 +11,13 @@ class NotificationService(object):
         return lead
 
     @classmethod
+    def send_new_host_notifications(cls, host):
+        # Notify Vacayo by email
+        EmailService.send_new_host_email_to_vacayo(
+            host=host
+        )
+
+    @classmethod
     def send_new_property_notifications(cls, property):
         # Notify owners by email
         for owner in property.owners.all():

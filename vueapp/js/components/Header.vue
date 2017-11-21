@@ -43,7 +43,7 @@
             <a class="nav-link navbar-avatar" data-toggle="dropdown" href="#" aria-expanded="false"
             data-animation="scale-up" role="button">
               <span class="avatar avatar-online">
-                <img src="../../img/5.jpg" alt="...">
+                <img src="../../img/avatar.png" alt="...">
                 <i></i>
               </span>
             </a>

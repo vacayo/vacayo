@@ -13,7 +13,7 @@ from django.utils import timezone
 from ..services.notification import NotificationService
 from ..services.property import PropertyService
 from ..services.user import UserService
-from ..models import Host, Property
+from ..models import Host, Owner, Property
 
 property_service = PropertyService()
 user_service = UserService()
@@ -167,6 +167,8 @@ class HostView(View):
         host.accepted_agreement_on = timezone.now()
         host.save()
 
+        NotificationService.send_new_host_notifications(host)
+
         return JsonResponse({
             'status': 'ok'
         })
@@ -199,13 +201,16 @@ class PropertiesView(View):
 
     @method_decorator(login_required)
     def get(self, request):
+        owner = Owner.objects.filter(user=request.user).first()
+        host = Host.objects.filter(user=request.user).first()
+
         owned_properties = {
-            p.id: dict(p.to_dict(), relationship='OWNED') for p in Property.objects.filter(owners__user__email=request.user.email)
-        }
+            p.id: dict(p.to_dict(), relationship='OWNED') for p in Property.objects.filter(owners=owner)
+        } if owner else {}
 
         hosted_properties = {
-            p.id: dict(p.to_dict(), relationship='HOSTED') for p in Property.objects.filter(owners__user__email=request.user.email)
-        }
+            p.id: dict(p.to_dict(), relationship='MANAGED') for p in Property.objects.filter(hosts=host)
+        } if host else {}
 
         return JsonResponse({
             'status': 'ok',

@@ -9,7 +9,7 @@
           <hr class="intro-divider" />
           <div class="clearfix"></div>
           <button type="button" class="btn btn-vacayo" @click="register">
-            <span>JOIN NOW</span>
+            <span>BECOME A SUPERHOST</span>
           </button>
           <div class="intro-callout"><h3>We’ll match you with one (or more!) of our vacation rentals homes.</h3></div>
         </div>
@@ -130,7 +130,7 @@
         <div class="row">
           <div class="col-xm-4 mx-auto">
             <button type="button" class="btn btn-vacayo" @click="register">
-              <span>BECOME A SUPERHOST</span>
+              <span>JOIN NOW</span>
             </button>
           </div>
         </div>

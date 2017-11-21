@@ -3,45 +3,19 @@
     <div class="card card-shadow mx-auto">
       <div class="card-block p-60 p-xs-40">
         <h4>Become a Vacayo Superhost</h4>
-        <p>Let's find some available properties that are waiting for a wonderful superhost like yourself!</p>
-        <!--
-        <div class="row text-center">
-          <div class="col-12">
-            <button class="btn btn-primary" @click="geolocate">
-              <i class="icon fa-location-arrow" aria-hidden="true"></i>
-              <small>Use my current location</small>
-            </button>
-          </div>
-        </div>
-        <div class="row text-center">
-          <div class="col-12 m-20"><b>-- OR --</b></div>
-        </div>
-        -->
-        <div class="row text-center">
-          <div class="col-12">
-            <p>Enter your home address or home town:</p>
-          </div>
+        <p>Great, now let's save your home address so that Vacayo can find some properties near you.</p>
+        <div class="row">
           <div class="col-md-10 col-xs-12">
-            <AddressInput name="address" v-model="location" />
+            <AddressInput name="address" v-model="location" placeholder="Enter your home address..." />
           </div>
           <div class="col-md-2 col-xs-12">
-            <button class="btn btn-primary" @click="search">
+            <button class="btn btn-primary" @click="save">
               <i class="icon fa-search" aria-hidden="true"></i>
-              <small>Search</small>
+              <small>Save</small>
             </button>
           </div>
         </div>
       </div>
-    </div>
-    <div class="row mx-auto my-10">
-      <PropertyCard v-for="(property, id) in properties" :property="property" class="col-lg-6 p-10">
-        <div slot="actions" class="px-20 py-10">
-          <button class="btn btn-vacayo" @click="assign">
-            <i class="icon fa-check" aria-hidden="true"></i>
-            <span>Manage this property</span>
-          </button>
-        </div>
-      </PropertyCard>
     </div>
   </div>
 </template>
@@ -68,32 +42,31 @@
       PropertyCard,
     },
     methods: {
-      geolocate() {
-
-      },
-
-      search() {
+      save() {
+        let data = {
+          active: true,
+          radius: 30,
+          location: this.location
+        };
         let options = {
+          method: "PATCH",
+          body: JSON.stringify(data),
           credentials: 'same-origin',
+          headers: new Headers({
+            'Content-Type': 'application/json'
+          })
         };
 
-        fetch('/api/properties/search/' + _$.query(this.location), options)
+        fetch('/api/host/', options)
           .then(
             response => response.json(),
             error => console.log('An error occurred creating your host account:', error)
           )
           .then(
-            json => {
-              this.properties = json.results;
-              console.log(this.properties);
-            }
+            json => window.location.href = '/dashboard'
           )
       }
 
-    },
-    mounted() {
-      this.location = {'address': '922 Swinton Ave, Bronx, NY 10465, USA'};
-      this.search();
     }
   }
 </script>

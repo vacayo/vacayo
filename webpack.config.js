@@ -1,6 +1,7 @@
 //require our dependencies
 var path = require('path');
 var webpack = require('webpack');
+var CleanWebpackPlugin = require('clean-webpack-plugin');
 var BundleTracker = require('webpack-bundle-tracker');
 
 module.exports = {
@@ -22,12 +23,14 @@ module.exports = {
     path: path.resolve('./build/bundles/'),
 
     //naming convention webpack should use for your files
-    filename: '[name]-[hash].js',
+    filename: '[name].js',
 
     publicPath: '/static/bundles/'
   },
 
   plugins: [
+    new CleanWebpackPlugin(['./build/bundles/']),
+
     //change the default local for ElementUI to English
     new webpack.NormalModuleReplacementPlugin(/element-ui[\/\\]lib[\/\\]locale[\/\\]lang[\/\\]zh-CN/, 'element-ui/lib/locale/lang/en'),
     new webpack.NormalModuleReplacementPlugin(/element-react[\/\\]src[\/\\]locale[\/\\]lang[\/\\]zh-CN/, 'element-react/src/locale/lang/en'),
